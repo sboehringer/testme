@@ -1,0 +1,23 @@
+Package: testme
+Type: Package
+Title: Rapid development of software tests
+Version: 0.1-0
+Date: 02-12-2019
+Author: Stefan Böhringer <r-packages@s-boehringer.org>
+Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
+Description: Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"package-testme"` for a tutorial.
+License: LGPL
+Encoding: UTF-8
+Depends: 
+    roxygen2,
+    devtools
+Collate: 
+    testme.R
+    Rmeta.R
+    Rdata.R
+    Rsystem.R
+    RtestingHelpers.R
+Suggests: 
+    jsonlite,
+    yaml
+RoxygenNote: 7.0.1
