@@ -16,9 +16,9 @@ packageDefinition = list(
 		#version = '0.1-0',
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"package-testme"` for a tutorial.',
-		depends = c('roxygen2', 'devtools'),
+		depends = c('compare'),
 		suggests = c('jsonlite', 'yaml'),
-		news = "0.1-0	Initial release"
+		news = "0.2-0	Export functions\n0.1-0	Initial release"
 	),
 	git = list(
 		readme = '## Installation\n```{r}\nlibrary(devtools);\ninstall_github("sboehringer/testme")\n```\n',
