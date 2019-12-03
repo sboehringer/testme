@@ -13,6 +13,9 @@ testmeDir(
   print = T
 )
 }
+\arguments{
+\item{dir}{Folder with R-scripts containing tests}
+}
 \description{
 Collect files from a folder using a pattern, extract testing functions and run tests.
 }
