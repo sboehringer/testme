@@ -90,7 +90,7 @@ testmeFile = Vectorize(testmeFileSingle, 'file');
 #'
 #' Collect files from a folder using a pattern, extract testing functions and run tests.
 #'
-#' @export
+#' @export testmeDir
 testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectations',
 	filePattern = '.R$', useGit = T, logLevel = 4, print = T) {
 	Rfiles = list.files(dir, filePattern, full.names = TRUE);
