@@ -86,6 +86,11 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F) {
 }
 testmeFile = Vectorize(testmeFileSingle, 'file');
 
+#' Run all tests defined in a folder
+#'
+#' Collect files from a folder using a pattern, extract testing functions and run tests.
+#'
+#' @export
 testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectations',
 	filePattern = '.R$', useGit = T, logLevel = 4, print = T) {
 	Rfiles = list.files(dir, filePattern, full.names = TRUE);
