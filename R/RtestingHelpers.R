@@ -32,8 +32,14 @@ packageDefinition = list(
 # This package.
 # @examples
 # \dontrun{
-#  file.show(system.file('Rscripts/pkg-minimal.R', package = 'package'))
-#  createPackage(system.file('Rscripts/pkg-minimal.R', package = 'package'))
+#  myTest = function(){ T1 = 1 + 1; TestMe(); }
+#  # defines test expectation (vivification)
+#  runTestFunctionSingle('myTest')
+#  # first real comparison
+#  runTestFunctionSingle('myTest')
+#  # error introduced
+#  myTest = function(){ T1 = 3; TestMe(); }
+#  runTestFunctionSingle('myTest')
 # }
 # @seealso {createPackage()} for starting the main workflow
 #__PACKAGE_DOC_END__
