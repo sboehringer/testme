@@ -84,6 +84,12 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F) {
 	if (print) testmePrintReport(rTests);
 	return(rTests);
 }
+#' Run all tests defined in an R-script
+#'
+#' Collect testing functions from file and run tests
+#'
+#' @param file R-scripts containing tests
+#' @export testmeFile
 testmeFile = Vectorize(testmeFileSingle, 'file');
 
 #' Run all tests defined in a folder
