@@ -1,2 +1,4 @@
+0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder 
+	 and create required additional required files to have R run the tests on installation.
 0.2-0	Export functions
 0.1-0	Initial release

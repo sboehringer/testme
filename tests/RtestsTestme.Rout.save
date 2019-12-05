@@ -1,0 +1,11 @@
+R Thu Dec  5 15:21:31 2019: Test: runTest_test [N = 2]
+$runTest_test
+$runTest_test$result
+[1] TRUE
+
+$runTest_test$NsubTests
+[1] 2
+
+$runTest_test$Nvivified
+[1] 0
+

@@ -15,10 +15,10 @@ packageDefinition = list(
 		# version to be documented in news section
 		#version = '0.1-0',
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
-		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"package-testme"` for a tutorial.',
+		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
 		depends = c('compare'),
 		suggests = c('jsonlite', 'yaml'),
-		news = "0.2-0	Export functions\n0.1-0	Initial release"
+		news = "0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release"
 	),
 	git = list(
 		readme = '## Installation\n```{r}\nlibrary(devtools);\ninstall_github("sboehringer/testme")\n```\n',
@@ -32,16 +32,19 @@ packageDefinition = list(
 # This package.
 # @examples
 # \dontrun{
+#  # initialize the testing environment
+#  testmeEnvInit()
+#  # define the test
 #  myTest = function(){ T1 = 1 + 1; TestMe(); }
 #  # defines test expectation (vivification)
-#  runTestFunctionSingle('myTest')
+#  runTestFunction('myTest')
 #  # first real comparison
-#  runTestFunctionSingle('myTest')
+#  runTestFunction('myTest')
 #  # error introduced
 #  myTest = function(){ T1 = 3; TestMe(); }
-#  runTestFunctionSingle('myTest')
+#  runTestFunction('myTest')
 # }
-# @seealso {createPackage()} for starting the main workflow
+# @seealso {runTestFunction()} for starting the main workflow
 #__PACKAGE_DOC_END__
 
 #
@@ -72,6 +75,9 @@ runTestFunctionSingle = function(testName) {
 	r = if (class(r) == 'try-error') FALSE else if (class(r) == 'comparison') isTRUE(r) else r;
 	list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
 }
+#' Run tests defined in functions
+#'
+#' The provided test
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
 testmeFileSingle = function(file, expectationsFolder, useGit, print = F) {
@@ -112,6 +118,32 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	if (useGit) gitCommitVivifications();
 	if (print) testmePrintReport(rTests);
 	return(rTests);
+}
+
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations');\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE));\n";
+
+InstallPackageTest = function(packageDir, testPath, createReference) {
+	dest = Sprintf('%{packageDir}s/tests');
+	Dir.create(dest, logLevel = 2);
+	File.copy(testPath, dest, symbolicLinkIfLocal = F, overwrite = T);
+	runFileName = Sprintf('%{dest}s/%{base}s_run.R', splitPath(testPath));
+	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
+	writeFile(runFileName, runFile);
+
+	if (createReference) {
+		output = capture.output(source(runFileName, chdir = T));
+		#print(output)
+		writeFile(Sprintf('%{dest}s/%{base}s.Rout.save', splitPath(testPath)), join(output, "\n"));
+	}
+}
+InstallPackageTests = function(packageDir, testPathes, ...)
+	lapply(testPathes, InstallPackageTest, packageDir = packageDir, ...);
+
+#' Prepare test files for an R-package
+#'
+#' @export installPackageTests
+installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
+	InstallPackageTests(packageDir, testPathes, createReference);
 }
 
 #
