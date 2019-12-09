@@ -135,7 +135,7 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 	writeFile(runFileName, runFile);
 
 	if (createReference) {
-		output = capture.output(source(runFileName, chdir = T));
+		output = capture.output(source(runFileName, chdir = T), type = 'output');
 		#print(output)
 		writeFile(Sprintf('%{dest}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
 	}
