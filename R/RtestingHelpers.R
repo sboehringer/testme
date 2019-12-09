@@ -96,7 +96,7 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F) {
 	if (useGit) gitCommitVivifications();
 	# <p> start testing
 	#allGood = runTestMe(tests, logLevel);
-	rTests = RunTestFunction(tests);
+	rTests = runTestFunction(tests);
 	if (print) testmePrintReport(rTests);
 	return(rTests);
 }
