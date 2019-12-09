@@ -10,6 +10,10 @@ packageDefinition = list(
 	name = 'testme',
 	files = c('Rmeta.R', 'Rdata.R', 'Rsystem.R'),
 	#instFiles = list(Rscripts = 'Dev/pkg-minimal.R'),
+	testing = list(
+		doInstall = TRUE,
+		tests = c('Rtests/RtestsTestme.R')
+	),
 	description = list(
 		title = 'Rapid development of software tests',
 		# version to be documented in news section
@@ -17,7 +21,7 @@ packageDefinition = list(
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
 		depends = c('compare'),
-		suggests = c('jsonlite', 'yaml'),
+		suggests = c('jsonlite', 'yaml', 'testme'),
 		news = "0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release"
 	),
 	git = list(
