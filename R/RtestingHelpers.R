@@ -18,7 +18,7 @@ packageDefinition = list(
 		title = 'Rapid development of software tests',
 		# version to be documented in news section
 		#version = '0.1-0',
-		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
+		author = 'Stefan B\uf6hringer <r-packages@s-boehringer.org>',
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
 		depends = c('compare'),
 		suggests = c('jsonlite', 'yaml', 'testme'),
@@ -55,7 +55,7 @@ packageDefinition = list(
 #	<p> initialization
 #
 
-Library('compare');
+#Library('compare');
 # <!><A><N> temporary disabling of reset for debugging
 #testmeEnv = new.env();
 
