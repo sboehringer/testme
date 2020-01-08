@@ -9,7 +9,8 @@ Description: Simplify unit and integrated testing by using implicit definitions.
 License: LGPL
 Encoding: UTF-8
 Depends: 
-    compare
+    compare,
+    methods
 Collate: 
     testme.R
     Rmeta.R
@@ -17,7 +18,4 @@ Collate:
     Rsystem.R
     RtestingHelpers.R
 Suggests: 
-    jsonlite,
-    yaml,
-    testme
 RoxygenNote: 7.0.1
