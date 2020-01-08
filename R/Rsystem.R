@@ -1908,3 +1908,45 @@ dprint = function(..., r__ = TRUE) {
 }
 
 debugOn = function()options(error = recover);
+
+#
+#	<p> file system
+#
+
+normalizePath = function(p) {
+	p = gsub('^~', Sys.getenv('HOME'), p);
+	p = gsub('(?:g)//', '/', p, perl = T);
+	return(p);
+}
+
+# how to refer to to from within from
+relativePathSingle = function(from, to) {
+	from = normalizePath(from);
+	to = normalizePath(to);
+	spF = splitPath(from);
+	spT = splitPath(to);
+	if (spT$isAbsolute) return(to);
+	join(c(rep('..', length(splitString('/', spF$dir)) + 0), to), '/');
+}
+relativePath = Vectorize(relativePathSingle, c('from', 'to'));
+SplitPath = function(path, ...)lapply(path, splitPath, ...);
+
+createZip = function(input, output, pword, doCopy = F) {
+	destDir = splitPath(output)$fullbase;
+	Dir.create(destDir);
+	nelapply(input, function(n, e) {
+		subdir = join(c(destDir, n, ''), '/');
+		Dir.create(subdir);
+		to = paste(subdir, list.kpu(SplitPath(e), 'file'), sep = '/');
+		if (doCopy) file.copy(e, to) else {
+			from = relativePath(subdir, e);
+			print(list(from = from, to = to));
+			file.symlink(from, to);
+		}
+	});
+	dir = splitPath(output)$dir;
+	zip = splitPath(output)$base;
+	options = '';
+	if (!missing(pword)) options = Sprintf('%{options}s -P %{pword}q');
+	SystemS('cd %{dir}q ; zip %{options}s -r %{zip}q.zip %{zip}q', logLevel = 1);
+}

@@ -1,5 +1,5 @@
-R Mon Dec 16 11:19:34 2019: Test: runTest_test [N = ?], legacy
-R Mon Dec 16 11:19:34 2019: ********* test: runTest_test failed
+R Wed Jan  8 10:01:04 2020: Test: runTest_test [N = ?], legacy
+R Wed Jan  8 10:01:04 2020: ********* test: runTest_test failed
 $runTest_test
 $runTest_test$result
 [1] "Error in compare(a, b) : could not find function \"compare\"\n"
