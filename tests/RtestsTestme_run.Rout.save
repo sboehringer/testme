@@ -1,5 +1,4 @@
-R Thu Jan  9 11:43:04 2020: Path expectation: RtestsExpectations/runTest+T1.R [vivified] [mode=deparse]
-R Thu Jan  9 11:43:04 2020: Test: runTest_test [N = 2]
+R Thu Jan  9 11:44:26 2020: Test: runTest_test [N = 2]
 $runTest_test
 $runTest_test$result
 [1] TRUE
@@ -8,5 +7,5 @@ $runTest_test$NsubTests
 [1] 2
 
 $runTest_test$Nvivified
-[1] 1
+[1] 0
 
