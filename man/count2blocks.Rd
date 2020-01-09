@@ -17,5 +17,7 @@ vector of pairs of indeces indicating the first and last element in a vector for
 Produce index pairs for vector of counts
 }
 \examples{
+\dontrun{
 count2blocks(c(1, 5, 3))
+}
 }

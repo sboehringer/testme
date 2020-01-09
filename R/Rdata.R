@@ -809,7 +809,9 @@ SeqRows = function(o)Seq(1, nrow(o))
 #' @return vector of pairs of indeces indicating the first and last element in a vector for the blocks 
 #'  specified by \code{counts}
 #' @examples
+#' \dontrun{
 #' count2blocks(c(1, 5, 3))
+#' }
 count2blocks = function(counts) {
 	ccts = cumsum(counts);
 	fidcs = c(1, ccts[-length(ccts)] + 1);
@@ -2552,8 +2554,10 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 #' Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == T} for all vectors \code{reference, v}.
 #'
 #' @examples
+#' \dontrun{
 #' sapply(1:10, function(i){v = sample(1:5); v[order_align(5:1, v)]})
 #' sapply(1:10, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align(v, v1)] == v)})
+#' }
 order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 
 #' Calculates \code{order_align}, assuming that the both arguments are already orders.
