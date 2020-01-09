@@ -1044,7 +1044,7 @@ list.combine = function(l, byRow = T, names = NULL, doMerge = F) {
 list.embed = function(l, key = 'key')lapply(l, function(e)SetNames(list(e), key));
 
 compare_print = function(r, e) {
-	require('compare');
+	#require('compare');
 	cmp = compare(model = r, comparison = e);
 	if (!cmp$result) {
 		print("Expectation not met (result != expectation):");

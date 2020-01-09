@@ -1,4 +1,4 @@
-R Thu Jan  9 15:00:09 2020: Test: runTest_test [N = 2]
+R Thu Jan  9 15:01:42 2020: Test: runTest_test [N = 2]
 $runTest_test
 $runTest_test$result
 [1] TRUE
