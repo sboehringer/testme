@@ -3062,6 +3062,7 @@ Kronecker = function(l, ...) {
 #' @param callMode 'inline', 'list', 'inlist'
 #'
 #' @examples
+#' \dontrun{
 #' modelList = list(global = list(list(a=1, b=2)), N = c(1, 2, 3));
 #' print(iterateModels(modelList));
 #' modelList = list(N = c(1, 2, 3), parsAsBlock = list(list(list(c = 1, d = 2)), list(list(c = 3, d = 4))));
@@ -3076,7 +3077,7 @@ Kronecker = function(l, ...) {
 #' # inline calling
 #' modelList = list(N = list(list(a = 1, b = 2), list(a = 3, b = 5)), parsAsBlock = list(list(c = 1, d = 2), list(c = 3, d = 4)));
 #' print(iterateModels(modelList));
-#'
+#' }
 iterateModels_raw = function(modelList, models, f_iterate = function(...)list(...), ...,
 	callWithList = F, callMode = NULL, restrictArgs = T, parallel = F, lapply__) {
 	if (!parallel) Lapply = lapply;
@@ -3284,15 +3285,16 @@ reshape.wide = function(d, ids, vars, blockVars = F, reverseNames = F, sort.by.i
 #' @param valueColumn name of the new column of values that were in wide format
 # factors: provide factor combinations explicitly for vars (otherwise split by '.', <i>)
 #' @examples
+#' \dontrun{
 #'	#reshape variables 2:9 (forming two groups: case/ctr), value of which is named 'group'
 #'	# the shortened columns will get names valueColumn
 #'	d0 = reshape.long(d, vars = 2:9, factors = c('case', 'ctr'), factorColumn = 'group',
 #'		valueColumn = c('AA', 'AG', 'GG', 'tot'));
 #'
-#' Example:
 #'	# reshape several grouped columns
 #' 	d2 = reshape.long(d1, vars = avu(vs),
-#		factorColumn = 'time', valueColumn = valueNames, factors = as.factor(1:3));
+#'		factorColumn = 'time', valueColumn = valueNames, factors = as.factor(1:3));
+#'	}
 reshape.long = function(d, vars = NULL, factorColumn = 'factor', valueColumn = 'value',
 	factors = as.factor(vars), useDisk = F, rowNamesAs = NULL) {
 	if (is.null(vars)) vars = names(d);

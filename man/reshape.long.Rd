@@ -31,12 +31,14 @@ Long format duplicates certain columns and adds rows for which one new column ho
 from a set of columns in wide format. Does not allow for parallel reshaping.
 }
 \examples{
+\dontrun{
 #reshape variables 2:9 (forming two groups: case/ctr), value of which is named 'group'
 # the shortened columns will get names valueColumn
 d0 = reshape.long(d, vars = 2:9, factors = c('case', 'ctr'), factorColumn = 'group',
 	valueColumn = c('AA', 'AG', 'GG', 'tot'));
 
-Example:
 # reshape several grouped columns
 	d2 = reshape.long(d1, vars = avu(vs),
+	factorColumn = 'time', valueColumn = valueNames, factors = as.factor(1:3));
+}
 }
