@@ -17,6 +17,8 @@ iterateModels_raw(
 )
 }
 \arguments{
+\item{callMode}{'inline', 'list', 'inlist'}
+
 \item{selectIdcs}{restrict models to the given indeces}
 }
 \description{
@@ -38,7 +40,4 @@ print(iterateModels(modelList));
 modelList = list(N = list(list(a = 1, b = 2), list(a = 3, b = 5)), parsAsBlock = list(list(c = 1, d = 2), list(c = 3, d = 4)));
 print(iterateModels(modelList));
 
-
-
-callMode: 'inline', 'list', 'inlist'
 }
