@@ -1,11 +1,13 @@
-R Wed Jan  8 12:10:05 2020: Test: runTest_test [N = 2]
+R Thu Jan  9 11:27:55 2020: Test: runTest_test [N = ?], legacy
+R Thu Jan  9 11:27:55 2020: ********* test: runTest_test failed
 $runTest_test
 $runTest_test$result
-[1] TRUE
+[1] "Error in compare(a, b) : could not find function \"compare\"\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in compare(a, b): could not find function "compare">
 
 $runTest_test$NsubTests
-[1] 2
-
-$runTest_test$Nvivified
-[1] 0
+[1] 1
 
