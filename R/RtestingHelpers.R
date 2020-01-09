@@ -263,7 +263,8 @@ writeExpectationDeparse = function(path, value)writeFile(path, Deparse(value));
 
 vivifyExtensions = list(deparse = 'R', image = 'png');
 
-vivifyExpectation = function(test, pathExpect = 'RtestsExpectations', mode = 'deparse') with(test, {
+vivifyExpectation = function(test, pathExpect = 'RtestsExpectations', mode = 'deparse',
+	sepChar = '+') with(test, {
 	# <p> given as inline expectation
 	if (length(expect) > 1) {
 		stop('expectation should be deparsed expression');
@@ -272,7 +273,7 @@ vivifyExpectation = function(test, pathExpect = 'RtestsExpectations', mode = 'de
 	if (!is.na(expect)) return(test);
 
 	# <p> vivfy from file
-	pathExpectation = Sprintf('%{pathExpect}s/%{nameFunction}s:%{name}s.%{ext}s',
+	pathExpectation = Sprintf('%{pathExpect}s/%{nameFunction}s%{sepChar}s%{name}s.%{ext}s',
 		ext = vivifyExtensions[[mode]]);
 	a = list(path = pathExpectation);
 	if (file.exists(pathExpectation)) {
