@@ -627,10 +627,10 @@ file.locate = function(path, prefixes = NULL, normalize = T, as.dirs = T, force 
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
 #' @keywords ~kwd1 ~kwd2
 #' @examples
-#' 
+#' \dontrun{
 #'   parallel8 = function(e) log(1:e) %*% log(1:e);
 #'   cat(readFile(tempcodefile(parallel8)));
-#' 
+#' }
 # prefixes only supported locally <!>
 readFile = function(path, prefixes = NULL, normalize = T, ssh = F) {
 	s = splitPath(path, ssh = ssh);

@@ -20,10 +20,10 @@ prefixes.}
 Read content of file and return as character object.
 }
 \examples{
-
+\dontrun{
   parallel8 = function(e) log(1:e) \%*\% log(1:e);
   cat(readFile(tempcodefile(parallel8)));
-
+}
 }
 \author{
 Stefan Böhringer <r-packages@s-boehringer.org>
