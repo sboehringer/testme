@@ -19,7 +19,9 @@ The function behaves similar to sprintf, except that character sequences to be s
 indicated by name. To be implemented: *-specifications
 }
 \examples{
+\dontrun{
 Sprintf('These are N \%{N} characters.', list(N = 10));
 Sprintf('These are N \%{N}d characters.', list(N = 10));
 Sprintf('These are N \%{N}02d characters.', list(N = 10));
+}
 }
