@@ -784,9 +784,11 @@ adic2ord = function(v, base = rep(2, 5))((v %*% cumprod1(base))[1, 1])
 #' @param ascending restrict sequences to be ascending; return empty list if to < from
 #' @param descending restrict sequences to be descending; return empty list if from < to
 #' @examples
+#' \dontrun{
 #' Seq(1, 10, ascending = T)
 #' Seq(1, 10, descending = T)
 #' Seq(10, 1, ascending = NA)
+#' }
 Seq = function(from, to, ..., ascending = T, descending = !ascending, neg = F) {
 	# <!> order matters: if called with only descending == T
 	if (nif(descending) && to > from) return(if (neg) T else c()) else

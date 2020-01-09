@@ -16,7 +16,9 @@ This is a wrapper around seq that adds constraints. Setting ascending, descendin
 standard \code{seq} behaviour.
 }
 \examples{
+\dontrun{
 Seq(1, 10, ascending = T)
 Seq(1, 10, descending = T)
 Seq(10, 1, ascending = NA)
+}
 }
