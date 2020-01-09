@@ -2514,14 +2514,18 @@ Order = function(v, ...) {
 #' @title Return all value combinations appearing in a data frame
 #'
 #' @examples
+#' \dontrun{
 #' combs = valueCombinations(iris);
+#' }
 valueCombinations = function(d) merge.multi.list(dimnames(table(d)));
 
 #' @title Computes order so that inverseOrder after order is the identity
 #'
 #' @examples
+#' \dontrun{
 #' v = runif(1e2);
 #' print(all(sort(v)[inverseOrder(v)] == v))
+#' }
 Rank = inverseOrder = inversePermutation = function(p) {
 	## <p> naive version
 	# 	o = order(p);

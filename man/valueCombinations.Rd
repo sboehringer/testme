@@ -10,5 +10,7 @@ valueCombinations(d)
 Return all value combinations appearing in a data frame
 }
 \examples{
+\dontrun{
 combs = valueCombinations(iris);
+}
 }

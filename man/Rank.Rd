@@ -10,6 +10,8 @@ Rank(p)
 Computes order so that inverseOrder after order is the identity
 }
 \examples{
+\dontrun{
 v = runif(1e2);
 print(all(sort(v)[inverseOrder(v)] == v))
+}
 }
