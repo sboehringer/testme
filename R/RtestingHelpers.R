@@ -55,8 +55,7 @@ packageDefinition = list(
 #	<p> initialization
 #
 
-#Library
-#('compare');	# split into lines to avoid mis-detection by R CMD check
+#Library('compare');
 # <!><A><N> temporary disabling of reset for debugging
 #testmeEnv = new.env();
 

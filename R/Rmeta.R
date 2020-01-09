@@ -36,12 +36,12 @@ assign('DefaultLogLevel', 4, envir = Log_env__);
 #' @seealso \code{\link{Log.setLevel}}, ~~~
 #' @keywords ~kwd1 ~kwd2
 #' @examples
-#' 
+#' \dontrun{
 #' 	Log.setLevel(4);
 #' 	Log('hello world', 4);
 #' 	Log.setLevel(3);
 #' 	Log('hello world', 4);
-#' 
+#' }
 Log = function(o, level = get('DefaultLogLevel', envir = Log_env__), doPrint = NULL) {
 	if (level <= get('GlobalLogLevel', envir = Log_env__)) {
 		cat(sprintf("R %s: %s\n", date(), as.character(o)));
