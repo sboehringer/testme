@@ -93,6 +93,7 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 #' The provided test
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
+#' @export testmeFileSingle
 testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger = LogAt1) {
 	testmeEnvInit(expectationsFolder = splitPath(expectationsFolder)$absolute, logger = logger);
 	owd = setwd(splitPath(file)$dir);
