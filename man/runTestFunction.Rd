@@ -4,7 +4,7 @@
 \alias{runTestFunction}
 \title{Run tests defined in functions}
 \usage{
-runTestFunction(testName)
+runTestFunction(testName, logger = LogAt1)
 }
 \description{
 The provided test

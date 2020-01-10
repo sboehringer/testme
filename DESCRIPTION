@@ -2,7 +2,7 @@ Package: testme
 Type: Package
 Title: Rapid development of software tests
 Version: 0.3-0
-Date: 09-01-2020
+Date: 10-01-2020
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
 Description: Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.

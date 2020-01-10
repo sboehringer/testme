@@ -33,7 +33,7 @@ packageDefinition = list(
 );
 
 #__PACKAGE_DOC__
-# This package.
+# This package \code{testme}.
 # @examples
 # \dontrun{
 #  # initialize the testing environment
@@ -63,19 +63,28 @@ packageDefinition = list(
 #	<p> global interface
 #
 
-runTestFunctionSingle = function(testName) {
+LogAt1 = function(s)Log(s, 1);
+Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
+	envS = substitute(envir);
+	if (class(envS) == 'name' && !exists(as.character(envS), envir = parent.frame())) return(ifnotfound);
+	v = mget(x, envir, mode, ifnotfound = NA, ...);
+	r = if (is.na(v)) ifnotfound else v;
+	return(r);
+}
+runTestFunctionSingle = function(testName, logger = LogAt1) {
 	assign('name', testName, testmeEnv);	# global variable holding the test name
+	Log = Mget('logger', testmeEnv, ifnotfound = logger);
 	testFunction = get(testName);
 	rTest = try(testFunction());
 	r = if (is.list(rTest)) {
-		Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests), 1);
+		Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests));
 		rTest$result;
 	} else {
 		# legacy test
-		Log(Sprintf("Test: %{testName}s [N = ?], legacy"), 1);
+		Log(Sprintf("Test: %{testName}s [N = ?], legacy"));
 		rTest
 	}
-	if (class(r) == 'try-error' || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"), 1)
+	if (class(r) == 'try-error' || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"))
 	r = if (class(r) == 'try-error') FALSE else if (class(r) == 'comparison') isTRUE(r) else r;
 	list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
 }
@@ -154,10 +163,12 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
 #	<p> initialization
 #
 
-testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir())) {
+testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
+	logger = LogAt1) {
 	testmeEnv <<- new.env();
 	assign('expectationsFolder', expectationsFolder, testmeEnv);
 	assign('Ndash', firstDef(options('testme')$Ndash, 100), testmeEnv);
+	assign('logger', logger, testmeEnv);
 	Dir.create(expectationsFolder, logLevel = 2);
 	return(testmeEnv);
 }
@@ -375,7 +386,7 @@ compareImage = function(a, b, threshold = 10) {
 	return(diff < threshold);
 }
 
-Compare = function(a, b, mode = NULL, do.print = TRUE) {
+Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 	if (class(b) == 'try-error' && class(a) == 'try-error') mode = 'error';
 	if (is.null(mode)) mode = 'compare';
 	r = switch(mode,
@@ -386,13 +397,14 @@ Compare = function(a, b, mode = NULL, do.print = TRUE) {
 		'image' = compareImage(a, b)
 	);
 	if (do.print && !isTRUE(r)) {
-		Logs(join(c('*** Compare report start ', rep('*', 45)), ''), logLevel = 1);
-		Logs('Comparion [%{mode}s] resulted in unequal result', logLevel = 1);
-		Logs('Comparison object [a]', logLevel = 1);
-		print(a);
-		Logs('Comparison object [b]', logLevel = 1);
-		print(b);
-		Logs(join(c('--- Compare report end ---', rep('-', 45)), ''), logLevel = 1);
+		Log = Mget('logger', testmeEnv, ifnotfound = logger);
+		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
+		Log('Comparion [%{mode}s] resulted in unequal result');
+		Log('Comparison object [a]');
+		Log(a);
+		Log('Comparison object [b]');
+		Log(b);
+		Log(join(c('--- Compare report end ---', rep('-', 45)), ''));
 	}
 	r
 }

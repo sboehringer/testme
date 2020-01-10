@@ -4,7 +4,7 @@
 #'
 #' @details
 #' Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.
-#' This package.
+#' This package \code{testme}.
 #' @examples
 #' \dontrun{
 #'  # initialize the testing environment
