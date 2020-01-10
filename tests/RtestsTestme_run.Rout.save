@@ -1,4 +1,7 @@
-R Fri Jan 10 15:04:51 2020: Test: runTest_test [N = 2]
+Called from: Mget("logger", testmeEnv, ifnotfound = logger)
+[1] "logger"
+[1] "logger"
+R Fri Jan 10 15:05:41 2020: Test: runTest_test [N = 2]
 $runTest_test
 $runTest_test$result
 [1] TRUE

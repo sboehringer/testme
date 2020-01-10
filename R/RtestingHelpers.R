@@ -69,6 +69,7 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	if (class(envS) == 'name' && !exists(as.character(envS), envir = parent.frame())) return(ifnotfound);
 	v = mget(x, envir, mode, ifnotfound = NA, ...);
 	r = if (is.na(v)) ifnotfound else v;
+browser();
 	return(r);
 }
 runTestFunctionSingle = function(testName, logger = LogAt1) {
@@ -146,7 +147,6 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 	if (createReference) {
 		assign('logger', print, testmeEnv);
 		output = capture.output(source(runFileName, chdir = T), type = 'output');
-browser();
 		#print(output)
 		writeFile(Sprintf('%{dest}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
 	}
