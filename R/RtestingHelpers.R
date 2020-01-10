@@ -93,8 +93,8 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 #' The provided test
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
-testmeFileSingle = function(file, expectationsFolder, useGit, print = F) {
-	testmeEnvInit(expectationsFolder = splitPath(expectationsFolder)$absolute);
+testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger = LogAt1) {
+	testmeEnvInit(expectationsFolder = splitPath(expectationsFolder)$absolute, logger = logger);
 	owd = setwd(splitPath(file)$dir);
 	on.exit(setwd(owd));
 
@@ -133,7 +133,7 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE));\n";
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE, logger = print));\n";
 
 InstallPackageTest = function(packageDir, testPath, createReference) {
 	dest = Sprintf('%{packageDir}s/tests');

@@ -4,7 +4,7 @@
 \alias{testmeFile}
 \title{Run all tests defined in an R-script}
 \usage{
-testmeFile(file, expectationsFolder, useGit, print = F)
+testmeFile(file, expectationsFolder, useGit, print = F, logger = LogAt1)
 }
 \arguments{
 \item{file}{R-scripts containing tests}
