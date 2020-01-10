@@ -68,13 +68,12 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	envS = substitute(envir);
 	if (class(envS) == 'name' && !exists(as.character(envS), envir = parent.frame())) return(ifnotfound);
 	v = mget(x, envir, mode, ifnotfound = NA, ...);
-	r = if (is.na(v)) ifnotfound else v;
-browser();
+	r = if (is.na(v)) ifnotfound else v[[x]];
 	return(r);
 }
 runTestFunctionSingle = function(testName, logger = LogAt1) {
 	assign('name', testName, testmeEnv);	# global variable holding the test name
-	Log = Mget('logger', testmeEnv, ifnotfound = logger);
+	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
 	testFunction = get(testName);
 	rTest = try(testFunction());
 	r = if (is.list(rTest)) {
