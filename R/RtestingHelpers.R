@@ -33,9 +33,9 @@ packageDefinition = list(
 );
 # Additional exports [RegenericAll*]
 #' @export Deparse
-# Additional imports
-# #' @importFrom stats as.formula median model.matrix na.omit optimize runif sd setName
-# #' @importFrom utils capture.output read.table recover write.table
+# Imports
+#' @import compare
+#' @import methods
 #' @importFrom "stats" "as.formula" "median" "model.matrix" "na.omit" "optimize" "runif" "sd" "setNames"
 #' @importFrom "utils" "capture.output" "read.table" "recover" "write.table"
 
