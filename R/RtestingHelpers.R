@@ -416,6 +416,8 @@ Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 		Log = Mget('logger', testmeEnv, ifnotfound = logger);
 		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
 		Log(Sprintf('Comparion [%{mode}s] resulted in unequal result'));
+		Log('Comparison result');
+		Log(r);
 		Log('Comparison object [a]');
 		Log(a);
 		Log('Comparison object [b]');
