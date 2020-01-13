@@ -100,7 +100,7 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger 
 	on.exit(setwd(owd));
 
 	tests = findTestsFiles(splitPath(file)$file)$tests;
-	Source(splitPath(file)$file);
+	source(splitPath(file)$file);
 	
 	# <p> git
 	if (useGit) gitCommitVivifications();
