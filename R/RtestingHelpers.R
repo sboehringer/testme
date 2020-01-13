@@ -31,6 +31,7 @@ packageDefinition = list(
 		remote = 'https://github.com/sboehringer/testme.git'
 	)
 );
+#' @export Deparse
 
 #__PACKAGE_DOC__
 # This package \code{testme}.

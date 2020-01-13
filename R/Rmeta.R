@@ -522,6 +522,4 @@ freezeObjects = function(..., pos = 2, parent = parent.frame(), freezeObjectDir 
 #'	Deparse(1 + 2)
 #'	Deparse(matrix(1:10, ncol = 5))
 #'	eval(Deparse(matrix(1:10, ncol = 5)))
-#'
-#' @export Deparse
 Deparse = function(o)join(deparse(o));
