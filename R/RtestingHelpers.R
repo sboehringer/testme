@@ -31,7 +31,6 @@ packageDefinition = list(
 		remote = 'https://github.com/sboehringer/testme.git'
 	)
 );
-#' @export Deparse
 
 #__PACKAGE_DOC__
 # This package \code{testme}.
@@ -501,3 +500,4 @@ TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(r
 #
 #	<p> export functions from the RgenericAll-verse
 #
+#' @export Deparse
