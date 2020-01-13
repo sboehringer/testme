@@ -412,8 +412,7 @@ Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 		'round8' = compare(Round(a, 8), Round(b, 8)),
 		'image' = compareImage(a, b)
 	);
-browser();
-	if (do.print && !isTRUE(r)) {
+	if (do.print && !compare::isTRUE(r)) {
 		Log = Mget('logger', testmeEnv, ifnotfound = logger);
 		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
 		Log(Sprintf('Comparion [%{mode}s] resulted in unequal result'));
