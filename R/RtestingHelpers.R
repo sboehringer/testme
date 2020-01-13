@@ -174,7 +174,7 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
 
 testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
 	logger = LogAt1) {
-	testmeEnv <<- new.env();
+	#testmeEnv <<- new.env();
 	assign('expectationsFolder', expectationsFolder, testmeEnv);
 	assign('Ndash', firstDef(options('testme')$Ndash, 100), testmeEnv);
 	assign('logger', logger, testmeEnv);
@@ -187,7 +187,7 @@ testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations'
 #
 
 gitCommitVivifications = function() {
-	expectationsFolder = get('expectationsFolder', get('testmeEnv'));
+	expectationsFolder = get('expectationsFolder', testmeEnv);
 	expFiles = list.files(path = expectationsFolder, pattern = '[.](R|png)$', full.names = T);
 	#gitLs = System(Sprintf('git ls-files %{expectationsFolder}s'), return.output = T)
 	#files = pop(splitString('\n', gitLs$output));
@@ -418,7 +418,7 @@ Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 		'image' = compareImage(a, b)
 	);
 	if (do.print && !compare::isTRUE(r)) {
-		Log = Mget('logger', get('testmeEnv'), ifnotfound = logger);
+		Log = Mget('logger', testmeEnv, ifnotfound = logger);
 		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
 		Log(Sprintf('Comparion [%{mode}s] resulted in unequal result'));
 		Log('Comparison result');
