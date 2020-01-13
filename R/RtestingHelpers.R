@@ -171,6 +171,7 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
 #
 #	<p> initialization
 #
+testmeEnv <<- new.env();	# avoid R warnings
 
 testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
 	logger = LogAt1) {
