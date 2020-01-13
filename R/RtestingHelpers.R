@@ -134,7 +134,7 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE, logger = print));\n";
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE, logger = print));\n";
 
 InstallPackageTest = function(packageDir, testPath, createReference) {
 	dest = Sprintf('%{packageDir}s/tests');
