@@ -64,7 +64,7 @@ packageDefinition = list(
 
 #Library('compare');
 # <!><A><N> temporary disabling of reset for debugging
-#testmeEnv = new.env();
+testmeEnv = new.env();	# avoid R warnings [not strictly needed dt <<- assignment later]
 
 #
 #	<p> global interface
@@ -171,7 +171,6 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
 #
 #	<p> initialization
 #
-testmeEnv <<- new.env();	# avoid R warnings
 
 testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
 	logger = LogAt1) {
