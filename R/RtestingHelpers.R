@@ -500,5 +500,3 @@ TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(r
 #
 #	<p> export functions from the RgenericAll-verse
 #
-
-#' @export Deparse

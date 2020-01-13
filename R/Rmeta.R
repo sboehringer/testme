@@ -511,6 +511,9 @@ freezeObjects = function(..., pos = 2, parent = parent.frame(), freezeObjectDir 
 #'
 #' Calls deparse on argument and pastes together the return value of \code{deparse} resulting
 #' in a single character string.
+#'
+#' @param o Expression/Object to be deparsed
+#'
 #' @return single character vector with the deparsed expression
 #' @seealso [deparse()] which this function wraps
 #' @seealso [eval()] for the inverse operation
@@ -520,6 +523,5 @@ freezeObjects = function(..., pos = 2, parent = parent.frame(), freezeObjectDir 
 #'	Deparse(matrix(1:10, ncol = 5))
 #'	eval(Deparse(matrix(1:10, ncol = 5)))
 #'
-#' @param o Expression/Object to be deparsed
-#' 
+#' @export Deparse
 Deparse = function(o)join(deparse(o));
