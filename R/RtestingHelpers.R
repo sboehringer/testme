@@ -187,7 +187,7 @@ testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations'
 #
 
 gitCommitVivifications = function() {
-	expectationsFolder = get('expectationsFolder', testmeEnv);
+	expectationsFolder = get('expectationsFolder', get('testmeEnv'));
 	expFiles = list.files(path = expectationsFolder, pattern = '[.](R|png)$', full.names = T);
 	#gitLs = System(Sprintf('git ls-files %{expectationsFolder}s'), return.output = T)
 	#files = pop(splitString('\n', gitLs$output));
