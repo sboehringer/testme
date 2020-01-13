@@ -417,14 +417,14 @@ Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
 		Log(Sprintf('Comparion [%{mode}s] resulted in unequal result'));
 		Log('Comparison result');
-		Log(list(r, isTRUE(r)));
+		Log(compare::isTRUE(r));
 		Log('Comparison object [a]');
 		Log(a);
 		Log('Comparison object [b]');
 		Log(b);
 		Log(join(c('--- Compare report end ---', rep('-', 45)), ''));
 	}
-	r
+	return(compare::isTRUE(r));
 }
 
 TestCompare = function(result, expectation, modes = as.list(rep('compare', length(result)))) {
