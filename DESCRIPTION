@@ -10,7 +10,9 @@ License: LGPL
 Encoding: UTF-8
 Depends: 
     compare,
-    methods
+    methods,
+    utils,
+    stats
 Collate: 
     testme.R
     Rmeta.R
