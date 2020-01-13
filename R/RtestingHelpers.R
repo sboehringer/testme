@@ -34,8 +34,10 @@ packageDefinition = list(
 # Additional exports [RegenericAll*]
 #' @export Deparse
 # Additional imports
-#' @importFrom stats as.formula median model.matrix na.omit optimize runif sd setName
-#' @importFrom utils capture.output read.table recover write.table
+# #' @importFrom stats as.formula median model.matrix na.omit optimize runif sd setName
+# #' @importFrom utils capture.output read.table recover write.table
+#' @importFrom "stats" "as.formula" "median" "model.matrix" "na.omit" "optimize" "runif" "sd" "setNames"
+#' @importFrom "utils" "capture.output" "read.table" "recover" "write.table"
 
 #__PACKAGE_DOC__
 # This package \code{testme}.
