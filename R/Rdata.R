@@ -1469,7 +1469,7 @@ ByIndices = function(data, INDICES, USE.NAMES = FALSE) {
 			combs = model_matrix_from_formula(INDICES, data, remove.intercept = length(rhs) > 0)$mm;
 			setNames(lapply(1:ncol(combs), function(i)combs[, i]), names(combs));
 		}
-	} else if (class(INDICES) == 'data.frame') INDICES = Df_(idcs, as_character = names(idcs));
+	} else if (class(INDICES) == 'data.frame') INDICES = Df_(INDICES, as_character = names(INDICES));
 	INDICES
 }
 
