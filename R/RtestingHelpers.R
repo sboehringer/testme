@@ -237,7 +237,7 @@ testmePrintReport = function(rTests) {
 
 findTestsFiles = function(Rfiles, testNamePattern = '_test$') {
 	r = with(list(), {
-		Source(Rfiles, envir = parent.frame());
+		SourceLocal(Rfiles, envir = parent.frame());
 		tests = MatchRegex('_test$', ls(envir = parent.frame()));
 	});
 	return(list(tests = r));

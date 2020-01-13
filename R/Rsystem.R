@@ -595,6 +595,17 @@ Do.call = function(what, args, quote = FALSE, envir = parent.frame(),
 #	<p> file operations
 #
 
+# <A> overlap with Source; avoid dependecy with RCurl
+SourceLocal = function(file, ...,
+	locations = c('', '.', sprintf('%s/src/Rscripts', Sys.getenv('HOME'))),
+	envir = NULL) {
+	sapply(file, function(file) {
+		file0 = file.locate(file, prefixes = locations);
+			if (notE(envir)) sys.source(file = file0, envir = envir, ...) else source(file = file0, ...)
+	})
+}
+
+
 #' Return absolute path for name searched in search-pathes
 #'
 #' Search for pathes.
