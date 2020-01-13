@@ -332,6 +332,18 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list()) {
 	return(setNames(r, list.kp(r, 'name')));
 }
 
+#' Run tests defined in the current function
+#'
+#' Searches the current function for test definitions, runs the tests and compares to expectations.
+#'
+#' @examples
+#' \donotrun{
+#' myTests = function() {
+#'   T1 = 1 + 1;
+#'   TestMe();
+#' }
+#' }
+#' @export TestMe
 TestMe = function(mode = list(), which = -2) {
 	tests = findVariables(which = which);
 	#print(tests);
