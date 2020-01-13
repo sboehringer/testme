@@ -337,7 +337,7 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list()) {
 #' Searches the current function for test definitions, runs the tests and compares to expectations.
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' myTests = function() {
 #'   T1 = 1 + 1;
 #'   TestMe();

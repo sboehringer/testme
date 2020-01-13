@@ -10,7 +10,7 @@ TestMe(mode = list(), which = -2)
 Searches the current function for test definitions, runs the tests and compares to expectations.
 }
 \examples{
-\donotrun{
+\dontrun{
 myTests = function() {
   T1 = 1 + 1;
   TestMe();
