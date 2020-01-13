@@ -16,6 +16,7 @@ Collate:
     Rmeta.R
     Rdata.R
     Rsystem.R
+    Rfunctions.R
     RtestingHelpers.R
 Suggests: 
 RoxygenNote: 7.0.1
