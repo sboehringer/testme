@@ -459,7 +459,7 @@ runTestsInternal = function(Ndash = 1e2, dir = 'Rtests',
 	# <p> locate tests, source tests
 	nms = findTestsDir(dir);
 	tests = nms$tests;
-	Source(nms$files);
+	SourceLocal(nms$files);
 	setwd(dir);
 
 	# <p> git
