@@ -615,7 +615,7 @@ SourceLocal = function(file, ...,
 file.locate = function(path, prefixes = NULL, normalize = T, as.dirs = T, force = F, home = T) {
 	if (!force && substr(path, 1, 1) == '/') return(path);
 	if (substr(path, 1, 1) == '~' && home) {
-		path = path.absolute(path, home = TRUE);
+		path = path.absolute(path, home.dir = TRUE);
 		if (!force) return(path);
 	}
 	if (is.null(prefixes)) prefixes = if (as.dirs) '.' else '';
