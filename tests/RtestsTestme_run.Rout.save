@@ -1,3 +1,5 @@
+Called from: Compare(value, try(Eval(expect), silent = T), mode)
+Called from: Compare(value, try(Eval(expect), silent = T), mode)
 [1] "Test: runTest_test [N = 2]"
 $runTest_test
 $runTest_test$result
