@@ -418,7 +418,7 @@ Compare = function(a, b, mode = NULL, do.print = TRUE, logger = LogAt1) {
 		'image' = compareImage(a, b)
 	);
 	if (do.print && !compare::isTRUE(r)) {
-		Log = Mget('logger', testmeEnv, ifnotfound = logger);
+		Log = Mget('logger', get('testmeEnv'), ifnotfound = logger);
 		Log(join(c('*** Compare report start ', rep('*', 45)), ''));
 		Log(Sprintf('Comparion [%{mode}s] resulted in unequal result'));
 		Log('Comparison result');
