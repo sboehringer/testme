@@ -433,7 +433,7 @@ freezeCall = function(freeze_f, ...,
 	thaw_transformation = identity) {
 
 	# args = eval(list(...), envir = freeze_envir)
-	call_ = callWithFunctionArgs(f = freeze_f, args = list(...),
+	call_ = callWithFunctionArgs(f__ = freeze_f, args__ = list(...),
 		envir__ = freeze_envir, name = as.character(sys.call()[[2]]), env_eval = freeze_env_eval);
 
 	freezeCallEncapsulated(call_,
