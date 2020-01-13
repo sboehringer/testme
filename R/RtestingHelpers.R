@@ -31,6 +31,7 @@ packageDefinition = list(
 		remote = 'https://github.com/sboehringer/testme.git'
 	)
 );
+# Additional exports [RegenericAll*]
 #' @export Deparse
 
 #__PACKAGE_DOC__
@@ -497,7 +498,3 @@ TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(r
 	expectation = pair$expectation;
 	TestCompare(result, lapply(expectation, function(e)try(eval(parse(text = e)), silent = T)), modes = modes)
 }
-
-#
-#	<p> export functions from the RgenericAll-verse
-#
