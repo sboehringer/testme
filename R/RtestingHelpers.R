@@ -73,6 +73,8 @@ testmeEnv = new.env();	# avoid R warnings [not strictly needed dt <<- assignment
 #' Log message at level 1
 #'
 #' Call function Log with a log level of 1.
+#' @param s Message to be printed
+#' @export LogAt1
 LogAt1 = function(s)Log(s, 1);
 Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	envS = substitute(envir);

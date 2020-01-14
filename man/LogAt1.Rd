@@ -6,6 +6,9 @@
 \usage{
 LogAt1(s)
 }
+\arguments{
+\item{s}{Message to be printed}
+}
 \description{
 Call function Log with a log level of 1.
 }
