@@ -2705,7 +2705,8 @@ factorFromModelMatrix = function(mm, sep = ';') {
 	combsO = combs[order.df(combs), , drop = F];
 	levels = apply(combsO, 1, function(comb)join(dimnames(mm)[[2]][comb], sep));
 	combsI = Df(combsO, i = 1:nrow(combsO));
-	combsM = merge(Df(d, j = 1:nrow(d)), combsI, all.x = T, sort = F);
+	#combsM = merge(Df(d, j = 1:nrow(d)), combsI, all.x = T, sort = F);
+	combsM = merge(Df(mm, j = 1:nrow(d)), combsI, all.x = T, sort = F);
 	factorN = as.factor((levels[combsM$i])[order(combsM$j)]);
 	factorN
 }
