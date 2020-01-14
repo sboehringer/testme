@@ -2677,7 +2677,9 @@ recodeLevels = function(f, map = NULL, others2na = TRUE, levels = NULL, setLevel
 		if (!is.null(setLevels)) r = ifelse(r %in% setLevels, r, NA);
 		# <p> rename levels
 		if (!is.null(setLevelsTo)) {
-			r = drop.levels(ifelse(as.integer(r) <= length(setLevels), r, NA));
+			#r = drop.levels(ifelse(as.integer(r) <= length(setLevels), r, NA));
+			# 14.1.2020
+			r = droplevels(ifelse(as.integer(r) <= length(setLevels), r, NA));
 			levels(r) = setLevelsTo;
 		}
 		r = factor(r, levels = if (!is.null(setLevels)) levlsN0 else levlsN);
