@@ -1372,7 +1372,7 @@ eisapply = function(v, f, ...) {
 }
 ensapply = function(l, f, ...) {
 	ns = names(l);
-	r = sapply(seq_along(l), function(i, ...)f(l[[i]]), ns[i], ...);
+	r = sapply(seq_along(l), function(i, ...)f(l[[i]], ns[i], ...), ...);
 	names(r) = ns;
 	r
 }
