@@ -32,7 +32,7 @@ packageDefinition = list(
 	)
 );
 # Additional exports [RegenericAll*]
-#' @export Deparse
+#' @export Deparse valueMapperStandard LogAt1
 # Imports
 #' @import compare
 #' @import methods
@@ -70,7 +70,6 @@ testmeEnv = new.env();	# avoid R warnings [not strictly needed dt <<- assignment
 #	<p> global interface
 #
 
-#' @export LogAt1
 LogAt1 = function(s)Log(s, 1);
 Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	envS = substitute(envir);
