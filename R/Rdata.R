@@ -3119,7 +3119,7 @@ iterateModels_prepare = function(modelList, .constraint = NULL,
 	# <p> handle constraints
 	selC = if (is.null(.constraint)) T else
 		unlist(iterateModels_raw(modelList, models, f_iterate = .constraint,
-			parallel = FALSE, callMode = callMode, restrictArgs = restrictArgs, ...));
+			parallel = FALSE, callMode = callMode, restrictArgs = restrictArgs));
 	selI = if (is.null(selectIdcs)) T else 1:nrow(models) %in% selectIdcs;
 	#	apply constraints
 	models = models[selC & selI, , drop = F];
