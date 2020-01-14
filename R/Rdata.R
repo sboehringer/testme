@@ -468,7 +468,7 @@ trimString = function(s) {
 # <N> maxIterations needs to be large as a new iteration is entered after each successful substitution
 #	this is necessary, as 
 mergeDictToString = function(d, s,
-	valueMapper = function(n)ifelse(is.na(d[[n]]), '{\\bf Value missing}', d[[n]]),
+	valueMapper = function(n)ifelse(notE(d[[n]]), d[[n]], '{\\bf Value missing}'),
 	iterative = F, re = F, maxIterations = 1e4, doApplyValueMap = T, doOrderKeys = T, maxLength = 1e7) {
 	ns = names(d);
 	# proceed in order of decreasing key lengthes

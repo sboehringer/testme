@@ -757,6 +757,7 @@ md5sumString = function(s, prefix = 'md5generator') {
 	path = tempfile('md5generator');
 	writeFile(path, s);
 	md5 = avu(md5sum(path));
+
 	md5
 }
 
