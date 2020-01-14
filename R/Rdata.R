@@ -465,10 +465,14 @@ trimString = function(s) {
 	)
 }
 
+valueMapperRaw = function(n, d)d[[n]]
+valueMapperStandard = function(n, d)
+	if (is.na(d[[n]])) '{\\bf Value missing}' else (if (is.null(d[[n]])) n else d[[n]])
 # <N> maxIterations needs to be large as a new iteration is entered after each successful substitution
 #	this is necessary, as 
 mergeDictToString = function(d, s,
-	valueMapper = function(n)ifelse(notE(d[[n]]), d[[n]], '{\\bf Value missing}'),
+	valueMapper = valueMapperStandard,
+	#valueMapper = function(s)ifelse(is.na(d[[n]]), '{\\bf Value missing}', d[[n]]),
 	iterative = F, re = F, maxIterations = 1e4, doApplyValueMap = T, doOrderKeys = T, maxLength = 1e7) {
 	ns = names(d);
 	# proceed in order of decreasing key lengthes
@@ -478,7 +482,7 @@ mergeDictToString = function(d, s,
 		for (n in ns) {
 			# counteract undocumented string interpolation
 			subst = if (doApplyValueMap)
-				gsub("[\\\\]", "\\\\\\\\", valueMapper(d[[n]]), perl = T)
+				gsub("[\\\\]", "\\\\\\\\", valueMapper(n, d), perl = T)
 				else d[[n]];
 			# <!> quoting
 			if (!re) n = sprintf("\\Q%s\\E", n);
@@ -1370,7 +1374,8 @@ eisapply = function(v, f, ...) {
 	names(r) = names(v);
 	r
 }
-ensapply = function(l, f, ...) {
+ensapply = function(l0, f, ...) {
+	l = as.list(l0);
 	ns = names(l);
 	r = sapply(seq_along(l), function(i, ...)f(l[[i]], ns[i], ...), ...);
 	names(r) = ns;
@@ -3634,7 +3639,8 @@ formula.re = function(formula, data, ignore.case = F, re.string = '.*') {
 		}
 		varf
 	});
-	formulaExp = as.formula(mergeDictToString(subst, formula));
+	formula1 = mergeDictToString(subst, formula);
+	formulaExp = as.formula(formula1);
 	formulaExp
 }
 
