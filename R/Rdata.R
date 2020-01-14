@@ -466,8 +466,10 @@ trimString = function(s) {
 }
 
 valueMapperRaw = function(n, d)d[[n]]
-valueMapperStandard = function(n, d)
+valueMapperStandard = function(n, d) {
 	if (is.na(d[[n]])) '{\\bf Value missing}' else (if (is.null(d[[n]])) n else d[[n]])
+}
+
 # <N> maxIterations needs to be large as a new iteration is entered after each successful substitution
 #	this is necessary, as 
 mergeDictToString = function(d, s,
