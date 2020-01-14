@@ -752,16 +752,16 @@ stdOutFromCall = function(call_) {
 #	crypotgraphy/checksumming
 #
 
-md5sumString = function(s, prefix = 'md5generator') {
-	Require('tools');
-	path = tempfile('md5generator');
-	writeFile(path, s);
-	md5 = avu(md5sum(path));
-
-	md5
-}
+# md5sumString = function(s, prefix = 'md5generator') {
+# 	Require('tools');
+# 	path = tempfile('md5generator');
+# 	writeFile(path, s);
+# 	md5 = avu(md5sum(path));
+# 
+# 	md5
+# }
 # same as above, less dpendencies
-md5sumString_new = function(s, ...)substr(SystemS('echo %{s}q | md5sum', return.output = T)$output, 1, 32)
+md5sumString = function(s, ...)substr(SystemS('echo -n %{s}q | md5sum', return.output = T)$output, 1, 32)
 
 #
 #	<p> package documentation

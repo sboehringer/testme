@@ -527,7 +527,7 @@ qs = function(s, ...)sapply(s, qsSingle, ...)
 # single quote if needed
 qssSingle = function(s, force = F) {
 	# <N> better implementation possible: detect unquoted white-space
-	if (force || length(fetchRegexpr("[ \t'()\\[\\]:,]", s)) > 0) {
+	if (force || nchar(s) == 0 || length(fetchRegexpr("[ \t'\"()\\[\\]:,]", s)) > 0) {
 		s = gsub("(['])", "'\"'\"'", s);
 		s = sprintf("'%s'", s);
 	}
