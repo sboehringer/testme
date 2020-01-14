@@ -136,7 +136,7 @@ testmeFile = Vectorize(testmeFileSingle, 'file');
 testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectations',
 	filePattern = '.R$', useGit = T, logLevel = 4, print = T) {
 	Rfiles = list.files(dir, filePattern, full.names = TRUE);
-	rTests = TestmeFile(Rfiles, expectationsFolder, useGit = F);
+	rTests = testmeFile(Rfiles, expectationsFolder, useGit = F);
 	# <p> git
 	if (useGit) gitCommitVivifications();
 	if (print) testmePrintReport(rTests);
