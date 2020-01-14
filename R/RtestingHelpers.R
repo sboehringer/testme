@@ -70,6 +70,9 @@ testmeEnv = new.env();	# avoid R warnings [not strictly needed dt <<- assignment
 #	<p> global interface
 #
 
+#' Log message at level 1
+#'
+#' Call function Log with a log level of 1.
 LogAt1 = function(s)Log(s, 1);
 Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	envS = substitute(envir);
