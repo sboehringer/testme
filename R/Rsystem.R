@@ -760,6 +760,8 @@ md5sumString = function(s, prefix = 'md5generator') {
 
 	md5
 }
+# same as above, less dpendencies
+md5sumString_new = function(s, ...)substr(SystemS('echo %{s}q | md5sum', return.output = T)$output, 1, 32)
 
 #
 #	<p> package documentation
