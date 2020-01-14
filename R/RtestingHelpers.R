@@ -70,6 +70,7 @@ testmeEnv = new.env();	# avoid R warnings [not strictly needed dt <<- assignment
 #	<p> global interface
 #
 
+#' @export LogAt1
 LogAt1 = function(s)Log(s, 1);
 Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	envS = substitute(envir);
@@ -98,6 +99,7 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 #' Run tests defined in functions
 #'
 #' The provided test
+#' @export runTestFunction
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
 #' @export testmeFileSingle
