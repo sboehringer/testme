@@ -697,7 +697,7 @@ compressPath = function(pathRaw, path, extension = NULL, doRemoveOrig = TRUE) {
 decompressPathBz2 = function(path, pathTmp, doRemoveOrig = FALSE) {
 	cmd = Sprintf("cat %{path}q | bunzip2 > %{pathTmp}q");
 	r = System(cmd, 5);
-	if (doRemoveOrig && !get('.system.doLogOnly', envir = System_env__)) file.remove(pathRaw);
+	if (doRemoveOrig && !get('.system.doLogOnly', envir = System_env__)) file.remove(path);
 	r
 }
 decompressPath = function(path, pathTmp, extension = NULL, doRemoveOrig = FALSE) {
