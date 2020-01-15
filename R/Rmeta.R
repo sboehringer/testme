@@ -316,6 +316,7 @@ thawCall = function(
 	envir = .GlobalEnv) {
 
 	load(freeze_file, envir = envir);
+	# <!> untested change [addition of line] 15.1.2020
 	callSpecification = get('callSpecification');
 	r = with(callSpecification, {
 		for (library in freeze_control$libraries) {
