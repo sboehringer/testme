@@ -2932,21 +2932,6 @@ merge.multi.list = function(l, .col.names = NULL, .col.names.prefix = "X",
 	df0
 }
 
-# analysis pattern using merge.multi.list
-# i needs not to be an argument to f as .do.call strips excess arguments
-iterateModels_old = function(modelList, f, ...,
-	.constraint = NULL, .clRunLocal = T, .resultsOnly = F, .unlist = 0, lapply__ = clapply) {
-	models = merge.multi.list(modelList, .constraint = .constraint);
-
-	r = lapply__(1:dim(models)[1], function(i, ..., f__, models__) {
-		args = c(list(i = i), as.list(models__[i, , drop = F]), list(...));
-		.do.call(f__, args)
-	}, ..., f__ = f, models__ = models);
-	r = if (.resultsOnly) r else list(models = models, results = r);
-	r = unlist.n(r, .unlist);
-	r
-}
-
 # list of list, vector contains index for each of these lists to select elements from
 #	these elements are merged and return
 #	if sub-element is not a list, take name of sub-element and contruct list therefrom
