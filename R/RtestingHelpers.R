@@ -8,7 +8,7 @@
 
 packageDefinition = list(
 	name = 'testme',
-	files = c('Rmeta.R', 'Rdata.R', 'Rsystem.R', 'Rfunctions.R', 'Rgraphics.R'),
+	files = c('Rmeta.R', 'Rdata.R', 'Rsystem.R', 'Rfunctions.R'),
 	#instFiles = list(Rscripts = 'Dev/pkg-minimal.R'),
 	testing = list(
 		doInstall = TRUE,
