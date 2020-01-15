@@ -316,6 +316,7 @@ thawCall = function(
 	envir = .GlobalEnv) {
 
 	load(freeze_file, envir = envir);
+	callSpecification = get('callSpecification');
 	r = with(callSpecification, {
 		for (library in freeze_control$libraries) {
 			eval(parse(text = sprintf('library(%s)', library)));
