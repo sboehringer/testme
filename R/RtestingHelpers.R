@@ -32,7 +32,7 @@ packageDefinition = list(
 	)
 );
 # Additional exports [RegenericAll*]
-#' @export Deparse valueMapperStandard LogAt1
+#' @export Deparse
 # Imports
 #' @import compare
 #' @import methods
