@@ -20,6 +20,5 @@
 #'  runTestFunction('myTest')
 #' }
 #' @seealso {runTestFunction()} for starting the main workflow
-#'globalVariables(c("LogAt1"))
 
 "_PACKAGE"

@@ -56,8 +56,8 @@ packageDefinition = list(
 #  runTestFunction('myTest')
 # }
 # @seealso {runTestFunction()} for starting the main workflow
-#globalVariables(c("LogAt1"))
 #__PACKAGE_DOC_END__
+globalVariables(c("LogAt1"))
 
 #
 #	<p> initialization
