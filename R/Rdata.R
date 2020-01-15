@@ -1469,31 +1469,6 @@ Lundrop2row = function(l)lapply(l, undrop2row);
 undrop2col = function(e)(if (is.vector(e)) matrix(e, nrow = length(e)) else e);
 Lundrop2col = function(l)lapply(l, undrop2col);
 
-ByIndices = function(data, INDICES, USE.NAMES = FALSE) {
-	if (class(INDICES) == 'formula') {
-		rhs = all.vars(formula.rhs(INDICES));
-		INDICES = if (USE.NAMES) Df_(data[, rhs, drop = F], as_character = rhs) else {
-			combs = model_matrix_from_formula(INDICES, data, remove.intercept = length(rhs) > 0)$mm;
-			setNames(lapply(1:ncol(combs), function(i)combs[, i]), names(combs));
-		}
-	# change on 13.1.2020; <!><i> test
-	#} else if (class(INDICES) == 'data.frame') INDICES = Df_(idcs, as_character = names(idcs));
-	} else if (class(INDICES) == 'data.frame') INDICES = Df_(INDICES, as_character = names(INDICES));
-	INDICES
-}
-
-By = function(data, INDICES, FUN, ..., simplify = TRUE, RBIND = FALSE, USE.NAMES = FALSE, SEP = ':') {
-	idcs = ByIndices(data, INDICES, USE.NAMES);
-	r = by(data, idcs, FUN, ..., simplify = simplify);
-	if (USE.NAMES) {
-		ns = sapply(by(idcs, idcs, unique), join, sep = SEP);
-		names(r) = ns;
-	}
-	if (RBIND) r = do.call(rbind, Lundrop2col(r));
-	r
-}
-
-
 # USE.NAMES logic reversed for sapply
 sapplyn = function(l, f, ...)sapply(l, f, ..., USE.NAMES = F);
 list.with.names = function(..., .key = 'name') {
@@ -2692,32 +2667,6 @@ recodeLevels = function(f, map = NULL, others2na = TRUE, levels = NULL, setLevel
 		r = factor(r, levels = if (!is.null(setLevels)) levlsN0 else levlsN);
 	}
 	r
-}
-factorFromFactors = function(d, sep = ';', safeNames = TRUE) {
-	combs = unique(d[completeRows(d), , drop = F]);
-	combsO = combs[order.df(combs), , drop = F];
-	levels = apply(combsO, 1, function(comb)join(comb, sep));
-	if (safeNames) levels = gsub(' ', '.', levels);
-	combsI = Df(combsO, i = 1:nrow(combsO));
-	combsM = merge(Df(d, j = 1:nrow(d)), combsI, all.x = T, sort = F);
-	factorN = as.factor((levels[combsM$i])[order(combsM$j)]);
-	factorN
-}
-# ~ cat1 + cat2
-# create combinations from cat1/cat2, enumerate
-factorFromFormula = function(d, form, sep = ';', safeNames = TRUE) {
-	vars = formula.covariates(form);
-	factorFromFactors(d[, vars, drop = F], sep = sep, safeNames = safeNames)
-}
-factorFromModelMatrix = function(mm, sep = ';') {
-	combs = unique(mm);
-	combsO = combs[order.df(combs), , drop = F];
-	levels = apply(combsO, 1, function(comb)join(dimnames(mm)[[2]][comb], sep));
-	combsI = Df(combsO, i = 1:nrow(combsO));
-	#combsM = merge(Df(d, j = 1:nrow(d)), combsI, all.x = T, sort = F);
-	combsM = merge(Df(mm, j = 1:nrow(mm)), combsI, all.x = T, sort = F);
-	factorN = as.factor((levels[combsM$i])[order(combsM$j)]);
-	factorN
 }
 
 factor2int = function(f)as.integer(as.character(f))
