@@ -107,6 +107,20 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 #' @export runTestFunction
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
+#' Run tests defined in a single file
+#'
+#' Identify tests in an R file and run the tests
+#'
+#' This function takes the path to a single R-file. Function names ending in \code{'_tets'} are
+#' considered to contain test definitions. These functions are called and test results are returned.
+#'
+#' @param file Path to R-script
+#' @param expectationsFolder Folder into which test results are either vivified (see \code{testMe()})
+#'   or from which expectations are read for comparison after vivification.
+#' @param useGit logical to inidicate whether vivifications are to be commited by a call to `git`
+#' @param print logicial to indicate whether a report is to be printed
+#' @param logger function that is used to print results, can be used to redirect output
+#' @return returns a list for each test executed that contains testing status and number of subtests run
 #' @export testmeFileSingle
 testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger = LogAt1) {
 	testmeEnvInit(expectationsFolder = splitPath(expectationsFolder)$absolute, logger = logger);
