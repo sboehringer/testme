@@ -38,7 +38,7 @@ packageDefinition = list(
 #' @import methods
 #' @importFrom "stats" "as.formula" "median" "model.matrix" "na.omit" "optimize" "runif" "sd" "setNames"
 #' @importFrom "utils" "capture.output" "read.table" "recover" "write.table"
-globalVariables(c("LogAt1", 'valueMapperStandard'))
+globalVariables(c("LogAt1", 'valueMapperStandard', 'plot_save'))
 
 #__PACKAGE_DOC__
 # This package \code{testme}.
