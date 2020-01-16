@@ -2,7 +2,7 @@
 % Please edit documentation in R/RtestingHelpers.R
 \name{testmeFileSingle}
 \alias{testmeFileSingle}
-\title{Run tests defined in a single file}
+\title{Run all tests defined in an R-script}
 \usage{
 testmeFileSingle(file, expectationsFolder, useGit, print = F, logger = LogAt1)
 }
@@ -25,6 +25,6 @@ returns a list for each test executed that contains testing status and number of
 Identify tests in an R file and run the tests
 }
 \details{
-This function takes the path to a single R-file. Function names ending in \code{'_tets'} are
+This function takes the path to a single R-file. Function names ending in \code{'_test'} are
 considered to contain test definitions. These functions are called and test results are returned.
 }

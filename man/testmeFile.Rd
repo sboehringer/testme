@@ -2,13 +2,30 @@
 % Please edit documentation in R/RtestingHelpers.R
 \name{testmeFile}
 \alias{testmeFile}
-\title{Run all tests defined in an R-script}
+\title{Run all tests defined in a collection of R-scripts}
 \usage{
 testmeFile(file, expectationsFolder, useGit, print = F, logger = LogAt1)
 }
 \arguments{
-\item{file}{R-scripts containing tests}
+\item{file}{Path to R-script}
+
+\item{expectationsFolder}{Folder into which test results are either vivified (see \code{testMe()})
+or from which expectations are read for comparison after vivification.}
+
+\item{useGit}{logical to inidicate whether vivifications are to be commited by a call to `git`}
+
+\item{print}{logicial to indicate whether a report is to be printed}
+
+\item{logger}{function that is used to print results, can be used to redirect output}
+
+\item{character}{vector of R-scripts containing tests}
+}
+\value{
+returns a list for each test executed that contains testing status and number of subtests run
 }
 \description{
-Collect testing functions from file and run tests
+Collect testing functions from files and run tests
+}
+\details{
+This function takes a character vector of pathes to R-files. It is a vectorized version of \code{testmeFileSingle}
 }
