@@ -18,7 +18,7 @@ or from which expectations are read for comparison after vivification.}
 
 \item{logger}{function that is used to print results, can be used to redirect output}
 
-\item{character}{vector of R-scripts containing tests}
+\item{character}{artifact created by roxygen/Vectorize}
 }
 \value{
 returns a list for each test executed that contains testing status and number of subtests run

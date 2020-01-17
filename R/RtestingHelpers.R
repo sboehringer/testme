@@ -164,6 +164,7 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger 
 #' @param useGit logical to inidicate whether vivifications are to be commited by a call to `git`
 #' @param print logicial to indicate whether a report is to be printed
 #' @param logger function that is used to print results, can be used to redirect output
+#' @param character artifact created by roxygen/Vectorize
 #' @return returns a list for each test executed that contains testing status and number of subtests run
 #' @export testmeFile
 testmeFile = Vectorize(testmeFileSingle, 'file');
