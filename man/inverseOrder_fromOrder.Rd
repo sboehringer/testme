@@ -6,6 +6,12 @@
 \usage{
 inverseOrder_fromOrder(p)
 }
+\arguments{
+\item{p}{obect for which the inverse order is to be calculated}
+}
+\value{
+vector with integers representing the inverse order
+}
 \description{
 Calculates inverseOrder, assuming that the argument is already an \code{order}-vector.
 }

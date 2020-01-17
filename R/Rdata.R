@@ -2548,6 +2548,9 @@ Rank = inverseOrder = inversePermutation = function(p) {
 }
 
 #' @title Calculates inverseOrder, assuming that the argument is already an \code{order}-vector.
+#'
+#' @param p obect for which the inverse order is to be calculated
+#' @return vector with integers representing the inverse order
 inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 
 #' @title Return vector that reorders v to equal reference.
