@@ -152,6 +152,7 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger 
 	return(rTests);
 }
 
+# <A> indirection necessary due to roxygen not being able to handle Vectorize properly
 testmeFileV = Vectorize(testmeFileSingle, 'file');
 #' Run all tests defined in a collection of R-scripts
 #'
@@ -170,7 +171,6 @@ testmeFileV = Vectorize(testmeFileSingle, 'file');
 #' @export testmeFile
 testmeFile = function(file, expectationsFolder, useGit, print = F, logger = LogAt1)
 	testmeFileV(file, expectationsFolder, useGit, print, logger)
-# above necessary due to roxygen not being able to handle Vectorize properly
 
 #' Run all tests defined in a folder
 #'
@@ -394,11 +394,14 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list()) {
 #'
 #' Searches the current function for test definitions, runs the tests and compares to expectations.
 #'
+#' @param mode list with modes of comparison. By default \code{compare} is used for the comparison. Elements with names of the test can overwrite the testing mode. Available modes are \code{c('compare', 'round8', 'equal', 'error', 'image')}.
+#' @return undefined return value
 #' @examples
 #' \dontrun{
 #' myTests = function() {
 #'   T1 = 1 + 1;
-#'   TestMe();
+#'   T2 = sqrt(exp(10));
+#'   TestMe(list(T2 = 'round8'));
 #' }
 #' }
 #' @export TestMe
