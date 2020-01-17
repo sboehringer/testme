@@ -14,7 +14,20 @@ testmeDir(
 )
 }
 \arguments{
-\item{dir}{Folder with R-scripts containing tests}
+\item{dir}{path to older with R-scripts containing tests}
+
+\item{expectationsFolder}{path to folder containing expectations for tests}
+
+\item{filePattern}{pattern to identify file names containting tests. Passed to \code{list.files}.}
+
+\item{useGit}{boolean to indicate whether to commit changes in expectation using \code{git}.}
+
+\item{logLevel}{detail of logging information (>4: debugging information)}
+
+\item{print}{boolean to indicate whether a test report is to be printed}
+}
+\value{
+test results as returned by \code{testmeFile}
 }
 \description{
 Collect files from a folder using a pattern, extract testing functions and run tests.

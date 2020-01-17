@@ -172,7 +172,13 @@ testmeFile = Vectorize(testmeFileSingle, 'file');
 #'
 #' Collect files from a folder using a pattern, extract testing functions and run tests.
 #'
-#' @param dir Folder with R-scripts containing tests
+#' @param dir path to older with R-scripts containing tests
+#' @param expectationsFolder path to folder containing expectations for tests
+#' @param filePattern pattern to identify file names containting tests. Passed to \code{list.files}.
+#' @param useGit boolean to indicate whether to commit changes in expectation using \code{git}.
+#' @param logLevel detail of logging information (>4: debugging information)
+#' @param print boolean to indicate whether a test report is to be printed
+#' @return test results as returned by \code{testmeFile}
 #' @export testmeDir
 testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectations',
 	filePattern = '.R$', useGit = T, logLevel = 4, print = T) {
