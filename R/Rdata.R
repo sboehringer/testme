@@ -3288,7 +3288,14 @@ DfUniqueRowsByCols = function(d, cols) {
 	as.integer(row.names(unique(d[, cols, drop = F])))
 }
 
-#' Reduce data frame by picking the first row of blocks for which \code{cols} has the same values
+#' Reduce data frame to be unique on subset of columns
+#'
+#' Reduce data frame by picking the first row of blocks for which \code{cols} has the same values.
+#'
+#' @param d data frame to be made unique
+#' @param cols columns for which the reduced data frame has to be unique
+#' @param drop argument passed to subset selection \code{`[`}
+#' @return the reduced data frame
 DfUniqueByCols = uniqueByCols = function(d, cols, drop = FALSE) {
 	d[DfUniqueRowsByCols(d, cols), , drop = drop]
 }
