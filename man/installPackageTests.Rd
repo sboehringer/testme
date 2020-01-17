@@ -9,7 +9,7 @@ installPackageTests(packageDir, testPathes, createReference = TRUE)
 \arguments{
 \item{packageDir}{path to R-package folder structure}
 
-\item{testPaths}{character vector with files containing tests of the package}
+\item{testPathes}{character vector with files containing tests of the package}
 }
 \description{
 Takes pathes to test files and installs these tests in an R-package. Also creates required expectation files.
