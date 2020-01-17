@@ -84,6 +84,13 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 	r = if (is.na(v)) ifnotfound else v[[x]];
 	return(r);
 }
+#' Run tests defined in single function
+#'
+#' The function is exepected to call \code{TestMe()} to invoke testing. The function is called and test results are collected.
+#'
+#' @param testName function name as charater vector with one element
+#' @param logger function that prints logging information
+#' @return Test result summary is returned as a list with components \code{result}, the boolean test state, \code{NsubTests}, the number of tests performed in the function
 runTestFunctionSingle = function(testName, logger = LogAt1) {
 	assign('name', testName, testmeEnv);	# global variable holding the test name
 	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
