@@ -2510,6 +2510,8 @@ Order = function(v, ...) {
 
 #' @title Return all value combinations appearing in a data frame
 #'
+#' @param d data frame for which value combinations are to be caclulated
+#' @return list with all value combinations present in \code{d}
 #' @examples
 #' \dontrun{
 #' combs = valueCombinations(iris);
