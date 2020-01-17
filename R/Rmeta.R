@@ -32,6 +32,7 @@ assign('DefaultLogLevel', 4, envir = Log_env__);
 #' @param level If \code{Log.setLevel} was called with this value, subsequent
 #' calls to \code{Log} with values of \code{level} smaller or equal to this
 #' value will be printed.
+#' @param doPrint additional object that will be output using \code{print}.
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
 #' @seealso \code{\link{Log.setLevel}}, ~~~
 #' @keywords ~kwd1 ~kwd2
