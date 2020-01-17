@@ -17,8 +17,6 @@ or from which expectations are read for comparison after vivification.}
 \item{print}{logicial to indicate whether a report is to be printed}
 
 \item{logger}{function that is used to print results, can be used to redirect output}
-
-\item{character}{vector of R-scripts containing tests}
 }
 \value{
 returns a list for each test executed that contains testing status and number of subtests run

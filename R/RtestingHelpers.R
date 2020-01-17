@@ -152,15 +152,13 @@ testmeFileSingle = function(file, expectationsFolder, useGit, print = F, logger 
 	return(rTests);
 }
 
-# <A> indirection necessary due to roxygen not being able to handle Vectorize properly
-testmeFileV = Vectorize(testmeFileSingle, 'file');
 #' Run all tests defined in a collection of R-scripts
 #'
 #' Collect testing functions from files and run tests
 #'
 #' This function takes a character vector of pathes to R-files. It is a vectorized version of \code{testmeFileSingle}
 #'
-#' @param character vector of R-scripts containing tests
+#' @param file character vector of R-scripts containing tests
 #' @param file Path to R-script
 #' @param expectationsFolder Folder into which test results are either vivified (see \code{testMe()})
 #'   or from which expectations are read for comparison after vivification.
@@ -169,8 +167,12 @@ testmeFileV = Vectorize(testmeFileSingle, 'file');
 #' @param logger function that is used to print results, can be used to redirect output
 #' @return returns a list for each test executed that contains testing status and number of subtests run
 #' @export testmeFile
-testmeFile = function(file, expectationsFolder, useGit, print = F, logger = LogAt1)
-	testmeFileV(file, expectationsFolder, useGit, print, logger)
+testmeFile = Vectorize(testmeFileSingle, 'file');
+
+# # <A> indirection necessary due to roxygen not being able to handle Vectorize properly
+# testmeFileV = Vectorize(testmeFileSingle, 'file');
+# testmeFile = function(file, expectationsFolder, useGit, print = F, logger = LogAt1)
+# 	testmeFileV(file, expectationsFolder, useGit, print, logger)
 
 #' Run all tests defined in a folder
 #'
