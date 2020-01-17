@@ -2513,6 +2513,11 @@ valueCombinations = function(d) merge.multi.list(dimnames(table(d)));
 
 #' @title Computes order so that inverseOrder after order is the identity
 #'
+#' Caculate ranks for arguemnt \code{p}. Works on vactors and data frames.
+#'
+#' @param p object for which ranks are to be comptued
+#' @return vector of ranks of elements of \code{p}
+#'
 #' @examples
 #' \dontrun{
 #' v = runif(1e2);
@@ -2548,7 +2553,7 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 #' }
 order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 
-#' Calculates \code{order_align}, assuming that the both arguments are already orders.
+#' @title Calculates \code{order_align}, assuming that the both arguments are already orders.
 #'
 #' Analogous to \code{order_align} under the assumption that provided arguments are orders.
 #'

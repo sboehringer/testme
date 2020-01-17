@@ -2,7 +2,9 @@
 % Please edit documentation in R/Rdata.R
 \name{order_align_fromOrder}
 \alias{order_align_fromOrder}
-\title{Calculates \code{order_align}, assuming that the both arguments are already orders.}
+\title{Calculates \code{order_align}, assuming that the both arguments are already orders.
+
+Analogous to \code{order_align} under the assumption that provided arguments are orders.}
 \usage{
 order_align_fromOrder(reference, v)
 }
@@ -15,6 +17,8 @@ order_align_fromOrder(reference, v)
 order that can be applied to the orignal vector (from which \code{v} was calculated) to make it identical to the vector underlying \code{reference}
 }
 \description{
+Calculates \code{order_align}, assuming that the both arguments are already orders.
+
 Analogous to \code{order_align} under the assumption that provided arguments are orders.
 }
 \examples{
