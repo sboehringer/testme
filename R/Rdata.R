@@ -2537,6 +2537,10 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 #'
 #' Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == T} for all vectors \code{reference, v}.
 #'
+#' @param reference vector with the reference ordering
+#' @param v vector that is to be ordered the same way as \code{reference}
+#' @return vector of indeces so that \code{v[return_value]} is the same as \code{reference}
+#'
 #' @examples
 #' \dontrun{
 #' sapply(1:10, function(i){v = sample(1:5); v[order_align(5:1, v)]})
@@ -2545,7 +2549,17 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 
 #' Calculates \code{order_align}, assuming that the both arguments are already orders.
-#' sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})
+#'
+#' Analogous to \code{order_align} under the assumption that provided arguments are orders.
+#'
+#' @param reference order of a reference vector
+#' @param v order of vector that is to be brought into the order of \code{reference}
+#' @return order that can be applied to the orignal vector (from which \code{v} was calculated) to make it identical to the vector underlying \code{reference}
+#'
+#' @examples
+#' \dontrun{
+#'   sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})
+#' }
 order_align_fromOrder = function(reference, v)v[inverseOrder_fromOrder(reference)];
 
 # permutation is in terms of elements of l (not indeces)

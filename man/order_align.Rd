@@ -8,6 +8,14 @@ Assuming that two arguments are permutaions of each other, return a vector of in
 \usage{
 order_align(reference, v)
 }
+\arguments{
+\item{reference}{vector with the reference ordering}
+
+\item{v}{vector that is to be ordered the same way as \code{reference}}
+}
+\value{
+vector of indeces so that \code{v[return_value]} is the same as \code{reference}
+}
 \description{
 Return vector that reorders v to equal reference.
 

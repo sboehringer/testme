@@ -2,12 +2,23 @@
 % Please edit documentation in R/Rdata.R
 \name{order_align_fromOrder}
 \alias{order_align_fromOrder}
-\title{Calculates \code{order_align}, assuming that the both arguments are already orders.
-sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})}
+\title{Calculates \code{order_align}, assuming that the both arguments are already orders.}
 \usage{
 order_align_fromOrder(reference, v)
 }
+\arguments{
+\item{reference}{order of a reference vector}
+
+\item{v}{order of vector that is to be brought into the order of \code{reference}}
+}
+\value{
+order that can be applied to the orignal vector (from which \code{v} was calculated) to make it identical to the vector underlying \code{reference}
+}
 \description{
-Calculates \code{order_align}, assuming that the both arguments are already orders.
-sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})
+Analogous to \code{order_align} under the assumption that provided arguments are orders.
+}
+\examples{
+\dontrun{
+  sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})
+}
 }
