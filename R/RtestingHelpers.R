@@ -218,6 +218,11 @@ InstallPackageTests = function(packageDir, testPathes, ...)
 
 #' Prepare test files for an R-package
 #'
+#' Takes pathes to test files and installs these tests in an R-package. Also creates required expectation files.
+#'
+#' @param packageDir path to R-package folder structure
+#' @param testPaths character vector with files containing tests of the package
+#' @createReference boolean to indicate whether a reference output is to be created for R when the package tests are run by standard R functions.
 #' @export installPackageTests
 installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
 	InstallPackageTests(packageDir, testPathes, createReference);
