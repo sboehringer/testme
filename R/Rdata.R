@@ -795,6 +795,7 @@ adic2ord = function(v, base = rep(2, 5))((v %*% cumprod1(base))[1, 1])
 #' @param descending restrict sequences to be descending; return empty list if from < to
 #' @param from starting value
 #' @param to ending value
+#' @param neg boolean to indicate wheter sequence should be negated before return
 #' @param ... parameters passed on to \code{seq}
 #' @return sequence from \code{from} to \code{to}
 #' @examples

@@ -16,6 +16,8 @@ Seq(from, to, ..., ascending = T, descending = !ascending, neg = F)
 \item{ascending}{restrict sequences to be ascending; return empty list if to < from}
 
 \item{descending}{restrict sequences to be descending; return empty list if from < to}
+
+\item{neg}{boolean to indicate wheter sequence should be negated before return}
 }
 \value{
 sequence from \code{from} to \code{to}
