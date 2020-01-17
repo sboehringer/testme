@@ -395,6 +395,7 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list()) {
 #' Searches the current function for test definitions, runs the tests and compares to expectations.
 #'
 #' @param mode list with modes of comparison. By default \code{compare} is used for the comparison. Elements with names of the test can overwrite the testing mode. Available modes are \code{c('compare', 'round8', 'equal', 'error', 'image')}.
+#' @param which integer to indicate which environment relative to current is to be used to look for tests.
 #' @return undefined return value
 #' @examples
 #' \dontrun{

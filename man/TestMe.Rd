@@ -8,6 +8,8 @@ TestMe(mode = list(), which = -2)
 }
 \arguments{
 \item{mode}{list with modes of comparison. By default \code{compare} is used for the comparison. Elements with names of the test can overwrite the testing mode. Available modes are \code{c('compare', 'round8', 'equal', 'error', 'image')}.}
+
+\item{which}{integer to indicate which environment relative to current is to be used to look for tests.}
 }
 \value{
 undefined return value
