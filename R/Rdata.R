@@ -2502,6 +2502,11 @@ cumsumR = function(l, offset = 1) {
 #
 
 #' @title wrapper for order to allow multivariate ordering
+#'
+#' @param v object (vector or data frame) for which order is to be calculated
+#' @param ... additional arguemnts passed on to \code{order}
+#' @return order of the object
+#' @seealso {order{}} which this function wraps around
 Order = function(v, ...) {
 	if (is.data.frame(v)) do.call(order, lapply(v, identity), ...) else
 	if (is.list(v)) do.call(order, v, ...) else
