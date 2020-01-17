@@ -91,6 +91,7 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 #' @param testName function name as charater vector with one element
 #' @param logger function that prints logging information
 #' @return Test result summary is returned as a list with components \code{result}, the boolean test state, \code{NsubTests}, the number of tests performed in the function
+# @seealso {runTestFunction()} for passing a character vector with many elements
 runTestFunctionSingle = function(testName, logger = LogAt1) {
 	assign('name', testName, testmeEnv);	# global variable holding the test name
 	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
@@ -110,8 +111,13 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 }
 #' Run tests defined in functions
 #'
-#' The provided test
+#' Tests are defined by a charachter vector containing function names. Each function is run using \code{runTestFunctionSingle}.
+#'
+#' @param testName charater vector with function names
+#' @param logger function that prints logging information
+#' @return Test result summary is returned as a list of lists with components \code{result}, the boolean test state, \code{NsubTests}, the number of tests performed in the function
 #' @export runTestFunction
+# @seealso {runTestFunctionSingle()} which this function is a vectorized version of
 runTestFunction = Vectorize(runTestFunctionSingle, 'testName');
 
 #' Run all tests defined in an R-script

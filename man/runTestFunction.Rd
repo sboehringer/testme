@@ -6,6 +6,14 @@
 \usage{
 runTestFunction(testName, logger = LogAt1)
 }
+\arguments{
+\item{testName}{charater vector with function names}
+
+\item{logger}{function that prints logging information}
+}
+\value{
+Test result summary is returned as a list of lists with components \code{result}, the boolean test state, \code{NsubTests}, the number of tests performed in the function
+}
 \description{
-The provided test
+Tests are defined by a charachter vector containing function names. Each function is run using \code{runTestFunctionSingle}.
 }
