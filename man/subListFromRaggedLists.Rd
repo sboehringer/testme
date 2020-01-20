@@ -8,6 +8,10 @@ subListFromRaggedLists(ls, from = 1, to = sum(sapply(ls, length)))
 }
 \arguments{
 \item{ls}{nested list structure (currently only two levels supported)}
+
+\item{from}{absolute index where to start extraction}
+
+\item{to}{absolute index where to stop extraction}
 }
 \value{
 Return list of list, where each basic list contains key \code{segment}

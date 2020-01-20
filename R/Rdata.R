@@ -927,15 +927,23 @@ cumpartition = function(N, p) {
 #' Extract parts of a nested structure based on the range from..to
 #'
 #'
-#' @param Ns Vector of integers that specify the size of the substructure
-#' @return Return list of list, where each basic list contains key \code{segment}
+#' @param Ns Vector of integers that specify the size of the substructures
+#' @param from absolute index where to start extraction
+#' @param to absolute index where to stop extraction
+#' @return Return list of lists, where each basic list contains key \code{segment}
 #'  (which of the elements of Ns) and key \code{range}, a list with elements \code{from} and \code{to},
 #'  specifying which elements to use from
 #'  that segment.
-subListFromRaggedIdcs = function(Ns, from = 1, to = sum(segments)) {
+#' @examples
+#' \dontrun{
+#'    # TestMe: T1
+#'    subListFromRaggedIdcs(c(2, 4, 10, 15), 1, 20)
+#' }
+subListFromRaggedIdcs = function(Ns, from = 1, to) {
 	NsCS = cumsum(Ns);
 	NsCSs = c(0, pop(NsCS));	# shifted cumsum
 	segments = which(from <= NsCS & to > NsCSs);
+	if (missing(to)) to = sum(segments);
 	r = lapply(segments, function(segment){
 		N = Ns[segment];	# list-call
 		from_ = 1;
@@ -951,6 +959,8 @@ subListFromRaggedIdcs = function(Ns, from = 1, to = sum(segments)) {
 #' Extract parts of nested lists based on the range from..to
 #'
 #'
+#' @param from absolute index where to start extraction
+#' @param to absolute index where to stop extraction
 #' @param ls nested list structure (currently only two levels supported)
 #' @return Return list of list, where each basic list contains key \code{segment}
 #'  (which of the elements of Ns) and key \code{range}, a list with elements \code{from} and \code{to},

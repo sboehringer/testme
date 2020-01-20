@@ -4,17 +4,27 @@
 \alias{subListFromRaggedIdcs}
 \title{Extract parts of a nested structure based on the range from..to}
 \usage{
-subListFromRaggedIdcs(Ns, from = 1, to = sum(segments))
+subListFromRaggedIdcs(Ns, from = 1, to)
 }
 \arguments{
-\item{Ns}{Vector of integers that specify the size of the substructure}
+\item{Ns}{Vector of integers that specify the size of the substructures}
+
+\item{from}{absolute index where to start extraction}
+
+\item{to}{absolute index where to stop extraction}
 }
 \value{
-Return list of list, where each basic list contains key \code{segment}
+Return list of lists, where each basic list contains key \code{segment}
  (which of the elements of Ns) and key \code{range}, a list with elements \code{from} and \code{to},
  specifying which elements to use from
  that segment.
 }
 \description{
 Extract parts of a nested structure based on the range from..to
+}
+\examples{
+\dontrun{
+   # TestMe: T1
+   subListFromRaggedIdcs(c(2, 4, 10, 15), 1, 20)
+}
 }
