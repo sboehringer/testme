@@ -1,3 +1,4 @@
+0.8-1	Bug fix R CMD build.
 0.8-0	Clean CRAN check. Beta version.
 0.7-1	Docu updates.
 0.7-0	All core functions documented
