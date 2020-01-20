@@ -2298,7 +2298,7 @@ DfApplyValueMap = function(r, valueMap, Df_doTrimValues = FALSE,
 # as of 19.12.2013 <!>: as.numeric -> as_numeric
 # as of 22.5.2014 <!>: t -> t_
 # as of 13.11.2014 <!>: sapply -> simplify_
-# #' Create data frames with more options than \code{data.frame}
+# Create data frames with more options than \code{data.frame}
 Df_ = function(df0, headerMap = NULL, names = NULL, min_ = NULL,
 	as_numeric = NULL, as_character = NULL, as_factor = NULL, as_integer = NULL, as_logical = NULL,
 	row.names = NA, valueMap = NULL, Df_as_is = TRUE, simplify_ = FALSE,
