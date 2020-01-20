@@ -18,11 +18,12 @@ iterateModels_raw(
 }
 \arguments{
 \item{callMode}{'inline', 'list', 'inlist'}
-
-\item{selectIdcs}{restrict models to the given indeces}
 }
 \description{
 This function takes a list of parameters for which several values are to be evaluated. These values can be vectors of numbers or lists that contain blocks of parameters. All combinations are formed and passed to a user supplied function \code{f}. This functions takes an index of the combination together with parameter values. Argument \code{callWithList} controls whether there is exactly one argument per parameter position or wether one more step of unlisting takes place. In case that a block of parameters is supplied, all values of the block are passed as individual arguments to \code{f} in case \code{callWithList == F}.
+}
+\details{
+#@param selectIdcs restrict models to the given indeces
 }
 \examples{
 \dontrun{
