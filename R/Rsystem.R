@@ -610,6 +610,10 @@ SourceLocal = function(file, ...,
 #'
 #' Search for pathes.
 #'
+#' @param path path (segment) to be located in standard locations
+#' @param prefixes prefixes to be prepended to path to check existance
+#' @param normalize boolean to inidcate whether a normalized path should be returned (absolute)
+#' @param home boolean to indicate whether starting prefix '~' should be interpolated to the home folder
 #' @param as.dirs assume that prefixes are pathes, i.e. a slash will be put between path and prefix
 #' @param force enforces that path and prefix are always joined, otherwise if path is absolute no prefixing is performed
 file.locate = function(path, prefixes = NULL, normalize = T, as.dirs = T, force = F, home = T) {

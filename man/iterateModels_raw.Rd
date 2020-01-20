@@ -23,6 +23,8 @@ iterateModels_raw(
 
 \item{f_iterate}{function to be iterated across models}
 
+\item{...}{extra arguments to be passed to \code{f_iterate}}
+
 \item{callWithList}{boolean to indicate whether model combination is to be supplied as a list.
 Otherwise model specification is inlined as arguments (see details)}
 

@@ -7,16 +7,24 @@
 Sprintfl(.fmt, values, sprintf_cartesian = FALSE, envir = parent.frame())
 }
 \arguments{
-\item{s}{template string}
+\item{.fmt}{formatting string into which values are interpolated (see details)}
 
-\item{d}{values to substitute into \code{s}}
+\item{values}{list or vector of values to be used for interpolation}
 
-\item{template}{template for substitution pattern. Within this pattern \code{__DICT_KEY__} is
-substituted for a key in \code{d}. This string \code{k} is substituted in \code{s} with \code{d[[k]]}.}
+\item{sprintf_cartesian}{boolean to indicate whether cartesian product of values should be used.
+Otherwise standard recyling rules apply.}
+
+\item{envir}{environment in which values are to be evaluated}
 }
 \description{
 The function behaves similar to sprintf, except that character sequences to be substituted are
 indicated by name. To be implemented: *-specifications
+}
+\details{
+#@param s template string
+#@param d values to substitute into \code{s}
+#@param template template for substitution pattern. Within this pattern \code{__DICT_KEY__} is
+# substituted for a key in \code{d}. This string \code{k} is substituted in \code{s} with \code{d[[k]]}.
 }
 \examples{
 \dontrun{

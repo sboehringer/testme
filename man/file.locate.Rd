@@ -14,9 +14,17 @@ file.locate(
 )
 }
 \arguments{
+\item{path}{path (segment) to be located in standard locations}
+
+\item{prefixes}{prefixes to be prepended to path to check existance}
+
+\item{normalize}{boolean to inidcate whether a normalized path should be returned (absolute)}
+
 \item{as.dirs}{assume that prefixes are pathes, i.e. a slash will be put between path and prefix}
 
 \item{force}{enforces that path and prefix are always joined, otherwise if path is absolute no prefixing is performed}
+
+\item{home}{boolean to indicate whether starting prefix '~' should be interpolated to the home folder}
 }
 \description{
 Search for pathes.
