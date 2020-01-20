@@ -3284,6 +3284,7 @@ reshape.wide = function(d, ids, vars, blockVars = F, reverseNames = F, sort.by.i
 #' @param factorColumn name of the column to be created for the factor
 #' @param valueColumn name of the new column of values that were in wide format
 # factors: provide factor combinations explicitly for vars (otherwise split by '.', <i>)
+#' @param rowNamesAs name of the column that should contain row names
 #' @examples
 #' \dontrun{
 #'	#reshape variables 2:9 (forming two groups: case/ctr), value of which is named 'group'
@@ -3296,7 +3297,7 @@ reshape.wide = function(d, ids, vars, blockVars = F, reverseNames = F, sort.by.i
 #'		factorColumn = 'time', valueColumn = valueNames, factors = as.factor(1:3));
 #'	}
 reshape.long = function(d, vars = NULL, factorColumn = 'factor', valueColumn = 'value',
-	factors = as.factor(vars), useDisk = F, rowNamesAs = NULL) {
+	factors = as.factor(vars), rowNamesAs = NULL) {
 	if (is.null(vars)) vars = names(d);
 	# make rownames an extra column
 	if (!is.null(rowNamesAs)) {

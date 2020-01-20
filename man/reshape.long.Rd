@@ -10,7 +10,6 @@ reshape.long(
   factorColumn = "factor",
   valueColumn = "value",
   factors = as.factor(vars),
-  useDisk = F,
   rowNamesAs = NULL
 )
 }
@@ -25,6 +24,8 @@ reshape.long(
 
 \item{factors}{\code{vars} can be grouped. For each level of \code{factor} a new row is created. Implies
 that \code{length(vars)} is a multiple of \code{length(levels(factor))}}
+
+\item{rowNamesAs}{name of the column that should contain row names}
 }
 \description{
 Long format duplicates certain columns and adds rows for which one new column hold values coming
