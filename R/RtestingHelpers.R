@@ -38,6 +38,7 @@ packageDefinition = list(
 #' @import methods
 #' @importFrom "stats" "as.formula" "median" "model.matrix" "na.omit" "optimize" "runif" "sd" "setNames"
 #' @importFrom "utils" "capture.output" "read.table" "recover" "write.table"
+#' @importFrom "devtools" "install_local"
 globalVariables(c("LogAt1", 'valueMapperStandard', 'plot_save'))
 
 #__PACKAGE_DOC__
