@@ -1077,18 +1077,6 @@ list.combine = function(l, byRow = T, names = NULL, doMerge = F) {
 # inverse of unlist.n(, 1)
 list.embed = function(l, key = 'key')lapply(l, function(e)SetNames(list(e), key));
 
-compare_print = function(r, e) {
-	#require('compare');
-	cmp = compare(model = r, comparison = e);
-	if (!cmp$result) {
-		print("Expectation not met (result != expectation):");
-		print(r);
-		print(e);
-	}
-	cmp$result
-}
-
-
 # use.names preserves names and concatenates with lower level names
 # reset sets names to top level names
 unlist.n = function(l, n = 1, use.names = T, reset = F) {

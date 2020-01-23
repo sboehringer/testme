@@ -20,10 +20,12 @@ Calls deparse on argument and pastes together the return value of \code{deparse}
 in a single character string.
 }
 \examples{
+\dontrun{
 Deparse(3)
 Deparse(1 + 2)
 Deparse(matrix(1:10, ncol = 5))
 eval(Deparse(matrix(1:10, ncol = 5)))
+}
 }
 \seealso{
 [deparse()] which this function wraps
