@@ -1,0 +1,90 @@
+---
+title: Package documentation
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Package documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: rmarkdown::html_vignette
+author: Stefan Böhringer <r-packages@s-boehringer.org>
+---
+
+# Purpose of the package
+
+This package is meant to rapidly develop unit (or integration) tests for your personal library. The author maintains a set of R-scirpts that he re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
+
+Other uses of software testing include coding to specification, where a unit test is written first and an actual function is written later to pass the pre-specified test. While `testme` can be used for this purpose, other packages might be more suitable (e.g. `testthat`).
+
+## Walk through example
+
+Let us assume, we devlop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and use it as a matrix-like structure always, we have to deal with this special case. Let us first find out how to detect the special case.
+
+```{r}
+	# our master structure
+	m0 = matrix(1:9, ncol = 3);
+
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	print(dim(sel1));
+	print(dim(sel2));
+```
+
+Aha! `dim` returns `NULL` in case of a vector and something else otherwise. We can therefore use the `dim`-test to detect the special case.
+
+```{r}
+	m = sel1;
+	print(if (is.null(dim(m))) "is vector" else "is matrix");
+	m = sel2;
+	print(if (is.null(dim(m))) "is vector" else "is matrix");
+```
+
+We can create a column vector with the transpose function like so:
+
+```{r}
+	print(t(t(sel2)));
+```
+
+Now let us wrap these expresssion into a function (taking only bits and pieces from above):
+
+```{r}
+	to.col = function(m) { if (is.null(dim(m))) t(t(m)) else m }
+```
+
+Let us check our function again:
+
+```{r}
+	print(to.col(sel1));
+	print(to.col(sel2));
+```
+
+But now, by simply checking your new function, you have created unit tests! We wrap the last part into a testing function:
+
+```{r}
+to.col_test = function() {
+	# prepare test data
+	m0 = matrix(1:9, ncol = 3);
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	T1 = to.col(sel1);
+	T2 = to.col(sel2);
+
+	TestMe();
+}
+```
+
+That's it. Running the tests will preserve the definition (meaning) of you function. If your tests fail, you know that code using the previous definitions might brake.
+
+# Workflows
+
+## Testing locally
+
+## Testing packages
+
+# Advanced topics
+
+## Using Expectations
+
+## Comparison modes
+

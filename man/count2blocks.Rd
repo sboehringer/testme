@@ -21,3 +21,4 @@ Produce index pairs for vector of counts
 count2blocks(c(1, 5, 3))
 }
 }
+\keyword{internal}

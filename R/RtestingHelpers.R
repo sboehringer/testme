@@ -22,7 +22,8 @@ packageDefinition = list(
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
-		news = "0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release"
+		news = "0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
+		vignettes = 'vignettes/vignette-testme.Rmd'
 	),
 	git = list(
 		readme = '## Installation\n```{r}\nlibrary(devtools);\ninstall_github("sboehringer/testme")\n```\n',
@@ -41,6 +42,7 @@ packageDefinition = list(
 globalVariables(c("LogAt1", 'valueMapperStandard', 'plot_save', 'install_local'))
 
 #__PACKAGE_DOC__
+#
 # The idea of the \code{testme} package is to call examples of a function to test. Return values are
 # assigned to variables with a defined pattern, by default \code{T1, T2, ...}. These expressions are 
 # grouped into a function which calls \code{TestMe} as a last step. This is enough to define the
@@ -560,6 +562,13 @@ runTestsInternal = function(Ndash = 1e2, dir = 'Rtests',
 	if (notE(owd)) setwd(owd)
 	return(allGood);
 }
+
+runTests = function(
+	testsFolder = options('testme')$defaultTestFolder,
+	expectationsFolder = options('testme')$defaultTestFolder,
+	isolateSession = TRUE) {
+}
+
 
 getComparePairs = function(prefixes = c('rTest', 'rExp'), envir) {
 	#print(names(envir));
