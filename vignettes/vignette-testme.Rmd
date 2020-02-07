@@ -17,7 +17,7 @@ Other uses of software testing include coding to specification, where a unit tes
 
 ## Walk through example
 
-Let us assume, we devlop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and use it as a matrix-like structure always, we have to deal with this special case. Let us first find out how to detect the special case.
+Let us assume, we devlop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to a vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and be able to to use it as a matrix-like structure always, we have to detect and deal with this special case. Let us first find out how to detect the special case.
 
 ```{r}
 	# our master structure
@@ -73,8 +73,11 @@ to.col_test = function() {
 	TestMe();
 }
 ```
+Instead of printing our checks, we assign the results to a variable `Td` where `d` is a digit. Function `TestMe` detects the use of such variables and uses them for the definition of test cases.
 
-That's it. Running the tests will preserve the definition (meaning) of you function. If your tests fail, you know that code using the previous definitions might brake.
+That's it. Running the tests will preserve the definition (meaning) of you function. If your tests fail, you know that code using the previous definitions might break.
+
+In the next paragraphs you learn about the options of how to run your tests.
 
 # Workflows
 

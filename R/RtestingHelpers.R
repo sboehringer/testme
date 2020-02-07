@@ -566,7 +566,13 @@ runTestsInternal = function(Ndash = 1e2, dir = 'Rtests',
 runTests = function(
 	testsFolder = options('testme')$defaultTestFolder,
 	expectationsFolder = options('testme')$defaultTestFolder,
+	sourceFiles = c(), packages = c(),
 	isolateSession = TRUE) {
+# require('methods');
+# require('compare');
+# source('~/src/Rprivate/RgenericFresh.R', chdir = T);
+# #system('~/src/Rprivate/exportR.sh'); source('RgenericAllRaw.R');
+# source('Rgenetics.R'); source('RtestingHelpers.R');
 }
 
 
