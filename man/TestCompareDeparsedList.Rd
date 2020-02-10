@@ -7,6 +7,8 @@
 TestCompareDeparsedList(pair, modes = as.list(rep("compare", length(result))))
 }
 \arguments{
+\item{pair}{list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared}
+
 \item{modes}{comparison modes}
 }
 \description{

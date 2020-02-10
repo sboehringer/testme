@@ -631,7 +631,7 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 #'
 #' This function takes a pair of reults/expectation and performs a comparison.
 #'
-#' @paaram pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
+#' @param pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
 #' @param modes comparison modes
 #' @expoert TestCompareDeparsedList
 TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(result)))) {
