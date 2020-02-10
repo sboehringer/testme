@@ -2,7 +2,7 @@
 % Please edit documentation in R/RtestingHelpers.R
 \name{TestCompareDeparsedList}
 \alias{TestCompareDeparsedList}
-\title{Legacy internal test function}
+\title{Legacy internal test function (TestCompareDeparsedList)}
 \usage{
 TestCompareDeparsedList(pair, modes = as.list(rep("compare", length(result))))
 }

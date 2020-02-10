@@ -625,8 +625,15 @@ getComparePairs = function(prefixes = c('rTest', 'rExp'), envir) {
 	r
 }
 
-# call as argument to TestCompareDeparsedList(getTests())
-#	otherwise which argument has to be modified; e.g.: separate line before: which = -1
+#' Legacy internal test function (getTests)
+#'
+#' This function takes a pair of reults/expectation and performs a comparison.
+#'
+#' @param prefixes variable name prefixes for detecting test computations and expectations
+#' @param which which `sys.frame` to search
+#' @return a list with elements `tests` and `expectation` with character strings of the corresponding test/expectation pairs
+#' @details Call as argument to TestCompareDeparsedList(getTests()), otherwise which argument has to be modified; e.g.: separate line before: which = -1
+#' @export TestCompareDeparsedList
 getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2) {
 	env = sys.frame(which);
 	pairs = lapply(prefixes, getComparePairs, envir = env);
@@ -635,7 +642,7 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 	r
 }
 
-#' Legacy internal test function
+#' Legacy internal test function (TestCompareDeparsedList)
 #'
 #' This function takes a pair of reults/expectation and performs a comparison.
 #'
