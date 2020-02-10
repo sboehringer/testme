@@ -509,6 +509,14 @@ TestCompare = function(result, expectation, modes = as.list(rep('compare', lengt
 	list(result = all(sapply(comparisons, isTRUE)), NsubTests = length(result))
 }
 
+#' Legacy internal test function
+#'
+#' This function takes reult/expectation arguments and performs a comparison.
+#'
+#' @param result list of results of the current test function
+#' @param expectation list of Deparsed, expected results
+#' @param modes comparison modes
+#' @export TestCompareDeparsed
 TestCompareDeparsed = function(result, expectation, modes = as.list(rep('compare', length(result)))) {
 	TestCompare(result, lapply(expectation, function(e)try(eval(parse(text = e)), silent = T)), modes = modes)
 }
