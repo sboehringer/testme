@@ -2,8 +2,6 @@
 
 export(Deparse)
 export(LogAt1)
-export(TestCompareDeparsed)
-export(TestCompareDeparsedList)
 export(TestMe)
 export(installPackageTests)
 export(runTestFunction)
