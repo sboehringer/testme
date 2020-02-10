@@ -2,7 +2,7 @@
 % Please edit documentation in R/RtestingHelpers.R
 \name{TestCompareDeparsed}
 \alias{TestCompareDeparsed}
-\title{Legacy internal test function}
+\title{Legacy internal test function (TestCompareDeparsed)}
 \usage{
 TestCompareDeparsed(
   result,

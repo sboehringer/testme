@@ -509,13 +509,14 @@ TestCompare = function(result, expectation, modes = as.list(rep('compare', lengt
 	list(result = all(sapply(comparisons, isTRUE)), NsubTests = length(result))
 }
 
-#' Legacy internal test function
+#' Legacy internal test function (TestCompareDeparsed)
 #'
 #' This function takes reult/expectation arguments and performs a comparison.
 #'
 #' @param result list of results of the current test function
 #' @param expectation list of Deparsed, expected results
 #' @param modes comparison modes
+#' @export TestCompareDeparsed
 TestCompareDeparsed = function(result, expectation, modes = as.list(rep('compare', length(result)))) {
 	TestCompare(result, lapply(expectation, function(e)try(eval(parse(text = e)), silent = T)), modes = modes)
 }
@@ -632,6 +633,7 @@ getComparePairs = function(prefixes = c('rTest', 'rExp'), envir) {
 #' @param which which `sys.frame` to search
 #' @return a list with elements `tests` and `expectation` with character strings of the corresponding test/expectation pairs
 #' @details Call as argument to TestCompareDeparsedList(getTests()), otherwise which argument has to be modified; e.g.: separate line before: which = -1
+#' @export getTests
 getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2) {
 	env = sys.frame(which);
 	pairs = lapply(prefixes, getComparePairs, envir = env);
@@ -646,6 +648,7 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 #'
 #' @param pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
 #' @param modes comparison modes
+#' @export TestCompareDeparsedList
 TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(result)))) {
 	result = pair$test;
 	expectation = pair$expectation;
