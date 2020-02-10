@@ -16,6 +16,12 @@ runTestsInternal(
 \item{testsFolder}{Folder to be tests. Default folder is taken from `options('testme')$testme$testsFolder`.}
 
 \item{expectationsFolder}{Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.}
+
+\item{useGit}{boolean to indicate whether vivified expectations should be committed using git}
+
+\item{Ndash}{integer to set length of visual separators}
+
+\item{logLevel}{integer to indicate verbosity of logging information}
 }
 \value{
 returns 0 on success, value greater 0 if tests failed

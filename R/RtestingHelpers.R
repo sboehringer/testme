@@ -545,6 +545,9 @@ runTestMe = function(tests, logLevel = 4) {
 #'
 #' @param testsFolder Folder to be tests. Default folder is taken from `options('testme')$testme$testsFolder`.
 #' @param expectationsFolder Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.
+#' @param Ndash integer to set length of visual separators
+#' @param useGit boolean to indicate whether vivified expectations should be committed using git
+#' @param logLevel integer to indicate verbosity of logging information
 #' @return returns 0 on success, value greater 0 if tests failed
 #' @export runTestsInternal
 runTestsInternal = function(testsFolder = 'Rtests', expectationsFolder = 'RtestsExpectations',
@@ -581,6 +584,7 @@ runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0,
 #' @param testsFolder Folder to be tests. Default folder is taken from `options('testme')$testme$testsFolder`.
 #' @param expectationsFolder Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.
 #' @param sourceFiles pathes to files that should be sourced prior to running the tests. These would typically hold initialization code.
+#' @param isolateSession boolean to indicate whether a new R session should be started (using `Rscript`) or whether to run tests in the current R session
 #' @return returns 0 on success, value greater 0 if tests failed
 #' @examples
 #' \dontrun{

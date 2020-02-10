@@ -18,6 +18,8 @@ runTests(
 \item{expectationsFolder}{Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.}
 
 \item{sourceFiles}{pathes to files that should be sourced prior to running the tests. These would typically hold initialization code.}
+
+\item{isolateSession}{boolean to indicate whether a new R session should be started (using `Rscript`) or whether to run tests in the current R session}
 }
 \value{
 returns 0 on success, value greater 0 if tests failed
