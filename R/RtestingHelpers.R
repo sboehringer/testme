@@ -539,40 +539,67 @@ runTestMe = function(tests, logLevel = 4) {
 	return(allGood);
 }
 
-runTestsInternal = function(Ndash = 1e2, dir = 'Rtests',
-	useGit = TRUE, expectationsFolder = 'RtestsExpectations', logLevel = 4) {
+#' Initialze test environment and run tests
+#'
+#' Internal function for initialzing test environment and running tests stored in a folder
+#'
+#' @param testsFolder Folder to be tests. Default folder is taken from `options('testme')$testme$testsFolder`.
+#' @param expectationsFolder Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.
+#' @return returns 0 on success, value greater 0 if tests failed
+#' @export runTestsInternal
+runTestsInternal = function(testsFolder = 'Rtests', expectationsFolder = 'RtestsExpectations',
+	useGit = TRUE, Ndash = 1e2, logLevel = 4) {
 
 	# <p> create clean environment
 	testmeEnvInit(expectationsFolder);
 
 	# <p> change working directory
-	owd = getwd();
+	prev = setwd(testsFolder);
+	on.exit(setwd(prev));
 
 	Log.setLevel(logLevel);
 	# <p> locate tests, source tests
-	nms = findTestsDir(dir);
+	nms = findTestsDir(testsFolder);
 	tests = nms$tests;
 	SourceLocal(nms$files);
-	setwd(dir);
+	setwd(testsFolder);
 
 	# <p> git
 	if (useGit) gitCommitVivifications();
 	# <p> start testing
 	allGood = runTestMe(tests, logLevel);
-	if (notE(owd)) setwd(owd)
 	return(allGood);
 }
+	
+runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = runTestsInternal(%{expectationsFolder}q);\n";
+runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0, 100));\n"), "\n");
 
+#' Run tests in isolation
+#'
+#' Runs tests in a folder in a separate R session.
+#'
+#' @param testsFolder Folder to be tests. Default folder is taken from `options('testme')$testme$testsFolder`.
+#' @param expectationsFolder Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.
+#' @param sourceFiles pathes to files that should be sourced prior to running the tests. These would typically hold initialization code.
+#' @return returns 0 on success, value greater 0 if tests failed
+#' @examples
+#' \dontrun{
+#'   runTests()
+#' }
+#' }
+#' @export runTests
 runTests = function(
-	testsFolder = options('testme')$defaultTestFolder,
-	expectationsFolder = options('testme')$defaultTestFolder,
-	sourceFiles = c(), packages = c(),
+	testsFolder = firstDef(options('testme')$testme$testsFolder, '.'),
+	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './RtestsExpectations'),
+	sourceFiles = options('testme')$testme$sourceFiles,
 	isolateSession = TRUE) {
-# require('methods');
-# require('compare');
-# source('~/src/Rprivate/RgenericFresh.R', chdir = T);
-# #system('~/src/Rprivate/exportR.sh'); source('RgenericAllRaw.R');
-# source('Rgenetics.R'); source('RtestingHelpers.R');
+
+	src = join(Sprintf('source(%{sourceFiles}q, chdir = TRUE);'), "\n");
+	tmpsrc = tempfile();
+	writeFile(tmpsrc, Sprintf(ifelse(isolateSession, runTestsRTemplateI, runTestsRTemplate)));
+	if (isolateSession)
+		SystemS('Rscript %{tmpsrc}q') else
+		SourceLocal(tmpsrc);
 }
 
 
