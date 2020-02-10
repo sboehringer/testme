@@ -574,7 +574,7 @@ runTestsInternal = function(testsFolder = 'Rtests', expectationsFolder = 'Rtests
 	return(allGood);
 }
 	
-runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = runTestsInternal(%{expectationsFolder}q);\n";
+runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = testme:::runTestsInternal(%{testsFolder}t, %{expectationsFolder}t);\n";
 runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0, 100));\n"), "\n");
 
 #' Run tests in isolation
@@ -598,7 +598,7 @@ runTests = function(
 	sourceFiles = options('testme')$testme$sourceFiles,
 	isolateSession = TRUE) {
 
-	src = join(Sprintf('source(%{sourceFiles}q, chdir = TRUE);'), "\n");
+	src = join(Sprintf('source(%{sourceFiles}t, chdir = TRUE);'), "\n");
 	tmpsrc = tempfile();
 	writeFile(tmpsrc, Sprintf(ifelse(isolateSession, runTestsRTemplateI, runTestsRTemplate)));
 	if (isolateSession)
@@ -627,7 +627,13 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 	r
 }
 
-# pair: expect result of getTests
+#' Legacy internal test function
+#'
+#' This function takes a pair of reults/expectation and performs a comparison.
+#'
+#' @paaram pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
+#' @param modes comparison modes
+#' @expoert TestCompareDeparsedList
 TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(result)))) {
 	result = pair$test;
 	expectation = pair$expectation;

@@ -644,7 +644,7 @@ Sprintfl = function(.fmt, values, sprintf_cartesian = FALSE, envir = parent.fram
 		(?:[^%]+|(?:%%)+)*
 		\\K[%]
 			(?:[{]([^{}\\*\'"]*)[}])?
-		((?:[-]?[*\\d]*[.]?[*\\d]*)?(?:[sdfegGDQqu]|))(?=[^sdfegGDQqu]|$)
+		((?:[-]?[*\\d]*[.]?[*\\d]*)?(?:[stdfegGDQqu]|))(?=[^stdfegGDQqu]|$)
 	)';
 
 # 	re = '(?xs)(?:
@@ -661,7 +661,7 @@ Sprintfl = function(.fmt, values, sprintf_cartesian = FALSE, envir = parent.fram
 	typesRaw = sapply(r$match, function(m)ifelse(m[2] == '', 's', m[2]));
 	types = ifelse(typesRaw %in% c('D', 'Q'), 's', typesRaw);
 	fmts = sapply(r$match, function(m)sprintf('%%%s',
-		ifelse(m[2] %in% c('', 'D', 'Q', 'q', 'u'), 's', m[2])));
+		ifelse(m[2] %in% c('', 'D', 'Q', 'q', 't', 'u'), 's', m[2])));
 	fmt1 = Substr(.fmt, r$positions, attr(r$positions, 'match.length'), fmts);
 
 	keys = sapply(r$match, function(i)i[1]);
@@ -699,6 +699,8 @@ Sprintfl = function(.fmt, values, sprintf_cartesian = FALSE, envir = parent.fram
 	#colsq = keys[typesRaw == 'q'];
 	colsq = which(typesRaw == 'q');;
 	dictDf[, colsq] = apply(dictDf[, colsq, drop = F], 2, qss);
+	colst = which(typesRaw == 't');;
+	dictDf[, colst] = apply(dictDf[, colst, drop = F], 2, qss, force = T);
 
 	colsu = which(typesRaw == 'u');;
 	dictDf[, colsu] = apply(dictDf[, colsu, drop = F], 2, uc.first);
