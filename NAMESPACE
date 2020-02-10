@@ -2,6 +2,7 @@
 
 export(Deparse)
 export(LogAt1)
+export(TestCompareDeparsedList)
 export(TestMe)
 export(installPackageTests)
 export(runTestFunction)

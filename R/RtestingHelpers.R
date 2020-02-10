@@ -633,7 +633,7 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 #'
 #' @param pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
 #' @param modes comparison modes
-#' @expoert TestCompareDeparsedList
+#' @export TestCompareDeparsedList
 TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(result)))) {
 	result = pair$test;
 	expectation = pair$expectation;
