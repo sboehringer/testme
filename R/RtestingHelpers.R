@@ -22,7 +22,7 @@ packageDefinition = list(
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
-		news = "0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
+		news = "0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
 		vignettes = 'vignettes/vignette-testme.Rmd'
 	),
 	git = list(
@@ -516,7 +516,6 @@ TestCompare = function(result, expectation, modes = as.list(rep('compare', lengt
 #' @param result list of results of the current test function
 #' @param expectation list of Deparsed, expected results
 #' @param modes comparison modes
-#' @export TestCompareDeparsed
 TestCompareDeparsed = function(result, expectation, modes = as.list(rep('compare', length(result)))) {
 	TestCompare(result, lapply(expectation, function(e)try(eval(parse(text = e)), silent = T)), modes = modes)
 }
@@ -558,27 +557,24 @@ runTestMe = function(tests, logLevel = 4) {
 #' @param logLevel integer to indicate verbosity of logging information
 #' @return returns 0 on success, value greater 0 if tests failed
 #' @export runTestsInternal
-runTestsInternal = function(testsFolder = 'Rtests', expectationsFolder = 'RtestsExpectations',
+runTestsInternal = function(
+	testsFolder = firstDef(options('testme')$testme$testsFolder, './Rtests'),
+	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './Rtests/RtestsExpectations'),
 	useGit = TRUE, Ndash = 1e2, logLevel = 4) {
 
 	# <p> create clean environment
 	testmeEnvInit(expectationsFolder);
-
-	# <p> change working directory
-	prev = setwd(testsFolder);
-	on.exit(setwd(prev));
 
 	Log.setLevel(logLevel);
 	# <p> locate tests, source tests
 	nms = findTestsDir(testsFolder);
 	tests = nms$tests;
 	SourceLocal(nms$files);
-	setwd(testsFolder);
 
 	# <p> git
 	if (useGit) gitCommitVivifications();
 	# <p> start testing
-	allGood = runTestMe(tests, logLevel);
+	allGood = exprInDir(runTestMe(tests, logLevel), testsFolder);
 	return(allGood);
 }
 	
@@ -601,8 +597,8 @@ runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0,
 #' }
 #' @export runTests
 runTests = function(
-	testsFolder = firstDef(options('testme')$testme$testsFolder, '.'),
-	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './RtestsExpectations'),
+	testsFolder = firstDef(options('testme')$testme$testsFolder, './Rtests'),
+	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './Rtests/RtestsExpectations'),
 	sourceFiles = options('testme')$testme$sourceFiles,
 	isolateSession = TRUE) {
 
@@ -633,7 +629,6 @@ getComparePairs = function(prefixes = c('rTest', 'rExp'), envir) {
 #' @param which which `sys.frame` to search
 #' @return a list with elements `tests` and `expectation` with character strings of the corresponding test/expectation pairs
 #' @details Call as argument to TestCompareDeparsedList(getTests()), otherwise which argument has to be modified; e.g.: separate line before: which = -1
-#' @export getTests
 getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2) {
 	env = sys.frame(which);
 	pairs = lapply(prefixes, getComparePairs, envir = env);
@@ -648,7 +643,6 @@ getTests = function(prefixes = list(c('rTest', 'rExp'), c('T', 'E')), which = -2
 #'
 #' @param pair list with elements `test` (current computation) and `expectation` (deparsed, expected result) to be compared
 #' @param modes comparison modes
-#' @export TestCompareDeparsedList
 TestCompareDeparsedList = function(pair, modes = as.list(rep('compare', length(result)))) {
 	result = pair$test;
 	expectation = pair$expectation;

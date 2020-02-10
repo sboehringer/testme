@@ -5,8 +5,9 @@
 \title{Initialze test environment and run tests}
 \usage{
 runTestsInternal(
-  testsFolder = "Rtests",
-  expectationsFolder = "RtestsExpectations",
+  testsFolder = firstDef(options("testme")$testme$testsFolder, "./Rtests"),
+  expectationsFolder = firstDef(options("testme")$testme$expectationsFolder,
+    "./Rtests/RtestsExpectations"),
   useGit = TRUE,
   Ndash = 100,
   logLevel = 4

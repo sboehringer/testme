@@ -5,9 +5,9 @@
 \title{Run tests in isolation}
 \usage{
 runTests(
-  testsFolder = firstDef(options("testme")$testme$testsFolder, "."),
+  testsFolder = firstDef(options("testme")$testme$testsFolder, "./Rtests"),
   expectationsFolder = firstDef(options("testme")$testme$expectationsFolder,
-    "./RtestsExpectations"),
+    "./Rtests/RtestsExpectations"),
   sourceFiles = options("testme")$testme$sourceFiles,
   isolateSession = TRUE
 )
