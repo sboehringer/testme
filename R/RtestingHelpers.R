@@ -12,14 +12,14 @@ packageDefinition = list(
 	#instFiles = list(Rscripts = 'Dev/pkg-minimal.R'),
 	testing = list(
 		doInstall = TRUE,
-		tests = c('Rtests/RtestsTestme.R')
+		tests = c('RtestsPackages/testme/testme.R')
 	),
 	description = list(
 		title = 'Rapid development of software tests',
 		# version to be documented in news section
 		#version = '0.1-0',
 		author = 'Stefan B\uf6hringer <r-packages@s-boehringer.org>',
-		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` for a tutorial.',
+		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` or visit the project wiki (on github) for a tutorial.',
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
 		news = "0.9-2	Minor fix R-session non-isolation.\n0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
@@ -351,7 +351,7 @@ writeExpectationDeparse = function(path, value)writeFile(path, Deparse(value));
 
 vivifyExtensions = list(deparse = 'R', image = 'png');
 
-vivifyExpectation = function(test, pathExpect = 'RtestsExpectations', mode = 'deparse',
+vivifyExpectation = function(test, expectationsFolder = 'RtestsExpectations', mode = 'deparse',
 	sepChar = '+') with(test, {
 	# <p> given as inline expectation
 	if (length(expect) > 1) {
@@ -361,7 +361,7 @@ vivifyExpectation = function(test, pathExpect = 'RtestsExpectations', mode = 'de
 	if (!is.na(expect)) return(test);
 
 	# <p> vivfy from file
-	pathExpectation = Sprintf('%{pathExpect}s/%{nameFunction}s%{sepChar}s%{name}s.%{ext}s',
+	pathExpectation = Sprintf('%{expectationsFolder}s/%{nameFunction}s%{sepChar}s%{name}s.%{ext}s',
 		ext = vivifyExtensions[[mode]]);
 	a = list(path = pathExpectation);
 	if (file.exists(pathExpectation)) {
@@ -386,15 +386,17 @@ testFindExpectation = function(n, prefixDict = list(T = 'E', rTest = 'rExp'),
 	r = list(nameFunction = nameFunction, name = n,
 		value = get(n, env), expect = mget(nmE, env, ifnotfound = NA)[[1]]);
 	LogS(5, 'Test found: %{n}s');
-	return(vivifyExpectation(r, mode = mode));
+	return(vivifyExpectation(r, expectationsFolder = get('expectationsFolder', testmeEnv),  mode = mode));
 }
 
-testsFindExpectation = function(ns, ..., which = -2, mode = list()) {
+testsFindExpectation = function(ns, ..., which = -2, mode = list(), postfix = '_test') {
 	# case distinction for Rtesting.R vs. direct call
 	nmTestRaw = if (exists('testmeEnv'))
 		get('name', testmeEnv) else
 		deparse(sys.calls()[[sys.nframe() + which + 1]]);
-	nmTest = Regexpr('(?<name>.*)_test(?:\\(\\))?$', nmTestRaw, captures = T, global = F);
+	# <p> prettify name: remove postfix, if present
+	re = Sprintf('(?<name>.*)(?:%{postfix}s)?(?:\\(\\))?$');
+	nmTest = Regexpr(re, nmTestRaw, captures = T, global = F);
 
 	LogS(5, 'Test function: %{nmTestRaw}s [-> %{nmTest}s]');
 	#r = lapply(ns, testFindExpectation, ..., which = which - 2, nameFunction = nmTest);
@@ -426,8 +428,7 @@ TestMe = function(mode = list(), which = -2) {
 	#print(tests);
 	exps = testsFindExpectation(tests, which = which - 1, mode = mode);
 	#print(exps)
-	TestsCompare(exps, mode);
-	
+	TestsCompare(exps, mode);	
 }
 
 TestsCompareSingle = function(test, mode = 'compare') {
@@ -448,18 +449,18 @@ TestsCompare = function(tests, mode = list()) {
 #
 
 Round = function(o, digits = 8) {
-	if (class(o) %in% c('complex', 'numeric')) return(round(o, digits = digits));
+	if (class(o) %in% c('integer', 'complex', 'numeric')) return(round(o, digits = digits));
 	if (is.list(o))return(lapply(o, Round, digits = digits));
 	stop("Couldn't round");
 }
 
 compare_data.frame = function(a, b) {
-	r = nlapply(a, function(n)compare(a[[n]], b[[n]]));
+	r = nlapply(a, function(n)compare(a[[n]], b[[n]])$result);
 	all(unlist(r));
 }
 compare_Matrix = function(a, b) {
-	cv = compare(Avu(a), Avu(b));
-	cn = compare(dimnames(a), dimnames(b));
+	cv = compare(Avu(a), Avu(b))$result;
+	cn = compare(dimnames(a), dimnames(b))$result;
 	return(all(c(cv, cn)));
 }
 
@@ -563,7 +564,8 @@ runTestsInternal = function(
 	useGit = TRUE, Ndash = 1e2, logLevel = 4) {
 
 	# <p> create clean environment
-	testmeEnvInit(expectationsFolder);
+	# make expectationsFolder absolute due to later chdir
+	testmeEnvInit(splitPath(expectationsFolder)$absolute);
 
 	Log.setLevel(logLevel);
 	# <p> locate tests, source tests

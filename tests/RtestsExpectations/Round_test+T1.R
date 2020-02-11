@@ -1,0 +1,1 @@
+structure("Error in Round(NULL) : Couldn't round\n", class = "try-error", condition = structure(list(     message = "Couldn't round", call = Round(NULL)), class = c("simpleError",  "error", "condition")))
