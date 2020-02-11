@@ -30,20 +30,20 @@ integrative_test = function() {
 }
 
 Round_test = function() {
-	T1 = try(Round(NULL), silent = T);
-	T2 = Round(pi*1:4);
-	T3 = Round(pi*1:4, digits = 2);
+	T1 = try(testme:::Round(NULL), silent = T);
+	T2 = testme:::Round(pi*1:4);
+	T3 = testme:::Round(pi*1:4, digits = 2);
 	#T4 = Round(1:4);	# integer not yet supported
 
 	TestMe();
 }
 
 compare_test = function() {
-	T1 = compare(matrix(1), matrix(1));
-	T2 = compare(matrix(1), matrix(1:2));
-	T3 = compare(Df(a = 1), Df(a = 1));
-	T4 = compare(Df(a = 1), Df(b = 1));
-	T5 = capture.output(compare(NULL, NA));
+	T1 = compare::compare(matrix(1), matrix(1));
+	T2 = compare::compare(matrix(1), matrix(1:2));
+	T3 = compare::compare(Df(a = 1), Df(a = 1));
+	T4 = compare::compare(Df(a = 1), Df(b = 1));
+	T5 = compare::capture.output(compare(NULL, NA));
 
 	TestMe();
 }

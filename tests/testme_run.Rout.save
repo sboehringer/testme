@@ -1,21 +1,15 @@
 [1] "Test: compare_test [N = ?], legacy"
 [1] "********* test: compare_test failed"
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/findVariables_test+T1.R [vivified] [mode=deparse]
 [1] "Test: findVariables_test [N = 1]"
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/integrative_test+T3.R [vivified] [mode=deparse]
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/integrative_test+T1.R [vivified] [mode=deparse]
 [1] "Test: integrative_test [N = 3]"
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/Round_test+T3.R [vivified] [mode=deparse]
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/Round_test+T2.R [vivified] [mode=deparse]
-R Tue Feb 11 18:10:16 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/Round_test+T1.R [vivified] [mode=deparse]
 [1] "Test: Round_test [N = 3]"
 $compare_test
 $compare_test$result
-[1] "Error in if (x$equal) { : argument is of length zero\n"
+[1] "Error : 'capture.output' is not an exported object from 'namespace:compare'\n"
 attr(,"class")
 [1] "try-error"
 attr(,"condition")
-<simpleError in if (x$equal) {    cat("Equal\n")    return()}: argument is of length zero>
+<simpleError: 'capture.output' is not an exported object from 'namespace:compare'>
 
 $compare_test$NsubTests
 [1] 1
@@ -29,7 +23,7 @@ $findVariables_test$NsubTests
 [1] 1
 
 $findVariables_test$Nvivified
-[1] 1
+[1] 0
 
 
 $integrative_test
@@ -40,7 +34,7 @@ $integrative_test$NsubTests
 [1] 3
 
 $integrative_test$Nvivified
-[1] 2
+[1] 0
 
 
 $Round_test
@@ -51,5 +45,5 @@ $Round_test$NsubTests
 [1] 3
 
 $Round_test$Nvivified
-[1] 3
+[1] 0
 
