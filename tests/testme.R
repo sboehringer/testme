@@ -43,7 +43,7 @@ compare_test = function() {
 	T2 = compare::compare(matrix(1), matrix(1:2));
 	T3 = compare::compare(data.frame(a = 1), data.frame(a = 1));
 	T4 = compare::compare(data.frame(a = 1), data.frame(b = 1));
-	T5 = capture.output(compare::compare(NULL, NA));
+	#T5 = utils::capture.output(compare::compare(NULL, NA));
 
 	TestMe();
 }

@@ -1,0 +1,1 @@
+structure(list(result = TRUE, transform = character(0), tM = structure(1, .Dim = c(1L,  1L)), tC = structure(1, .Dim = c(1L, 1L)), tMpartial = structure(1, .Dim = c(1L,  1L)), tCpartial = structure(1, .Dim = c(1L, 1L)), partialTransform = character(0)), class = "comparison")

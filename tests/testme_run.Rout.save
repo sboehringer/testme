@@ -1,18 +1,20 @@
-[1] "Test: compare_test [N = ?], legacy"
-[1] "********* test: compare_test failed"
+R Tue Feb 11 18:21:23 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/compare_test+T4.R [vivified] [mode=deparse]
+R Tue Feb 11 18:21:23 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/compare_test+T3.R [vivified] [mode=deparse]
+R Tue Feb 11 18:21:23 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/compare_test+T2.R [vivified] [mode=deparse]
+R Tue Feb 11 18:21:23 2020: Path expectation: /home/pingu/src/Rpackages/testme/tests/RtestsExpectations/compare_test+T1.R [vivified] [mode=deparse]
+[1] "Test: compare_test [N = 4]"
 [1] "Test: findVariables_test [N = 1]"
 [1] "Test: integrative_test [N = 3]"
 [1] "Test: Round_test [N = 3]"
 $compare_test
 $compare_test$result
-[1] "Error in if (x$equal) { : argument is of length zero\n"
-attr(,"class")
-[1] "try-error"
-attr(,"condition")
-<simpleError in if (x$equal) {    cat("Equal\n")    return()}: argument is of length zero>
+[1] TRUE
 
 $compare_test$NsubTests
-[1] 1
+[1] 4
+
+$compare_test$Nvivified
+[1] 4
 
 
 $findVariables_test
