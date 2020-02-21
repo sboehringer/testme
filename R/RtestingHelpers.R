@@ -595,6 +595,7 @@ runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0,
 #' @param expectationsFolder Folder where expectations are stored. Default folder is taken from `options('testme')$testme$expectationsFolder`.
 #' @param sourceFiles pathes to files that should be sourced prior to running the tests. These would typically hold initialization code.
 #' @param isolateSession boolean to indicate whether a new R session should be started (using `Rscript`) or whether to run tests in the current R session
+#' @param useGit logical to indicate whether test vivifications should be commited
 #' @return returns 0 on success, value greater 0 if tests failed
 #' @examples
 #' \dontrun{
