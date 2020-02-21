@@ -796,8 +796,14 @@ clearWarnings = function()assign('last.warning', NULL, envir = baseenv())
 # fix broken install from dir: create tarball -> install_local
 Install_local = function(path, ...) {
 	sp = splitPath(path);
-	pkgPath = Sprintf('%{dir}s/%{base}s.tgz', dir = tempdir(), base = sp$base);
-	System(Sprintf('cd %{dir}s ; tar czf %{pkgPath}Q %{name}Q', dir = sp$dir, name = sp$file), 2);
+	td = tempdir();
+	pkgPath = Sprintf('%{td}s/%{base}s.tgz', sp);
+	# dir component is containing folder
+	System(Sprintf('cd %{dir}Q ; tar czf %{pkgPath}Q %{file}Q', sp), 2);
+	#lib = list(...)$lib;
+	#libLocation = if (is.null(lib)) 'default location' else lib;
+	#LogS(4, 'Installing to lib:%{libLocation}s');
+	#print(Sprintf('Installing to lib:%{libLocation}s'));
 	install_local(pkgPath, ...);
 }
 

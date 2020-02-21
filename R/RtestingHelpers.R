@@ -22,7 +22,7 @@ packageDefinition = list(
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` or visit the project wiki (on github) for a tutorial.',
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
-		news = "0.9-3	Package tests for testme. RC1. 0.9-2	Minor fix R-session non-isolation.\n0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
+		news = "0.9-4	Package test installation fix.RC2.\n0.9-3	Package tests for testme. RC1. 0.9-2	Minor fix R-session non-isolation.\n0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
 		vignettes = 'vignettes/vignette-testme.Rmd'
 	),
 	git = list(
@@ -203,21 +203,24 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nprint(testmeFileSingle('%{file}s', 'RtestsExpectations', useGit = FALSE, logger = print));\n";
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nprint(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
 
 InstallPackageTest = function(packageDir, testPath, createReference) {
-	dest = Sprintf('%{packageDir}s/tests');
-	Dir.create(dest, logLevel = 2);
+	testBase = Sprintf('%{packageDir}s/tests');
+	dest = Sprintf('%{testBase}s/testme');
+	Dir.create(dest, recursive = T, logLevel = 2);
 	File.copy(testPath, dest, symbolicLinkIfLocal = F, overwrite = T);
-	runFileName = Sprintf('%{dest}s/%{base}s_run.R', splitPath(testPath));
+	runFileName = Sprintf('%{testBase}s/%{base}s_run.R', splitPath(testPath));
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
 	writeFile(runFileName, runFile);
 
 	if (createReference) {
 		assign('logger', print, testmeEnv);
+		# run twice for possible vivifications; <i> test for vivifications
+		source(runFileName, chdir = T);
 		output = capture.output(source(runFileName, chdir = T), type = 'output');
 		#print(output)
-		writeFile(Sprintf('%{dest}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
+		writeFile(Sprintf('%{testBase}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
 	}
 }
 InstallPackageTests = function(packageDir, testPathes, ...)
@@ -560,9 +563,10 @@ runTestMe = function(tests, logLevel = 4) {
 #' @export runTestsInternal
 runTestsInternal = function(
 	testsFolder = firstDef(options('testme')$testme$testsFolder, './Rtests'),
-	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './Rtests/RtestsExpectations'),
+	expectationsFolder = options('testme')$testme$expectationsFolder,
 	useGit = TRUE, Ndash = 1e2, logLevel = 4) {
 
+	if (is.null(expectationsFolder)) expectationsFolder = Sprintf('%{testsFolder}s/RtestsExpectations');
 	# <p> create clean environment
 	# make expectationsFolder absolute due to later chdir
 	testmeEnvInit(splitPath(expectationsFolder)$absolute);
@@ -580,7 +584,7 @@ runTestsInternal = function(
 	return(allGood);
 }
 	
-runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = testme:::runTestsInternal(%{testsFolder}t, %{expectationsFolder}t);\n";
+runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = testme:::runTestsInternal(%{testsFolder}t, %{expectationsFolder}t, useGit = %{useGit}s);\n";
 runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0, 100));\n"), "\n");
 
 #' Run tests in isolation
@@ -602,7 +606,8 @@ runTests = function(
 	testsFolder = firstDef(options('testme')$testme$testsFolder, './Rtests'),
 	expectationsFolder = firstDef(options('testme')$testme$expectationsFolder, './Rtests/RtestsExpectations'),
 	sourceFiles = options('testme')$testme$sourceFiles,
-	isolateSession = TRUE) {
+	isolateSession = TRUE,
+	useGit = TRUE) {
 
 	if (isolateSession) {
 		src = join(Sprintf('source(%{sourceFiles}t, chdir = TRUE);'), "\n");
@@ -611,7 +616,7 @@ runTests = function(
 		SystemS('Rscript %{tmpsrc}q')
 	} else {
 		SourceLocal(sourceFiles);
-		runTestsInternal(testsFolder, expectationsFolder);
+		runTestsInternal(testsFolder, expectationsFolder, useGit = useGit);
 	}
 }
 

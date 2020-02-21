@@ -6,8 +6,7 @@
 \usage{
 runTestsInternal(
   testsFolder = firstDef(options("testme")$testme$testsFolder, "./Rtests"),
-  expectationsFolder = firstDef(options("testme")$testme$expectationsFolder,
-    "./Rtests/RtestsExpectations"),
+  expectationsFolder = options("testme")$testme$expectationsFolder,
   useGit = TRUE,
   Ndash = 100,
   logLevel = 4

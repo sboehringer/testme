@@ -9,7 +9,8 @@ runTests(
   expectationsFolder = firstDef(options("testme")$testme$expectationsFolder,
     "./Rtests/RtestsExpectations"),
   sourceFiles = options("testme")$testme$sourceFiles,
-  isolateSession = TRUE
+  isolateSession = TRUE,
+  useGit = TRUE
 )
 }
 \arguments{
