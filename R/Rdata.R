@@ -1372,7 +1372,8 @@ nlapply = function(ns, f, ...) {
 }
 nelapply = function(l, f, ...) {
 	ns = names(l);
-	r = lapply(ns, function(n, ...)f(n, l[[n]]), ...);
+	if (is.null(ns)) ns = rep('', length(l));
+	r = lapply(seq_along(l), function(i, ...)f(ns[i], l[[i]]), ...);
 	names(r) = ns;
 	r
 }

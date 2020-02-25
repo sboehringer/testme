@@ -875,7 +875,7 @@ SplitPath = function(path, ...)lapply(path, splitPath, ...);
 
 # 	createZip(list(results = c('r/ref1.html', 'r/ref2.html')), 'r/myZip.zip', doCopy = T);
 
-createZip = function(input, output, pword, doCopy = FALSE, readmeText, readme, logOnly = FALSE) {
+createZip = function(input, output, pword, doCopy = FAlSE, readmeText, readme, logOnly = FALSE) {
 	destDir = splitPath(output)$fullbase;
 	Dir.create(destDir);
 	nelapply(input, function(n, e) {
@@ -892,5 +892,5 @@ createZip = function(input, output, pword, doCopy = FALSE, readmeText, readme, l
 	zip = splitPath(output)$base;
 	options = '';
 	if (!missing(pword)) options = Sprintf('%{options}s -P %{pword}q');
-	SystemS('cd %{dir}q ; zip %{options}s -r %{zip}q.zip %{zip}q', logLevel = 1, printOnly = logOnly);
+	SystemS('cd %{dir}q ; zip %{options}s -r %{zip}q.zip %{zip}q', logLevel = 1);
 }

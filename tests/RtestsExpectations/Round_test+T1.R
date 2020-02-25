@@ -1,1 +1,0 @@
-structure("Error in testme:::Round(NULL) : Couldn't round\n", class = "try-error", condition = structure(list(     message = "Couldn't round", call = testme:::Round(NULL)), class = c("simpleError",  "error", "condition")))

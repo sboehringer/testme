@@ -73,7 +73,7 @@ to.col_test = function() {
 	TestMe();
 }
 ```
-Instead of printing our checks, we assign the results to a variable `Td` where `d` is a digit. Function `TestMe` detects the use of such variables and uses them for the definition of test cases.
+Instead of printing our checks, we assign the results to a variable `Td` where `d` is an integer. Function `TestMe` detects the use of such variables and uses them for the definition of test cases.
 
 That's it. Running the tests will preserve the definition (meaning) of you function. If your tests fail, you know that code using the previous definitions might break.
 
@@ -83,11 +83,65 @@ In the next paragraphs you learn about the options of how to run your tests.
 
 ## Testing locally
 
+One main purpose of package `testme` is to allow local testing in a continuous development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to garuantee consistent code behaviour, testing is required. Test can be held in a single file or in a directory. After changes can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
+
+```{r}
+.First = function() {
+	options(
+		testme = list(
+			testsFolder = '~/src/Rtests',
+			sourceFiles = c('~/src/Rgeneric.R', '~/src/Rgenetics.R')
+		)
+	)
+}
+```
+
+The code above can be put into the `.Rprofile` file. The function `runTests` will query these options if not explicetly provided with arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default.
+
 ## Testing packages
+
+If a file contains tests that test functions in an R-package, these tests can be installed into a package source tree using `installPackageTests`. Test files can be used both for local testing and for package testing. The only initialization performed for package tests is to load the package. Other initialization has to be performed in the test files themselves. Except for special cases, it should not be required to perform additional initialization.
 
 # Advanced topics
 
 ## Using Expectations
 
+One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitely. Expectations have to be deparsed R values. The are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in.
+
+```{r}
+to.col_test = function() {
+	# prepare test data
+	m0 = matrix(1:9, ncol = 3);
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	T1 = to.col(sel1);
+	E1 = "structure(1:6, .Dim = 3:2)";
+	T2 = to.col(sel2);
+	E2 = "structure(7:9, .Dim = c(3L, 1L))";
+
+	TestMe();
+}
+```
+
+In the case above, no expectation files would be created and the provided values would be used for comparison instead.
+
 ## Comparison modes
+
+Package `compare` is used to compare test values und evaluated expectations for equalness. What is treated as equal can be fine-tuned via argument `mode`. `mode` is a list that forces a particular comparison. Keys are names of test values and values are comparison modes. Supported modes are:
+
+  * compare: call function `compare` (the default)
+  * round8: round to 8 digits, then call compare
+  * error: the test value is (and should be) an error
+  * image: the test produces an image. Images should be compared on a pixel-by-pixel basis
+
+The following example illustrates the use of mode `round8`:
+
+```{r}
+	myTests = function() {
+		T1 = 1 + 1;
+		T2 = sqrt(exp(10));
+		TestMe(list(T2 = 'round8'));
+	}
+```
 

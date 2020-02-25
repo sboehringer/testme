@@ -1,4 +1,4 @@
-# R-package `testme`, version 0.9-4
+# R-package `testme`, version 1.0-0
 ## Installation
 ```{r}
 library(devtools);
