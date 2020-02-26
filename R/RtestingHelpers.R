@@ -234,10 +234,10 @@ InstallPackageTest = function(packageDir, testPath, createReference, asCran = FA
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2);
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 		#	2);
-		#SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q', 2);
-		#SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1', 2);
-		SystemS('cd %{dir}q ; Rscript %{runFileName}q', 2);
-		SystemS('cd %{dir}q ; Rscript %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1', 2);
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q', 2);
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1', 2);
+		#SystemS('cd %{dir}q ; Rscript %{runFileName}q', 2);
+		#SystemS('cd %{dir}q ; Rscript %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1', 2);
 		#print(output)
 	}
 }
