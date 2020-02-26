@@ -1,65 +1,6 @@
-
-R Under development (unstable) (2020-02-25 r77857) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
-
-R is free software and comes with ABSOLUTELY NO WARRANTY.
-You are welcome to redistribute it under certain conditions.
-Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
-
-R is a collaborative project with many contributors.
-Type 'contributors()' for more information and
-'citation()' on how to cite R or R packages in publications.
-
-Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.
-
-> # This runs tests `testme`
-> #testmeEnvInit('RtestsExpectations', logger = print);
-> library('testme');
-Loading required package: compare
-
-Attaching package: ‘compare’
-
-The following object is masked from ‘package:base’:
-
-    isTRUE
-
-> print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
-[1] "compare_test"
-$re
-[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
-
-$nm
-[1] "compare_test"
-
 [1] "Test: compare_test [N = 4]"
-[1] "findVariables_test"
-$re
-[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
-
-$nm
-[1] "findVariables_test"
-
 [1] "Test: findVariables_test [N = 1]"
-[1] "integrative_test"
-$re
-[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
-
-$nm
-[1] "integrative_test"
-
 [1] "Test: integrative_test [N = 3]"
-[1] "Round_test"
-$re
-[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
-
-$nm
-[1] "Round_test"
-
 [1] "Test: Round_test [N = 3]"
 $compare_test
 $compare_test$result
@@ -104,5 +45,3 @@ $Round_test$NsubTests
 $Round_test$Nvivified
 [1] 0
 
-
-> 

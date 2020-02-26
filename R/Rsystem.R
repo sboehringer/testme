@@ -33,6 +33,13 @@ splitPath = function(path, removeQualifier = T, ssh = F, skipExists = F) {
 	#base = substr(r.base, 1, r[1] - 1 - (ifelse(substr(r.base, r[1] - 1, r[1] - 1) == '.', 1, 0)));
 	# reduce to file.ext
 	Nchar = nchar(path);
+	# replace leading '~'
+	if (path == '~') {
+		path = Sys.getenv('HOME');
+	} else if (Nchar > 1 && substr(path, 1, 2) == '~/') {
+		path = join(c(Sys.getenv('HOME'), substring(path, 2)), '');
+	}
+	Nchar = nchar(path);
 	if (Nchar != 0 && substr(path, Nchar, Nchar) == '/') {
 		base = '';
 		dir = substr(path, 1, Nchar - 1);
@@ -859,6 +866,9 @@ normalizePath = function(p) {
 	p = gsub('(?:g)//', '/', p, perl = T);
 	return(p);
 }
+
+pathToHome = function(path)
+	gsub(Sprintf('^%{home}s((?=/)|$)', home = Sys.getenv('HOME')), '~', path, perl = T)
 
 # how to refer to to from within from
 relativePathSingle = function(from, to) {

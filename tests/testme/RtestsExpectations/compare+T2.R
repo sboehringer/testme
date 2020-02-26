@@ -1,0 +1,1 @@
+structure(list(result = FALSE, transform = character(0), tM = 1,      tC = c(1, 2), tMpartial = 1, tCpartial = c(1, 2), partialTransform = character(0)), class = "comparison")
