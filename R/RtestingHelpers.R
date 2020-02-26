@@ -219,7 +219,7 @@ InstallPackageTest = function(packageDir, testPath, createReference, asCran = FA
 	packageTestFileTemplate = packageTestFileTemplates[['standard']];
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
 	if (asCran) {
-		Log("We currently skip tests on CRAN", 2);
+		LogS(2, "We currently skip tests on CRAN. Removing %{runFile}s");
 		file.remove(runFile);
 		return();
 	}
