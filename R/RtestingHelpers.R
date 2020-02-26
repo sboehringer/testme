@@ -13,7 +13,7 @@ packageDefinition = list(
 	testing = list(
 		doInstall = TRUE,
 		tests = c('RtestsPackages/testme/testme.R'),
-		prevent = TRUE	# set to TRUE when bootstrapping package/testme
+		prevent = FALSE	# set to TRUE when bootstrapping package/testme
 	),
 	description = list(
 		title = 'Rapid Development of Software Tests',
