@@ -220,7 +220,7 @@ InstallPackageTest = function(packageDir, testPath, createReference, asCran = FA
 	File.copy(testPath, dest, symbolicLinkIfLocal = F, overwrite = T);
 	base = splitPath(testPath)$base;
 	runFileName = Sprintf('%{testBase}s/%{base}s_run.R');
-	packageTestFileTemplate = packageTestFileTemplates[[]];
+	packageTestFileTemplate = packageTestFileTemplates[['standard']];
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
 	writeFile(runFileName, runFile);
 

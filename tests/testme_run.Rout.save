@@ -1,1 +1,61 @@
+> # This runs tests `testme`
+> #testmeEnvInit('RtestsExpectations', logger = print);
+> library('testme');
+Loading required package: compare
+
+Attaching package: ‘compare’
+
+The following object is masked from ‘package:base’:
+
+    isTRUE
+
+> print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
+[1] "Test: compare_test [N = 4]"
+[1] "Test: findVariables_test [N = 1]"
+[1] "Test: integrative_test [N = 3]"
+[1] "Test: Round_test [N = 3]"
+$compare_test
+$compare_test$result
+[1] TRUE
+
+$compare_test$NsubTests
+[1] 4
+
+$compare_test$Nvivified
+[1] 0
+
+
+$findVariables_test
+$findVariables_test$result
+[1] TRUE
+
+$findVariables_test$NsubTests
+[1] 1
+
+$findVariables_test$Nvivified
+[1] 0
+
+
+$integrative_test
+$integrative_test$result
+[1] TRUE
+
+$integrative_test$NsubTests
+[1] 3
+
+$integrative_test$Nvivified
+[1] 0
+
+
+$Round_test
+$Round_test$result
+[1] TRUE
+
+$Round_test$NsubTests
+[1] 3
+
+$Round_test$Nvivified
+[1] 0
+
+
 > 
