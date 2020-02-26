@@ -184,35 +184,7 @@ Eval = function(e, ..., envir = parent.frame(), autoParse = T) {
 #
 #		Freeze/thaw
 #
-
-delayed_objects_env = new.env();
-delayed_objects_attach = function() {
-	attach(delayed_objects_env);
-}
-delayed_objects_detach = function() {
-	detach(delayed_objects_env);
-}
-
-thaw_list = function(l)lapply(l, thaw_object, recursive = T);
-thaw_environment = function(e) {
-	p = parent.env(e);
-	r = as.environment(thaw_list(as.list(e)));
-	parent.env(r) = p;
-	r
-}
-
-# <i> sapply
-thaw_object_internal = function(o, recursive = T, envir = parent.frame()) {
-	r = 		 if (class(o) == 'ParallelizeDelayedLoad') thaw(o) else
-	#if (recursive && class(o) == 'environment') thaw_environment(o) else
-	if (recursive && class(o) == 'list') thaw_list(o) else o;
-	r
-}
-
-thaw_object = function(o, recursive = T, envir = parent.frame()) {
-	if (all(search() != 'delayed_objects_env')) delayed_objects_attach();
-	thaw_object_internal(o, recursive = recursive, envir = envir);
-}
+# -> moved to Ext
 
 #
 #	<p> backend classes
