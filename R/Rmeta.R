@@ -191,6 +191,76 @@ Eval = function(e, ..., envir = parent.frame(), autoParse = T) {
 #	</p> freeze/thaw functions
 #
 
+#
+#	<p> calls
+#
+# <!> assume matched call
+# <A> we only evaluate named args
+callEvalArgs = function(call_, env_eval = FALSE) {
+	#if (is.null(call_$envir__) || is.null(names(call_$args))) return(call_);
+	#if (is.null(call_$envir) || !length(call_$args)) return(call_);
+
+	# <p> evaluate args
+	if (length(call_$args)) {
+		args = call_$args;
+		callArgs = lapply(1:length(args), function(i)eval(args[[i]], envir = call_$envir));
+		# <i> use match.call instead
+		names(callArgs) = setdiff(names(call_$args), '...');
+		call_$args = callArgs;
+	}
+
+	if (env_eval) {
+		call_$fct = environment_eval(call_$fct, functions = FALSE, recursive = FALSE);
+	}
+	# <p> construct return value
+	#callArgs = lapply(call_$args, function(e){eval(as.expression(e), call_$envir)});
+	call_
+}
+
+#callWithFunctionArgs = function(f, args, envir__ = parent.frame(), name = NULL) {
+callWithFunctionArgs = function(f__, args__, envir__ = environment(f__), name = NULL, env_eval = FALSE) {
+	if (env_eval) f = environment_eval(f__, functions = FALSE, recursive = FALSE);
+	call_ = list(
+		fct = f__,
+		envir = environment(f__),
+		args = args__,
+		name = name
+	);
+	call_
+}
+#
+#	</p> calls
+#
+
+encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate_args__ = FALSE,
+	unbound_functions = F) {
+	# function body of call
+	name = as.character(.call[[1]]);
+	fct = get(name);
+	callm = if (!is.primitive(fct)) {
+		callm = match.call(definition = fct, call = .call);
+		as.list(callm)[-1]
+	} else as.list(.call)[-1];
+	args = if (do_evaluate_args__) {
+		nlapply(callm, function(e)eval(callm[[e]], envir = envir__))
+	} else nlapply(callm, function(e)callm[[e]])
+	# unbound variables in body fct
+	#unbound_vars = 
+
+	call_ = list(
+		fct = fct,
+		envir = envir__,
+
+		#args = as.list(sys.call()[[2]])[-1],
+		args = args,
+
+		name = name
+	);
+	call_
+}
+
+
+
 #' Deparsing of expression
 #'
 #' Create single character string from R expression
