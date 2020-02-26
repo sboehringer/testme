@@ -1,3 +1,11 @@
+Loading required package: compare
+
+Attaching package: ‘compare’
+
+The following object is masked from ‘package:base’:
+
+    isTRUE
+
 [1] "Test: compare_test [N = 4]"
 [1] "Test: findVariables_test [N = 1]"
 [1] "Test: integrative_test [N = 3]"
