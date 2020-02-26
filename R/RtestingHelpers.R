@@ -406,6 +406,7 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list(), postfix = '_
 	nmTestRaw = if (exists('testmeEnv'))
 		get('name', testmeEnv) else
 		deparse(sys.calls()[[sys.nframe() + which + 1]]);
+print(nmTestRaw);
 	# <p> prettify name: remove postfix, if present
 	re = Sprintf('(?<name>.*)(?:%{postfix}s)?(?:\\(\\))?$');
 print(list(re = re, nm = nmTestRaw));

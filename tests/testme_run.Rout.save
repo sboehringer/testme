@@ -29,17 +29,33 @@ The following object is masked from ‘package:base’:
     isTRUE
 
 > print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
-[1] "T4" "T3" "T2" "T1"
+$re
+[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
+
+$nm
 [1] "compare_test"
+
 [1] "Test: compare_test [N = 4]"
-[1] "T1"
+$re
+[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
+
+$nm
 [1] "findVariables_test"
+
 [1] "Test: findVariables_test [N = 1]"
-[1] "T3" "T2" "T1"
+$re
+[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
+
+$nm
 [1] "integrative_test"
+
 [1] "Test: integrative_test [N = 3]"
-[1] "T3" "T2" "T1"
+$re
+[1] "(?<name>.*)(?:_test)?(?:\\(\\))?$"
+
+$nm
 [1] "Round_test"
+
 [1] "Test: Round_test [N = 3]"
 $compare_test
 $compare_test$result
