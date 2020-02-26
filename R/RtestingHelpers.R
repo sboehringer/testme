@@ -26,7 +26,7 @@ packageDefinition = list(
 		vignettes = 'vignettes/vignette-testme.Rmd'
 	),
 	git = list(
-		readme = '## Installation\n```{r}\nlibrary(devtools);\ninstall_github("sboehringer/testme")\n```\n\nDevelopment of this package takes place on https://github.com/sboehringer/testme\nThe wiki is available at https://github.com/sboehringer/testme/wiki',
+		readme = '## Installation\n```{r}\nlibrary(devtools);\ninstall_github("sboehringer/testme")\n```\n\nDevelopment of this package takes place on https://github.com/sboehringer/testme\n\nThe wiki is available at https://github.com/sboehringer/testme/wiki',
 		push = F,
 		pushOnNewVersion = T,
 		remote = 'https://github.com/sboehringer/testme.git'
