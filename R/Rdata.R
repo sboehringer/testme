@@ -3101,17 +3101,21 @@ Kronecker = function(l, ...) {
 #' \dontrun{
 #' modelList = list(global = list(list(a=1, b=2)), N = c(1, 2, 3));
 #' print(iterateModels(modelList));
-#' modelList = list(N = c(1, 2, 3), parsAsBlock = list(list(list(c = 1, d = 2)), list(list(c = 3, d = 4))));
+#' modelList = list(N = c(1, 2, 3), parsAsBlock = list(list(list(c = 1, d = 2)),
+#'   list(list(c = 3, d = 4))));
 #' print(iterateModels(modelList));
 #' # ensure elements on A are given as a block (list)
 #' A = list(list(a = 1, b = 2), list(a = 3, b = 5));
-#' modelList = list(N = inlist(A), parsAsBlock = list(list(list(c = 1, d = 2)), list(list(c = 3, d = 4))));
+#' modelList = list(N = inlist(A), parsAsBlock = list(list(list(c = 1, d = 2)),
+#'   list(list(c = 3, d = 4))));
 #' print(iterateModels(modelList));
 #' # shorter version of the above
-#' modelList = list(N = Inlist(list(a = 1, b = 2), list(a = 3, b = 5)), parsAsBlock = Inlist(list(c = 1, d = 2), list(c = 3, d = 4)));
+#' modelList = list(N = Inlist(list(a = 1, b = 2), list(a = 3, b = 5)),
+#'   parsAsBlock = Inlist(list(c = 1, d = 2), list(c = 3, d = 4)));
 #' print(iterateModels(modelList));
 #' # inline calling
-#' modelList = list(N = list(list(a = 1, b = 2), list(a = 3, b = 5)), parsAsBlock = list(list(c = 1, d = 2), list(c = 3, d = 4)));
+#' modelList = list(N = list(list(a = 1, b = 2), list(a = 3, b = 5)),
+#'   parsAsBlock = list(list(c = 1, d = 2), list(c = 3, d = 4)));
 #' print(iterateModels(modelList));
 #' }
 iterateModels_raw = function(modelList, models, f_iterate = function(...)list(...), ...,
