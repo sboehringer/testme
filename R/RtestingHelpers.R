@@ -204,9 +204,9 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nprint(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nif (Sys.getenv('NOT_ON_CRAN') == '1')) print(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
 
-InstallPackageTest = function(packageDir, testPath, createReference) {
+InstallPackageTest = function(packageDir, testPath, createReference, asCran = FALSE) {
 	testBase = Sprintf('%{packageDir}s/tests');
 	dest = Sprintf('%{testBase}s/testme');
 	Dir.create(dest, recursive = T, logLevel = 2);
@@ -226,8 +226,9 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2);
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 		#	2);
-		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q', 2);
-		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
+		envPrefix = if (asCran) 'NOT_ON_CRAN= ' else 'NOT_ON_CRAN=1';
+		SystemS('cd %{dir}q ; %{envPrefix}s R --silent --vanilla < %{runFileName}q', 2);
+		SystemS('cd %{dir}q ; %{envPrefix}s R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 			2);
 		#print(output)
 	}
@@ -242,10 +243,11 @@ InstallPackageTests = function(packageDir, testPathes, ...)
 #' @param packageDir path to R-package folder structure
 #' @param testPathes character vector with files containing tests of the package
 #' @param createReference boolean to indicate whether a reference output is to be created for R when the package tests are run by standard R functions.
+#' @param asCran boolean to indicate whether tests should be prepared for running on CRAN
 #' @return undefined return value.
 #' @export installPackageTests
-installPackageTests = function(packageDir, testPathes, createReference = TRUE) {
-	InstallPackageTests(packageDir, testPathes, createReference);
+installPackageTests = function(packageDir, testPathes, createReference = TRUE, asCran = FALSE) {
+	InstallPackageTests(packageDir, testPathes, createReference, asCran = asCran);
 }
 
 #
@@ -609,7 +611,6 @@ runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0,
 #' @examples
 #' \dontrun{
 #'   runTests()
-#' }
 #' }
 #' @export runTests
 runTests = function(

@@ -1,22 +1,3 @@
-
-R version 3.6.1 (2019-07-05) -- "Action of the Toes"
-Copyright (C) 2019 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
-
-R is free software and comes with ABSOLUTELY NO WARRANTY.
-You are welcome to redistribute it under certain conditions.
-Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
-
-R is a collaborative project with many contributors.
-Type 'contributors()' for more information and
-'citation()' on how to cite R or R packages in publications.
-
-Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.
-
 > # This runs tests `testme`
 > #testmeEnvInit('RtestsExpectations', logger = print);
 > library('testme');
@@ -28,53 +9,6 @@ The following object is masked from ‘package:base’:
 
     isTRUE
 
-> print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
-[1] "Test: compare_test [N = 4]"
-[1] "Test: findVariables_test [N = 1]"
-[1] "Test: integrative_test [N = 3]"
-[1] "Test: Round_test [N = 3]"
-$compare_test
-$compare_test$result
-[1] TRUE
-
-$compare_test$NsubTests
-[1] 4
-
-$compare_test$Nvivified
-[1] 0
-
-
-$findVariables_test
-$findVariables_test$result
-[1] TRUE
-
-$findVariables_test$NsubTests
-[1] 1
-
-$findVariables_test$Nvivified
-[1] 0
-
-
-$integrative_test
-$integrative_test$result
-[1] TRUE
-
-$integrative_test$NsubTests
-[1] 3
-
-$integrative_test$Nvivified
-[1] 0
-
-
-$Round_test
-$Round_test$result
-[1] TRUE
-
-$Round_test$NsubTests
-[1] 3
-
-$Round_test$Nvivified
-[1] 0
-
-
-> 
+> if (Sys.getenv('NOT_ON_CRAN') == '1')) print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
+Error: unexpected ')' in "if (Sys.getenv('NOT_ON_CRAN') == '1'))"
+Execution halted

@@ -30,3 +30,8 @@ returns 0 on success, value greater 0 if tests failed
 \description{
 Runs tests in a folder in a separate R session.
 }
+\examples{
+\dontrun{
+  runTests()
+}
+}

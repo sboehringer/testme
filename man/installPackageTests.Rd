@@ -4,7 +4,12 @@
 \alias{installPackageTests}
 \title{Prepare test files for an R-package}
 \usage{
-installPackageTests(packageDir, testPathes, createReference = TRUE)
+installPackageTests(
+  packageDir,
+  testPathes,
+  createReference = TRUE,
+  asCran = FALSE
+)
 }
 \arguments{
 \item{packageDir}{path to R-package folder structure}
@@ -12,6 +17,8 @@ installPackageTests(packageDir, testPathes, createReference = TRUE)
 \item{testPathes}{character vector with files containing tests of the package}
 
 \item{createReference}{boolean to indicate whether a reference output is to be created for R when the package tests are run by standard R functions.}
+
+\item{asCran}{boolean to indicate whether tests should be prepared for running on CRAN}
 }
 \value{
 undefined return value.
