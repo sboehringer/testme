@@ -204,7 +204,7 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nif (Sys.getenv('NOT_ON_CRAN') == '1')) print(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
+packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nif (Sys.getenv('NOT_ON_CRAN') == '1') print(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
 
 InstallPackageTest = function(packageDir, testPath, createReference, asCran = FALSE) {
 	testBase = Sprintf('%{packageDir}s/tests');
