@@ -211,17 +211,22 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 	dest = Sprintf('%{testBase}s/testme');
 	Dir.create(dest, recursive = T, logLevel = 2);
 	File.copy(testPath, dest, symbolicLinkIfLocal = F, overwrite = T);
-	runFileName = Sprintf('%{testBase}s/%{base}s_run.R', splitPath(testPath));
+	base = splitPath(testPath)$base;
+	runFileName = Sprintf('%{testBase}s/%{base}s_run.R');
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
 	writeFile(runFileName, runFile);
 
 	if (createReference) {
 		assign('logger', print, testmeEnv);
 		# run twice for possible vivifications; <i> test for vivifications
-		source(runFileName, chdir = T);
-		output = capture.output(source(runFileName, chdir = T), type = 'output');
+		#source(runFileName, chdir = T);
+		#output = capture.output(source(runFileName, chdir = T), type = 'output');
+		#writeFile(Sprintf('%{testBase}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
+		sp = splitPath(runFileName);
+		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2, dir = sp$dir);
+		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save',
+			2, dir = sp$dir);
 		#print(output)
-		writeFile(Sprintf('%{testBase}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
 	}
 }
 InstallPackageTests = function(packageDir, testPathes, ...)

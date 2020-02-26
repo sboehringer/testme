@@ -266,13 +266,16 @@ encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate
 #' Create single character string from R expression
 #'
 #' Calls deparse on argument and pastes together the return value of \code{deparse} resulting
-#' in a single character string.
+#' in a single character string. Operates very similar to \code{dput}, except, it cannot write to
+#' a file.
 #'
 #' @param o Expression/Object to be deparsed
 #'
 #' @return single character vector with the deparsed expression
 #' @seealso [deparse()] which this function wraps
 #' @seealso [eval()] for the inverse operation
+#' @seealso [dput()] similar function
+#' @seealso [dget()] similar to eval of character string
 #' @examples
 #' \dontrun{
 #'	Deparse(3)
