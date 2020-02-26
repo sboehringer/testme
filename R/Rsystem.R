@@ -640,7 +640,7 @@ file.locate = function(path, prefixes = NULL, normalize = T, as.dirs = T, force 
 #' @param normalize Standardize pathes.
 #' @param ssh Allow pathes to remote files in \code{scp} notation.
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
-#' @keywords ~kwd1 ~kwd2
+#' @keywords io input
 #' @examples
 #' \dontrun{
 #'   parallel8 = function(e) log(1:e) %*% log(1:e);

@@ -35,7 +35,7 @@ assign('DefaultLogLevel', 4, envir = Log_env__);
 #' @param doPrint additional object that will be output using \code{print}.
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
 #' @seealso \code{\link{Log.setLevel}}, ~~~
-#' @keywords ~kwd1 ~kwd2
+#' @keywords io logging
 #' @examples
 #' \dontrun{
 #' 	Log.setLevel(4);

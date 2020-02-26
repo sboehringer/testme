@@ -28,5 +28,5 @@ Read content of file and return as character object.
 \author{
 Stefan Böhringer <r-packages@s-boehringer.org>
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
+\keyword{input}
+\keyword{io}

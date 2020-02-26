@@ -39,5 +39,5 @@ global log-level is set to greater or equal the value indicated by
 \author{
 Stefan Böhringer <r-packages@s-boehringer.org>
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
+\keyword{io}
+\keyword{logging}
