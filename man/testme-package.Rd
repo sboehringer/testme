@@ -6,7 +6,7 @@
 \alias{testme-package}
 \title{This is package `testme`}
 \description{
-Rapid development of software tests
+Rapid Development of Software Tests
 }
 \details{
 Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` or visit the project wiki (on github) for a tutorial.

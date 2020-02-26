@@ -12,10 +12,11 @@ packageDefinition = list(
 	#instFiles = list(Rscripts = 'Dev/pkg-minimal.R'),
 	testing = list(
 		doInstall = TRUE,
-		tests = c('RtestsPackages/testme/testme.R')
+		tests = c('RtestsPackages/testme/testme.R'),
+		prevent = TRUE	# set to TRUE when bootstrapping package/testme
 	),
 	description = list(
-		title = 'Rapid development of software tests',
+		title = 'Rapid Development of Software Tests',
 		# version to be documented in news section
 		#version = '0.1-0',
 		author = 'Stefan B\uf6hringer <r-packages@s-boehringer.org>',

@@ -1,6 +1,6 @@
 Package: testme
 Type: Package
-Title: Rapid development of software tests
+Title: Rapid Development of Software Tests
 Version: 1.0-0
 Date: 26-02-2020
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
@@ -24,4 +24,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
