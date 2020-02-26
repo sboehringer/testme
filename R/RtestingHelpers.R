@@ -406,6 +406,7 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list(), postfix = '_
 	nmTestRaw = if (exists('testmeEnv'))
 		get('name', testmeEnv) else
 		deparse(sys.calls()[[sys.nframe() + which + 1]]);
+print(nmTestRaw);
 	# <p> prettify name: remove postfix, if present
 	re = Sprintf('(?<name>.*)(?:%{postfix}s)?(?:\\(\\))?$');
 	nmTest = Regexpr(re, nmTestRaw, captures = T, global = F);
@@ -437,6 +438,7 @@ testsFindExpectation = function(ns, ..., which = -2, mode = list(), postfix = '_
 #' @export TestMe
 TestMe = function(mode = list(), which = -2) {
 	tests = findVariables(which = which);
+print(tests);
 	#print(tests);
 	exps = testsFindExpectation(tests, which = which - 1, mode = mode);
 	#print(exps)
