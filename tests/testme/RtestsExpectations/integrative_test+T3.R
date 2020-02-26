@@ -1,1 +1,0 @@
-structure("Error in try(if (4 != E2) stop(), silent = T) : \n", class = "try-error", condition = structure(list(     message = "", call = doTryCatch(return(expr), name, parentenv,          handler)), class = c("simpleError", "error", "condition" )))

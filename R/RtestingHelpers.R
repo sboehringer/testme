@@ -226,8 +226,8 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2);
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 		#	2);
-		SystemS('cd %{dir}q ; R --vanilla < %{runFileName}q', 2);
-		SystemS('cd %{dir}q ; R --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q', 2);
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 			2);
 		#print(output)
 	}
