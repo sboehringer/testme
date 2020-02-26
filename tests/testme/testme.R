@@ -29,14 +29,14 @@ integrative_test = function() {
 	TestMe();
 }
 
-Round_test = function() {
-	T1 = try(testme:::Round(NULL), silent = T);
-	T2 = testme:::Round(pi*1:4);
-	T3 = testme:::Round(pi*1:4, digits = 2);
-	#T4 = Round(1:4);	# integer not yet supported
-
-	TestMe();
-}
+# Round_test = function() {
+# 	T1 = try(testme:::Round(NULL), silent = T);
+# 	T2 = testme:::Round(pi*1:4);
+# 	T3 = testme:::Round(pi*1:4, digits = 2);
+# 	#T4 = Round(1:4);	# integer not yet supported
+# 
+# 	TestMe();
+# }
 
 compare_test = function() {
 	T1 = compare::compare(matrix(1), matrix(1));

@@ -32,7 +32,6 @@ The following object is masked from ‘package:base’:
 [1] "Test: compare_test [N = 4]"
 [1] "Test: findVariables_test [N = 1]"
 [1] "Test: integrative_test [N = 3]"
-[1] "Test: Round_test [N = 3]"
 $compare_test
 $compare_test$result
 [1] TRUE
@@ -63,17 +62,6 @@ $integrative_test$NsubTests
 [1] 3
 
 $integrative_test$Nvivified
-[1] 0
-
-
-$Round_test
-$Round_test$result
-[1] TRUE
-
-$Round_test$NsubTests
-[1] 3
-
-$Round_test$Nvivified
 [1] 0
 
 
