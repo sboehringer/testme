@@ -210,10 +210,6 @@ packageTestFileTemplates = list(
 );
 
 InstallPackageTest = function(packageDir, testPath, createReference, asCran = FALSE) {
-	if (asCran) {
-		Log("We currently skip tests on CRAN", 2);
-		return();
-	}
 	testBase = Sprintf('%{packageDir}s/tests');
 	dest = Sprintf('%{testBase}s/testme');
 	Dir.create(dest, recursive = T, logLevel = 2);
@@ -222,6 +218,11 @@ InstallPackageTest = function(packageDir, testPath, createReference, asCran = FA
 	runFileName = Sprintf('%{testBase}s/%{base}s_run.R');
 	packageTestFileTemplate = packageTestFileTemplates[['standard']];
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
+	if (asCran) {
+		Log("We currently skip tests on CRAN", 2);
+		file.remove(runFile);
+		return();
+	}
 	writeFile(runFileName, runFile);
 
 	if (createReference) {
