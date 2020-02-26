@@ -2616,7 +2616,11 @@ order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 #'
 #' @examples
 #' \dontrun{
-#'   sapply(1:40, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align_fromOrder(order(v), order(v1))] == v)})
+#'   sapply(1:40, function(i){
+#'     v = runif(1e2);
+#'     v1 = sample(v, length(v));
+#'     all(v1[order_align_fromOrder(order(v), order(v1))] == v)
+#'   })
 #' }
 order_align_fromOrder = function(reference, v)v[inverseOrder_fromOrder(reference)];
 
