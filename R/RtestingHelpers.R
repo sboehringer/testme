@@ -222,10 +222,10 @@ InstallPackageTest = function(packageDir, testPath, createReference) {
 		#source(runFileName, chdir = T);
 		#output = capture.output(source(runFileName, chdir = T), type = 'output');
 		#writeFile(Sprintf('%{testBase}s/%{base}s_run.Rout.save', splitPath(testPath)), join(output, "\n"));
-		sp = splitPath(runFileName);
-		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2, dir = sp$dir);
-		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q 2&>1 > %{testBase}q/%{base}q_run.Rout.save',
-			2, dir = sp$dir);
+		dir = splitPath(runFileName)$dir;
+		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2);
+		SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q 2>&1 > %{testBase}q/%{base}q_run.Rout.save',
+			2);
 		#print(output)
 	}
 }
