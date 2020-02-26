@@ -2599,7 +2599,10 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 #' @examples
 #' \dontrun{
 #' sapply(1:10, function(i){v = sample(1:5); v[order_align(5:1, v)]})
-#' sapply(1:10, function(i){v = runif(1e2); v1 = sample(v, length(v)); all(v1[order_align(v, v1)] == v)})
+#' sapply(1:10, function(i){
+#'    v = runif(1e2); v1 = sample(v, length(v));
+#'    all(v1[order_align(v, v1)] == v)
+#' })
 #' }
 order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 
