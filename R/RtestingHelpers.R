@@ -204,15 +204,23 @@ testmeDir = function(dir = 'Rtests', expectationsFolder = 'Rtests/RtestsExpectat
 	return(rTests);
 }
 
-packageTestFileTemplate = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nif (Sys.getenv('NOT_ON_CRAN') == '1') print(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n";
+packageTestFileTemplates = list(
+	standard = "# This runs tests `%{base}s`\n#testmeEnvInit('RtestsExpectations', logger = print);\nlibrary('testme');\nprint(testmeFileSingle('testme/%{file}s', 'testme/RtestsExpectations', useGit = FALSE, logger = print));\n",
+	cran =  "# tess on cran currently skipped"
+);
 
 InstallPackageTest = function(packageDir, testPath, createReference, asCran = FALSE) {
+	if (asCran) {
+		Log("We currently skip tests on CRAN", 2);
+		return();
+	}
 	testBase = Sprintf('%{packageDir}s/tests');
 	dest = Sprintf('%{testBase}s/testme');
 	Dir.create(dest, recursive = T, logLevel = 2);
 	File.copy(testPath, dest, symbolicLinkIfLocal = F, overwrite = T);
 	base = splitPath(testPath)$base;
 	runFileName = Sprintf('%{testBase}s/%{base}s_run.R');
+	packageTestFileTemplate = packageTestFileTemplates[[]];
 	runFile = Sprintf(packageTestFileTemplate, splitPath(testPath));
 	writeFile(runFileName, runFile);
 
@@ -226,9 +234,8 @@ InstallPackageTest = function(packageDir, testPath, createReference, asCran = FA
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q', 2);
 		#SystemS('cd %{dir}q ; Rscript --vanilla %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 		#	2);
-		envPrefix = if (asCran) 'NOT_ON_CRAN= ' else 'NOT_ON_CRAN=1';
-		SystemS('cd %{dir}q ; %{envPrefix}s R --silent --vanilla < %{runFileName}q', 2);
-		SystemS('cd %{dir}q ; %{envPrefix}s R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q', 2);
+		SystemS('cd %{dir}q ; R --silent --vanilla < %{runFileName}q > %{testBase}q/%{base}q_run.Rout.save 2>&1',
 			2);
 		#print(output)
 	}
