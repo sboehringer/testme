@@ -81,7 +81,7 @@ Instead of printing our checks, we assign the results to a variable `Td` where `
 	runTestFunction('to.col_test');
 ```
 
-The first line initializes the testing environment. As we have not provided `testme` with what to expect, expectations are created in the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
+The second line initializes the testing environment (this will not be required later). As we have not provided `testme` with what to expect, expectations are created in the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
 
 ```
 R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T2.R [vivified] [mode=deparse]
@@ -98,7 +98,26 @@ $to.col_test$Nvivified
 [1] 2
 ```
 
-That's it. Running the tests will preserve the definition (meaning) of you function by storing the output of variables `Td`. Subsequent runs will check against these definitions. If your tests fail, you know that code relying the previous definitions might break.
+The result is a `list`, where component `result` tells us that the test passed. `NsubTests` is the number of tests run within the function. Finally, `Nvivified` tells us that both tests did not have expectations yet which were created. The first two lines of output show the corresonding pathes and way of creating the expectation.
+
+Now let's run it a second time. The output is now similar to:
+```
+R Thu Feb 27 12:14:26 2020: Test: to.col_test [N = 2]
+$to.col_test
+$to.col_test$result
+[1] TRUE
+
+$to.col_test$NsubTests
+[1] 2
+
+$to.col_test$Nvivified
+[1] 0
+```
+
+We do not see any path listed anymore as expectations now exist already. This is reflected by `Nvivified` which is zero. 
+
+
+That's it. Running the tests will preserve the definition (meaning) of you function by storing the output of variables `Td`. Subsequent runs will check against these definitions. If your tests fail, you know that code relying on previous definitions might break.
 
 In the next paragraphs you learn about the options of how to run your tests.
 
