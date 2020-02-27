@@ -175,7 +175,7 @@ The expectations are obtained by printing the deparsed output and copying it bac
 
 ## Comparison modes
 
-Package `compare` is used to compare test values und evaluated expectations for equalness. What is treated as equal can be fine-tuned via argument `mode`. `mode` is a list that forces a particular comparison. Keys are names of test values and values are comparison modes. Supported modes are:
+Package `compare` is used to compare test values with evaluated expectations for equality. What is treated as equal can be fine-tuned via argument `mode` of `TestMe`. `mode` is a list that forces a particular comparison mode for a particular test. Keys are names of test values and values are comparison modes. Supported modes are:
 
   * compare: call function `compare` (the default)
   * round8: round to 8 digits, then call compare
