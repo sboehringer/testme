@@ -11,13 +11,13 @@ author: Stefan Böhringer <r-packages@s-boehringer.org>
 
 # Purpose of the package
 
-This package is meant to rapidly develop unit (or integration) tests for your personal library. The author maintains a set of R-scirpts that he re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
+This package is meant to rapidly develop unit (or integration) tests for your personal library. The author maintains a set of R-scripts that he re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
 
 Other uses of software testing include coding to specification, where a unit test is written first and an actual function is written later to pass the pre-specified test. While `testme` can be used for this purpose, other packages might be more suitable (e.g. `testthat`).
 
 ## Walk through example
 
-Let us assume, we devlop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to a vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and be able to to use it as a matrix-like structure always, we have to detect and deal with this special case. Let us first find out how to detect the special case.
+Let us assume, we develop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to a vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and be able to to use it as a matrix-like structure always, we have to detect and deal with this special case. Let us first find out how to detect the special case.
 
 ```{r}
 	# our master structure

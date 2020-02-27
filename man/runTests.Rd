@@ -6,8 +6,7 @@
 \usage{
 runTests(
   testsFolder = firstDef(options("testme")$testme$testsFolder, "./Rtests"),
-  expectationsFolder = firstDef(options("testme")$testme$expectationsFolder,
-    "./Rtests/RtestsExpectations"),
+  expectationsFolder = options("testme")$testme$expectationsFolder,
   sourceFiles = options("testme")$testme$sourceFiles,
   isolateSession = TRUE,
   useGit = TRUE
