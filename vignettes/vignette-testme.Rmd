@@ -120,17 +120,17 @@ That's it.
 
 ## Philosopy of `testme`
 
-From some philosophical point of view, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
+From some more philosophical point of view, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
 Overall, a tight integration of several steps is achieved:
 
   * During function development, example calls become first class citizens
-  * Collecting examples in a test function make intended use explicit
-  * Reviewing tests emphasizes (or de-emphasizes) the importance of corner cases
+  * Collecting examples during development in a test function reflects developer intention
+  * Reviewing tests thus collected emphasizes (or de-emphasizes) the importance of corner cases
   * If old code needs to be changed, current behavior can be preserved effortlessly by running a few examples
 
 From a broader perspective, the above points emphasize enjoyment and motivation in programming. The disappointment of running an example that is not showing the intended output during function development is offset by the reward of having defined a good test case that can be literally copied into a test function. Shielding modifications of older code using few example calls, put into a test function, gives the feeling of security that other workflows will not break. Finally, if documentation is sparse, test cases form the true definition of the meaning of a function. Re-running the examples, which can be literally copied back to the R console, can refresh the memory of the true meaning of longer-not-used functions. This paragraph therefore puts forward additional aspects of software testing which arguably can increase productivity, satisfaction and control, which can only be realized by allowing low hanging fruit to be plucked on the way such as grown by `testme`.
 
-In the next paragraphs you learn about the options of how to run your tests.
+In the next paragraphs you learn about further options of how to run your tests.
 
 # Workflows
 
