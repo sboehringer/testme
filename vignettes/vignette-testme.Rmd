@@ -77,8 +77,8 @@ Instead of printing our checks, we assign the results to a variable `Td` where `
 
 ```{r}
 	library('testme');
-	#testmeEnvInit(tempdir());
-	#runTestFunction('to.col_test');
+	testmeEnvInit(tempdir());
+	runTestFunction('to.col_test');
 ```
 
 The first line initializes the testing environment. As we have not provided `testme` with what to expect, expectations are created in the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
