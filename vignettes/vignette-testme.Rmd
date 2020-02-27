@@ -114,7 +114,7 @@ $to.col_test$Nvivified
 [1] 0
 ```
 
-We do not see any path listed anymore as expectations now exist already. This is reflected by `Nvivified` which is zero. Finally, `result` is still `TRUE`, indicating that results could be reproduced and therefore fortunately neither cosmic nor ocean rays have tampered with our computer.
+We do not see any path listed anymore as expectations now already exist. This is reflected by `Nvivified` which is zero. Finally, `result` is still `TRUE`, indicating that results could be reproduced and therefore fortunately neither cosmic nor ocean rays have tampered with our computer.
 
 That's it.
 
