@@ -120,7 +120,7 @@ That's it.
 
 ## Philosopy of `testme`
 
-Philosophically, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
+From some philosophical point of view, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
 Overall, a tight integration of several steps is achieved:
 
   * During function development, example calls become first class citizens
