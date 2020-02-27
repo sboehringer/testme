@@ -73,9 +73,32 @@ to.col_test = function() {
 	TestMe();
 }
 ```
-Instead of printing our checks, we assign the results to a variable `Td` where `d` is an integer. Function `TestMe` detects the use of such variables and uses them for the definition of test cases.
+Instead of printing our checks, we assign the results to a variable `Td` where `d` is an integer. Function `TestMe` detects the use of such variables and uses them for the definition of test cases. Let us run the tests.
 
-That's it. Running the tests will preserve the definition (meaning) of you function. If your tests fail, you know that code using the previous definitions might break.
+```{r}
+	library('testme');
+	#testmeEnvInit(tempdir());
+	#runTestFunction('to.col_test');
+```
+
+The first line initializes the testing environment. As we have not provided `testme` with what to expect, expectations are created in the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
+
+```
+R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T2.R [vivified] [mode=deparse]
+R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T1.R [vivified] [mode=deparse]
+R Thu Feb 27 10:44:43 2020: Test: to.col_test [N = 2]
+$to.col_test
+$to.col_test$result
+[1] TRUE
+
+$to.col_test$NsubTests
+[1] 2
+
+$to.col_test$Nvivified
+[1] 2
+```
+
+That's it. Running the tests will preserve the definition (meaning) of you function by storing the output of variables `Td`. Subsequent runs will check against these definitions. If your tests fail, you know that code relying the previous definitions might break.
 
 In the next paragraphs you learn about the options of how to run your tests.
 
@@ -83,7 +106,7 @@ In the next paragraphs you learn about the options of how to run your tests.
 
 ## Testing locally
 
-One main purpose of package `testme` is to allow local testing in a continuous development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to garuantee consistent code behaviour, testing is required. Test can be held in a single file or in a directory. After changes can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
+One main purpose of package `testme` is to allow local testing in a continuous, informal development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to guarantee consistent code behavior, testing is required. Test can be held in a single file or in a directory. After changes are made, they can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
 
 ```{r}
 .First = function() {
@@ -96,7 +119,7 @@ One main purpose of package `testme` is to allow local testing in a continuous d
 }
 ```
 
-The code above can be put into the `.Rprofile` file. The function `runTests` will query these options if not explicetly provided with arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default.
+The code above can be put into the `.Rprofile` file. The function `runTests` will query these options if not explicitly provided by arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default.
 
 ## Testing packages
 
@@ -106,7 +129,7 @@ If a file contains tests that test functions in an R-package, these tests can be
 
 ## Using Expectations
 
-One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitely. Expectations have to be deparsed R values. The are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in.
+One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitely. Expectations have to be deparsed R values. The are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
 
 ```{r}
 to.col_test = function() {

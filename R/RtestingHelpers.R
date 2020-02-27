@@ -263,6 +263,14 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE, a
 #	<p> initialization
 #
 
+#' Initialize testing environment
+#'
+#' Create package internal environment to hold global state. Calling this function is not required under normal operation. This function is called internally, when whole files or directories are tested. It needs to be called when single testing functions are to be evaluated in an ad-hoc fashion (see vignette).
+#'
+#' @param expectationsFolder Path to folder to store test expectations in. Defaults to the \code{RtestsExpectations} sub-folder of argument \code{d}.
+#' @param d Base folder holding tests. Defauts to \code{tempdir()}
+#' @param logger Function used to print messages. Defaults to \code{LogAt1} which prints to stderr and includes the date
+#' @export testmeEnvInit
 testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
 	logger = LogAt1) {
 	#testmeEnv <<- new.env();
