@@ -81,7 +81,7 @@ Instead of printing our checks, we assign the results to a variable `Td` where `
 	runTestFunction('to.col_test');
 ```
 
-The second line initializes the testing environment (this will not be required later). As we have not provided `testme` with what to expect, expectations are created in the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
+The second line initializes the testing environment (this will not be required later). As we have not provided `testme` with what to expect, expectations are created during the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
 
 ```
 R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T2.R [vivified] [mode=deparse]
