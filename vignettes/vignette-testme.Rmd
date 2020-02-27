@@ -147,7 +147,7 @@ If a file contains tests that test functions in an R-package, these tests can be
 
 ## Using Expectations
 
-One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitely. Expectations have to be deparsed R values. The are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
+One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitly. Expectations are deparsed R values. They are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
 
 ```{r}
 to.col_test = function() {
@@ -166,6 +166,12 @@ to.col_test = function() {
 ```
 
 In the case above, no expectation files would be created and the provided values would be used for comparison instead.
+
+The expectations are obtained by printing the deparsed output and copying it back into the function.
+```{r}
+	print(Deparse(to.col(sel1)));
+	print(Deparse(to.col(sel2)));
+```
 
 ## Comparison modes
 
