@@ -259,6 +259,19 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE, a
 	InstallPackageTests(packageDir, testPathes, createReference, asCran = asCran);
 }
 
+#' Run tests intalled in R-package
+#'
+#' This is a convenience function to call \code{runTests()} on the test folder of an R-package. The tests are assumed to have been installed with \code{installPackageTests} before.
+#'
+#' @param packageName name of the R-package to be tested
+#' @param useGit boolean to indicate whether git commit should be ran on the testFolder after running tests
+#' @return value of runTests
+#' @export installPackageTests
+runPackageTests = function(packageName, useGit = FALSE) {
+	testDir = system.file('tests/testme', package = packageName);
+	runTests(testDir, useGit = useGit);
+}
+
 #
 #	<p> initialization
 #
