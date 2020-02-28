@@ -11,6 +11,8 @@ runPackageTests(packageName, packageDir, isolateSession = TRUE, useGit = FALSE)
 
 \item{packageDir}{alternatively to \code{packageName}, the package folder can be specified directly. Useful, for example, when testing a local developement tree.}
 
+\item{isolateSession}{boolean to indicate whether tests should be run in seperate R session}
+
 \item{useGit}{boolean to indicate whether git commit should be ran on the testFolder after running tests}
 }
 \value{

@@ -265,6 +265,7 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE, a
 #'
 #' @param packageName name of the R-package to be tested. Uses \code{system.file} to find package files.
 #' @param packageDir alternatively to \code{packageName}, the package folder can be specified directly. Useful, for example, when testing a local developement tree.
+#' @param isolateSession boolean to indicate whether tests should be run in seperate R session
 #' @param useGit boolean to indicate whether git commit should be ran on the testFolder after running tests
 #' @return value of runTests
 #' @export installPackageTests
