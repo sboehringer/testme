@@ -23,7 +23,7 @@ packageDefinition = list(
 		description = 'Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` or visit the project wiki (on github) for a tutorial.',
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
-		news = "1.1-0	Disable testing on CRAN.\n1.0-0	Documentation complete. RC3.\n0.9-4	Package test installation fix.RC2.\n0.9-3	Package tests for testme. RC1. 0.9-2	Minor fix R-session non-isolation.\n0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
+		news = "1.2-0	Documentation updates and fixes. Additions for package testing (runPackageTests). Tests no longer installed when --as-cran is used (see vignette).\n1.1-0	Disable testing on CRAN.\n1.0-0	Documentation complete. RC3.\n0.9-4	Package test installation fix.RC2.\n0.9-3	Package tests for testme. RC1. 0.9-2	Minor fix R-session non-isolation.\n0.9-1	Minor fix R-session isolation.\n0.9-0	RunTests function to run full testing battery in current or isolated R-session\n0.8-1	Bug fix R CMD build.\n0.8-0	Clean CRAN check. Beta version.\n0.7-1	Docu updates.\n0.7-0	All core functions documented\n0.6-0	Pre-alpha version. Needs more documentation\n0.5-0	error free cran-check, some warnings left\n0.4-0	fixed errors. logger function for test output\n0.3-0	`installPackageTests` function. Allow to install unit tests into a package folder \n\t and create required additional required files to have R run the tests on installation.\n0.2-0	Export functions\n0.1-0	Initial release",
 		vignettes = 'vignettes/vignette-testme.Rmd'
 	),
 	git = list(
@@ -261,15 +261,26 @@ installPackageTests = function(packageDir, testPathes, createReference = TRUE, a
 
 #' Run tests intalled in R-package
 #'
-#' This is a convenience function to call \code{runTests()} on the test folder of an R-package. The tests are assumed to have been installed with \code{installPackageTests} before.
+#' This is a convenience function to call \code{runTests()} on the test folder of an R-package. The tests are assumed to have been installed with \code{installPackageTests} before. The package must be loaded via \code{library} before calling this function.
 #'
-#' @param packageName name of the R-package to be tested
+#' @param packageName name of the R-package to be tested. Uses \code{system.file} to find package files.
+#' @param packageDir alternatively to \code{packageName}, the package folder can be specified directly. Useful, for example, when testing a local developement tree.
 #' @param useGit boolean to indicate whether git commit should be ran on the testFolder after running tests
 #' @return value of runTests
 #' @export installPackageTests
-runPackageTests = function(packageName, useGit = FALSE) {
-	testDir = system.file('tests/testme', package = packageName);
-	runTests(testDir, useGit = useGit);
+runPackageTests = function(packageName, packageDir, isolateSession = TRUE, useGit = FALSE) {
+# 	if (!Sprintf('package:%{packageName}s') %in% search()) {
+# 		loadNamespace(packageName);
+# 		on.exit(unload(packageName));
+# 	}
+	testDir = if (missing(packageName))
+		Sprintf('%{packageDir}s/tests/testme') else
+		system.file('tests/testme', package = packageName);
+	if (testDir == "") {
+		LogS(1, 'Package %{packageName}q not loaded. Please load package first.');
+		return(100);
+	}
+	runTests(testDir, useGit = useGit, isolateSession = isolateSession);
 }
 
 #

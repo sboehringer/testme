@@ -4,10 +4,12 @@
 \alias{runPackageTests}
 \title{Run tests intalled in R-package}
 \usage{
-runPackageTests(packageName, useGit = FALSE)
+runPackageTests(packageName, packageDir, isolateSession = TRUE, useGit = FALSE)
 }
 \arguments{
-\item{packageName}{name of the R-package to be tested}
+\item{packageName}{name of the R-package to be tested. Uses \code{system.file} to find package files.}
+
+\item{packageDir}{alternatively to \code{packageName}, the package folder can be specified directly. Useful, for example, when testing a local developement tree.}
 
 \item{useGit}{boolean to indicate whether git commit should be ran on the testFolder after running tests}
 }
@@ -15,5 +17,5 @@ runPackageTests(packageName, useGit = FALSE)
 value of runTests
 }
 \description{
-This is a convenience function to call \code{runTests()} on the test folder of an R-package. The tests are assumed to have been installed with \code{installPackageTests} before.
+This is a convenience function to call \code{runTests()} on the test folder of an R-package. The tests are assumed to have been installed with \code{installPackageTests} before. The package must be loaded via \code{library} before calling this function.
 }

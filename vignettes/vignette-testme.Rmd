@@ -142,6 +142,7 @@ The code above can be put into the `.Rprofile` file. The function `runTests` wil
 ## Testing packages
 
 If a file contains tests that test functions in an R-package, these tests can be installed into a package source tree using `installPackageTests`. Test files can be used both for local testing and for package testing. The only initialization performed for package tests is to load the package. Other initialization has to be performed in the test files themselves. Except for special cases, it should not be required to perform additional initialization.
+Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. As long as as tests are installed when installing a package (`R CMD INSTALL --install-tests`), the tests be run using function `runPackageTests`.
 
 # Advanced topics
 
