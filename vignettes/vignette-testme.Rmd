@@ -11,7 +11,7 @@ author: Stefan Böhringer <r-packages@s-boehringer.org>
 
 # Purpose of the package
 
-This package is meant to rapidly develop unit (or integration) tests for your personal library. For example, you might maintain a set of R-scripts that are re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
+This package is meant to rapidly develop unit (or integration) tests for your personal library. For example, you might maintain a set of R-scripts that are re-used across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
 
 Other uses of software testing include coding to specification, where a unit test is written first and an actual function is written later to pass the pre-specified test. While `testme` can be used for this purpose, other packages might be more suitable (e.g. `testthat`).
 
