@@ -11,9 +11,11 @@ author: Stefan Böhringer <r-packages@s-boehringer.org>
 
 # Purpose of the package
 
-This package is meant to rapidly develop unit (or integration) tests for your personal library. The author maintains a set of R-scripts that he re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
+This package is meant to rapidly develop unit (or integration) tests for your personal library. For example, you might maintain a set of R-scripts that are re-uses across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
 
 Other uses of software testing include coding to specification, where a unit test is written first and an actual function is written later to pass the pre-specified test. While `testme` can be used for this purpose, other packages might be more suitable (e.g. `testthat`).
+
+Next, the general workflow is introduced.
 
 ## Walk through example
 
@@ -124,7 +126,7 @@ In the next paragraphs you learn about further options of how to run your tests.
 
 ## Testing locally
 
-One main purpose of package `testme` is to allow local testing in a continuous, informal development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to guarantee consistent code behavior, testing is required. Test can be held in a single file or in a directory. After changes are made, they can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
+One main purpose of package `testme` is to allow local testing in a continuous, informal development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to guarantee consistent code behavior, testing is required. Tests can be held in a single file or in a directory. After changes are made, they can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
 
 ```{r}
 .First = function() {
@@ -137,12 +139,12 @@ One main purpose of package `testme` is to allow local testing in a continuous, 
 }
 ```
 
-The code above can be put into the `.Rprofile` file. The function `runTests` will query these options if not explicitly provided by arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default. If your `.Rprofile` is set up and you have loaded `testme`, simpliy type `runTests()` into the console.
+The code above can be put into the `.Rprofile` file. The function `runTests` will query these options, if not explicitly provided by arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default. If your `.Rprofile` is set up this way and you have loaded `testme`, simpliy type `runTests()` into the console.
 
 ## Testing packages
 
 If a file contains tests that test functions in an R-package, these tests can be installed into a package source tree using `installPackageTests`. Test files can be used both for local testing and for package testing. The only initialization performed for package tests is to load the package. Other initialization has to be performed in the test files themselves. Except for special cases, it should not be required to perform additional initialization.
-Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. As long as as tests are installed when installing a package (`R CMD INSTALL --install-tests`), the tests be run using function `runPackageTests`.
+Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. In any case, the tests are always installed and can be run using the `testme` function `runPackageTests`. Note, that package tests are stripped during installation, unless installed with (`R CMD INSTALL --install-tests`). Testing is therefore a main responsibility of the package maintainer, rather than the package user.
 
 # Advanced topics
 
