@@ -1,3 +1,4 @@
+1.2-2	CRAN submission updates.
 1.2-1	Minor fix
 1.2-0	Documentation updates and fixes. Additions for package testing (runPackageTests). Tests no longer installed when --as-cran is used (see vignette).
 1.1-0	Disable testing on CRAN.
