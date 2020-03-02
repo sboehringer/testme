@@ -150,7 +150,7 @@ Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet
 
 ## Using Expectations
 
-One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitly. Explicit expectations in `testme` are deparsed R values. They are indicated by variables names `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
+One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitly. Explicit expectations in `testme` are deparsed R values. They are indicated by variables named `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
 
 ```{r}
 to.col_test = function() {
