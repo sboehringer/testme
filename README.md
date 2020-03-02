@@ -9,4 +9,4 @@ Development of this package takes place on https://github.com/sboehringer/testme
 
 The wiki is available at https://github.com/sboehringer/testme/wiki
 # Description
-Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?"testme-package"` or visit the project wiki (on github) for a tutorial.
+Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using `testme`. Use `?'testme-package'` or visit the project wiki <https://https://github.com/sboehringer/testme/wiki> for a tutorial.
