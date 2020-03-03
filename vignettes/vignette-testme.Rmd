@@ -77,7 +77,7 @@ to.col_test = function() {
 ```
 Instead of printing our checks, we assign the results to a variable `Td` where `d` is an integer. Function `TestMe` detects the use of such variables and uses them for the definition of test cases. Let us run the tests.
 
-```{r results='hide', message='FALSE'}
+```{r results='hide', messages='FALSE'}
 	library('testme');
 	testmeEnvInit(tempdir());
 	runTestFunction('to.col_test');
