@@ -144,7 +144,7 @@ The code above can be put into the `.Rprofile` file. The function `runTests` wil
 ## Testing packages
 
 If a file contains tests that test functions in an R-package, these tests can be installed into a package source tree using `installPackageTests`. Test files can be used both for local testing and for package testing. The only initialization performed for package tests is to load the package. Other initialization has to be performed in the test files themselves. Except for special cases, it should not be required to perform additional initialization.
-Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. In any case, the tests are always installed and can be run using the `testme` function `runPackageTests`. Note, that package tests are stripped during installation, unless installed with (`R CMD INSTALL --install-tests`). Testing is therefore a main responsibility of the package maintainer, rather than the package user.
+Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. In any case, the tests are always installed and can be run using the `testme` function `runPackageTests`. Note, that package tests are stripped during installation, unless installed with `R CMD INSTALL --install-tests`. Testing is therefore a main responsibility of the package maintainer, rather than the package user.
 
 # Advanced topics
 
@@ -200,12 +200,12 @@ The following example illustrates the use of mode `round8`:
 # Philosopy of `testme`
 
 From a more philosophical point of view, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
-Overall, a tight integration of several steps is achieved:
+Overall, a tight integration of changing code and tests is achieved. Several key benefits are:
 
   * During function development, example calls become first class citizens
   * Collecting examples during development in a test function reflects developer intention
     * The scope of current use is documented
-    * Room for future extensions: corner cases are not yet defined as the most useful behavior is unclear at the moment
+    * Room for future extensions: explicitly testing only a certain range of input parameters/corner cases
   * If old code (without tests) needs to be changed, current behavior can be preserved effortlessly by running a few examples
 
 From a broader perspective, the above points emphasize enjoyment and motivation in programming. The disappointment of running an example that is not showing the intended output during function development is offset by the reward of having defined a good test case that can be literally copied into a test function. Shielding modifications of older code using few example calls, put into a test function, gives the feeling of security that other workflows will not break. Finally, if documentation is sparse, test cases form the true definition of the meaning of a function. Re-running the examples, which can be literally copied back to the R console, can refresh the memory of the true meaning of longer-not-used functions. This paragraph therefore puts forward additional aspects of software testing which arguably can increase productivity, satisfaction and control, which can only be realized by allowing low hanging fruit to be plucked on the way such as grown by `testme`.
