@@ -103,6 +103,7 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 runTestFunctionSingle = function(testName, logger = LogAt1) {
 	assign('name', testName, testmeEnv);	# global variable holding the test name
 	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
+browser();
 	testFunction = get(testName);
 	rTest = try(testFunction());
 	r = if (is.list(rTest)) {
