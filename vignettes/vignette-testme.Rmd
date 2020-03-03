@@ -49,7 +49,7 @@ We can create a column vector with the transpose function like so:
 
 Now let us wrap these expresssion into a function (taking only bits and pieces from above):
 
-```{r}
+```{r eval=TRUE}
 	to.col = function(m) { if (is.null(dim(m))) t(t(m)) else m }
 ```
 
@@ -62,7 +62,8 @@ Let us check our function again:
 
 But now, by simply checking your new function, you have created unit tests! We wrap the last part into a testing function:
 
-```{r}
+```{r eval=TRUE}
+print(m0);
 to.col_test = function() {
 	# prepare test data
 	m0 = matrix(1:9, ncol = 3);
