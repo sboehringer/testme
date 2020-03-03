@@ -10,11 +10,179 @@ The following object is masked from ‘package:base’:
     isTRUE
 
 > print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
-[1] "Test: compare_test [N = 4]"
-[1] "Test: findVariables_test [N = 1]"
-[1] "Test: integrative_test [N = 3]"
-[1] "Test: Round_test [N = 3]"
-$compare_test
+Called from: (function (testName, logger = LogAt1) 
+{
+    assign("name", testName, testmeEnv)
+    Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
+    browser()
+    testFunction = get(testName)
+    rTest = try(testFunction())
+    r = if (is.list(rTest)) {
+        Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+        rTest$result
+    }
+    else {
+        Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+        rTest
+    }
+    if (class(r) == "try-error" || !isTRUE(r)) 
+        Log(Sprintf("********* test: %{testName}s failed"))
+    r = if (class(r) == "try-error") 
+        FALSE
+    else if (class(r) == "comparison") 
+        isTRUE(r)
+    else r
+    list(if (is.list(rTest)) rTest else list(result = rTest, 
+        NsubTests = 1))
+})(testName = dots[[1L]][[1L]])
+Browse[1]> debug: testFunction = get(testName)
+Browse[2]> debug: rTest = try(testFunction())
+Browse[2]> debug: r = if (is.list(rTest)) {
+    Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+    rTest$result
+} else {
+    Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+    rTest
+}
+Browse[2]> debug: Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+Browse[2]> [1] "Test: compare_test [N = 4]"
+debug: rTest$result
+Browse[2]> debug: if (class(r) == "try-error" || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"))
+Browse[2]> debug: r = if (class(r) == "try-error") FALSE else if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: r
+Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
+Browse[2]> debug: rTest
+Browse[2]> Called from: (function (testName, logger = LogAt1) 
+{
+    assign("name", testName, testmeEnv)
+    Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
+    browser()
+    testFunction = get(testName)
+    rTest = try(testFunction())
+    r = if (is.list(rTest)) {
+        Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+        rTest$result
+    }
+    else {
+        Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+        rTest
+    }
+    if (class(r) == "try-error" || !isTRUE(r)) 
+        Log(Sprintf("********* test: %{testName}s failed"))
+    r = if (class(r) == "try-error") 
+        FALSE
+    else if (class(r) == "comparison") 
+        isTRUE(r)
+    else r
+    list(if (is.list(rTest)) rTest else list(result = rTest, 
+        NsubTests = 1))
+})(testName = dots[[1L]][[2L]])
+Browse[1]> debug: testFunction = get(testName)
+Browse[2]> debug: rTest = try(testFunction())
+Browse[2]> debug: r = if (is.list(rTest)) {
+    Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+    rTest$result
+} else {
+    Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+    rTest
+}
+Browse[2]> debug: Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+Browse[2]> [1] "Test: findVariables_test [N = 1]"
+debug: rTest$result
+Browse[2]> debug: if (class(r) == "try-error" || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"))
+Browse[2]> debug: r = if (class(r) == "try-error") FALSE else if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: r
+Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
+Browse[2]> debug: rTest
+Browse[2]> Called from: (function (testName, logger = LogAt1) 
+{
+    assign("name", testName, testmeEnv)
+    Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
+    browser()
+    testFunction = get(testName)
+    rTest = try(testFunction())
+    r = if (is.list(rTest)) {
+        Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+        rTest$result
+    }
+    else {
+        Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+        rTest
+    }
+    if (class(r) == "try-error" || !isTRUE(r)) 
+        Log(Sprintf("********* test: %{testName}s failed"))
+    r = if (class(r) == "try-error") 
+        FALSE
+    else if (class(r) == "comparison") 
+        isTRUE(r)
+    else r
+    list(if (is.list(rTest)) rTest else list(result = rTest, 
+        NsubTests = 1))
+})(testName = dots[[1L]][[3L]])
+Browse[1]> debug: testFunction = get(testName)
+Browse[2]> debug: rTest = try(testFunction())
+Browse[2]> debug: r = if (is.list(rTest)) {
+    Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+    rTest$result
+} else {
+    Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+    rTest
+}
+Browse[2]> debug: Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+Browse[2]> [1] "Test: integrative_test [N = 3]"
+debug: rTest$result
+Browse[2]> debug: if (class(r) == "try-error" || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"))
+Browse[2]> debug: r = if (class(r) == "try-error") FALSE else if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: r
+Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
+Browse[2]> debug: rTest
+Browse[2]> Called from: (function (testName, logger = LogAt1) 
+{
+    assign("name", testName, testmeEnv)
+    Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
+    browser()
+    testFunction = get(testName)
+    rTest = try(testFunction())
+    r = if (is.list(rTest)) {
+        Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+        rTest$result
+    }
+    else {
+        Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+        rTest
+    }
+    if (class(r) == "try-error" || !isTRUE(r)) 
+        Log(Sprintf("********* test: %{testName}s failed"))
+    r = if (class(r) == "try-error") 
+        FALSE
+    else if (class(r) == "comparison") 
+        isTRUE(r)
+    else r
+    list(if (is.list(rTest)) rTest else list(result = rTest, 
+        NsubTests = 1))
+})(testName = dots[[1L]][[4L]])
+Browse[1]> debug: testFunction = get(testName)
+Browse[2]> debug: rTest = try(testFunction())
+Browse[2]> debug: r = if (is.list(rTest)) {
+    Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+    rTest$result
+} else {
+    Log(Sprintf("Test: %{testName}s [N = ?], legacy"))
+    rTest
+}
+Browse[2]> debug: Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
+Browse[2]> [1] "Test: Round_test [N = 3]"
+debug: rTest$result
+Browse[2]> debug: if (class(r) == "try-error" || !isTRUE(r)) Log(Sprintf("********* test: %{testName}s failed"))
+Browse[2]> debug: r = if (class(r) == "try-error") FALSE else if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: if (class(r) == "comparison") isTRUE(r) else r
+Browse[2]> debug: r
+Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubTests = 1))
+Browse[2]> debug: rTest
+Browse[2]> $compare_test
 $compare_test$result
 [1] TRUE
 

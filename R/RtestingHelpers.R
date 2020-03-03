@@ -96,15 +96,23 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 #'
 #' The function is exepected to call \code{TestMe()} to invoke testing. The function is called and test results are collected.
 #'
-#' @param testName function name as charater vector with one element
+#' @param testName function name as charater vector
 #' @param logger function that prints logging information
 #' @return Test result summary is returned as a list with components \code{result}, the boolean test state, \code{NsubTests}, the number of tests performed in the function
 # @seealso {runTestFunction()} for passing a character vector with many elements
 runTestFunctionSingle = function(testName, logger = LogAt1) {
-	assign('name', testName, testmeEnv);	# global variable holding the test name
 	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
+# 	if (class(testName) == 'function') {
+# 		testFunction = testName;
+# 		testName = substitute(testName, parent.frame());
+# 	} else {
+# 	}
 browser();
-	testFunction = get(testName);
+	# <!> cannot be substituted by the following
+	testFunction = try(get(testName), silent = T);
+	if (class(testFunction) == 'try-error') testFunction = dynGet(testName);
+	#testFunction = mget(testName, ifnotfound = dynGet(testName));
+	assign('name', testName, testmeEnv);	# global variable holding the test name
 	rTest = try(testFunction());
 	r = if (is.list(rTest)) {
 		Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests));
