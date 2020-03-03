@@ -7,7 +7,7 @@
 runTestFunctionSingle(testName, logger = LogAt1)
 }
 \arguments{
-\item{testName}{function name as charater vector with one element}
+\item{testName}{function name as charater vector or the function itself}
 
 \item{logger}{function that prints logging information}
 }
