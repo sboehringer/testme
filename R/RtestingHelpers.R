@@ -107,9 +107,9 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 # 		testName = substitute(testName, parent.frame());
 # 	} else {
 # 	}
-browser();
 	# <!> cannot be substituted by the following
 	testFunction = try(get(testName), silent = T);
+	# dynGet needed for use in R markdown
 	if (class(testFunction) == 'try-error') testFunction = dynGet(testName);
 	#testFunction = mget(testName, ifnotfound = dynGet(testName));
 	assign('name', testName, testmeEnv);	# global variable holding the test name

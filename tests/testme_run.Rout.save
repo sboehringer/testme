@@ -12,10 +12,12 @@ The following object is masked from ‘package:base’:
 > print(testmeFileSingle('testme/testme.R', 'testme/RtestsExpectations', useGit = FALSE, logger = print));
 Called from: (function (testName, logger = LogAt1) 
 {
-    assign("name", testName, testmeEnv)
     Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
     browser()
-    testFunction = get(testName)
+    testFunction = try(get(testName), silent = T)
+    if (class(testFunction) == "try-error") 
+        testFunction = dynGet(testName)
+    assign("name", testName, testmeEnv)
     rTest = try(testFunction())
     r = if (is.list(rTest)) {
         Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -35,7 +37,9 @@ Called from: (function (testName, logger = LogAt1)
     list(if (is.list(rTest)) rTest else list(result = rTest, 
         NsubTests = 1))
 })(testName = dots[[1L]][[1L]])
-Browse[1]> debug: testFunction = get(testName)
+Browse[1]> debug: testFunction = try(get(testName), silent = T)
+Browse[2]> debug: if (class(testFunction) == "try-error") testFunction = dynGet(testName)
+Browse[2]> debug: assign("name", testName, testmeEnv)
 Browse[2]> debug: rTest = try(testFunction())
 Browse[2]> debug: r = if (is.list(rTest)) {
     Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -55,10 +59,12 @@ Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubT
 Browse[2]> debug: rTest
 Browse[2]> Called from: (function (testName, logger = LogAt1) 
 {
-    assign("name", testName, testmeEnv)
     Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
     browser()
-    testFunction = get(testName)
+    testFunction = try(get(testName), silent = T)
+    if (class(testFunction) == "try-error") 
+        testFunction = dynGet(testName)
+    assign("name", testName, testmeEnv)
     rTest = try(testFunction())
     r = if (is.list(rTest)) {
         Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -78,7 +84,9 @@ Browse[2]> Called from: (function (testName, logger = LogAt1)
     list(if (is.list(rTest)) rTest else list(result = rTest, 
         NsubTests = 1))
 })(testName = dots[[1L]][[2L]])
-Browse[1]> debug: testFunction = get(testName)
+Browse[1]> debug: testFunction = try(get(testName), silent = T)
+Browse[2]> debug: if (class(testFunction) == "try-error") testFunction = dynGet(testName)
+Browse[2]> debug: assign("name", testName, testmeEnv)
 Browse[2]> debug: rTest = try(testFunction())
 Browse[2]> debug: r = if (is.list(rTest)) {
     Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -98,10 +106,12 @@ Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubT
 Browse[2]> debug: rTest
 Browse[2]> Called from: (function (testName, logger = LogAt1) 
 {
-    assign("name", testName, testmeEnv)
     Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
     browser()
-    testFunction = get(testName)
+    testFunction = try(get(testName), silent = T)
+    if (class(testFunction) == "try-error") 
+        testFunction = dynGet(testName)
+    assign("name", testName, testmeEnv)
     rTest = try(testFunction())
     r = if (is.list(rTest)) {
         Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -121,7 +131,9 @@ Browse[2]> Called from: (function (testName, logger = LogAt1)
     list(if (is.list(rTest)) rTest else list(result = rTest, 
         NsubTests = 1))
 })(testName = dots[[1L]][[3L]])
-Browse[1]> debug: testFunction = get(testName)
+Browse[1]> debug: testFunction = try(get(testName), silent = T)
+Browse[2]> debug: if (class(testFunction) == "try-error") testFunction = dynGet(testName)
+Browse[2]> debug: assign("name", testName, testmeEnv)
 Browse[2]> debug: rTest = try(testFunction())
 Browse[2]> debug: r = if (is.list(rTest)) {
     Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -141,10 +153,12 @@ Browse[2]> debug: list(if (is.list(rTest)) rTest else list(result = rTest, NsubT
 Browse[2]> debug: rTest
 Browse[2]> Called from: (function (testName, logger = LogAt1) 
 {
-    assign("name", testName, testmeEnv)
     Log = Mget("logger", testmeEnv, "function", ifnotfound = logger)
     browser()
-    testFunction = get(testName)
+    testFunction = try(get(testName), silent = T)
+    if (class(testFunction) == "try-error") 
+        testFunction = dynGet(testName)
+    assign("name", testName, testmeEnv)
     rTest = try(testFunction())
     r = if (is.list(rTest)) {
         Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
@@ -164,7 +178,9 @@ Browse[2]> Called from: (function (testName, logger = LogAt1)
     list(if (is.list(rTest)) rTest else list(result = rTest, 
         NsubTests = 1))
 })(testName = dots[[1L]][[4L]])
-Browse[1]> debug: testFunction = get(testName)
+Browse[1]> debug: testFunction = try(get(testName), silent = T)
+Browse[2]> debug: if (class(testFunction) == "try-error") testFunction = dynGet(testName)
+Browse[2]> debug: assign("name", testName, testmeEnv)
 Browse[2]> debug: rTest = try(testFunction())
 Browse[2]> debug: r = if (is.list(rTest)) {
     Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests))
