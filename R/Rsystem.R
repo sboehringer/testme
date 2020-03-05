@@ -154,8 +154,12 @@ File.copy_raw = function(from, to, ..., recursive = F, agent = 'scp', logLevel =
 
 	r = if (!is.remote.f && !is.remote.t) {
 		if (symbolicLinkIfLocal) {
+			LogS(4, 'Symlinking "%{from}s --> %{to}s', from = spF$path, to = spT$path);
 			file.symlink(spF$path, spT$path, ...);
-		} else file.copy(spF$path, spT$path, recursive = recursive, ...);
+		} else {
+			LogS(4, 'Copy "%{from}s --> %{to}s', from = spF$path, to = spT$path);
+			file.copy(spF$path, spT$path, recursive = recursive, ...);
+		}
 	} else {
 		# <A> assume 'to' to be atomic
 		cmd = sprintf('%s %s %s %s %s',

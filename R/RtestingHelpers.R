@@ -19,7 +19,8 @@ packageDefinition = list(
 		title = 'Rapid Development of Software Tests',
 		# version to be documented in news section
 		#version = '0.1-0',
-		author = 'Stefan B\uf6hringer <r-packages@s-boehringer.org>',
+		#author = 'Stefan B\uf6hringer <r-packages@s-boehringer.org>',
+		author = 'Stefan Boehringer <r-packages@s-boehringer.org>',
 		description = "Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using \\code{testme}. Use \\code{?'testme-package'} or visit the project wiki <https://github.com/sboehringer/testme/wiki> for a tutorial.",
 		depends = c('compare', 'methods', 'utils', 'stats'),
 		suggests = c(),
