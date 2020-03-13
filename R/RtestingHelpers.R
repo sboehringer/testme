@@ -111,9 +111,11 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 	# <!> cannot be substituted by the following
 	testFunction = try(get(testName), silent = T);
 	# dynGet needed for use in R markdown
-	if (class(testFunction) == 'try-error') testFunction = dynGet(testName);
+	if (class(testFunction) == 'try-error') testFunction = try(dynGet(testName));
 	#testFunction = mget(testName, ifnotfound = dynGet(testName));
 	assign('name', testName, testmeEnv);	# global variable holding the test name
+	if (class(testFunction) == 'try-error')
+		return(list(result = FALSE, NsubTests = NA, warning = 'test not found'));
 	rTest = try(testFunction());
 	r = if (is.list(rTest)) {
 		Log(Sprintf("Test: %{testName}s [N = %{N}d]", N = rTest$NsubTests));
