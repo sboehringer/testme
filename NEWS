@@ -1,3 +1,4 @@
+1.2-6	Make vignette build on Windows.
 1.2-5	Increased robustness of runTestFunctionSingle
 1.2-4	Version update for CRAN re-submission
 1.2-3	Fixed subtle R markdown issue (access to environment)

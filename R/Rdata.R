@@ -3851,7 +3851,6 @@ Recycle = function(l, byRow = T) {
 	lTmp = lapply(l, function(e)1:length(e));
 	rTmp = 	lapply(apply(do.call(cbind, lTmp), 2, as.list), unlist)
 	# extract values per component
-print(list(lTmp, rTmp));
 	r = lapply(seq_along(l), function(i)accessIdx(l[[i]], rTmp[[i]], byRow = byRow));
 	return(setNames(r, names(l)));
 }
