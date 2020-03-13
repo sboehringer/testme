@@ -103,6 +103,7 @@ Mget = function(x, envir, mode = 'any', ifnotfound, ...) {
 # @seealso {runTestFunction()} for passing a character vector with many elements
 runTestFunctionSingle = function(testName, logger = LogAt1) {
 	Log = Mget('logger', testmeEnv, 'function', ifnotfound = logger);
+	assign('name', testName, testmeEnv);	# global variable holding the test name
 # 	if (class(testName) == 'function') {
 # 		testFunction = testName;
 # 		testName = substitute(testName, parent.frame());
@@ -113,7 +114,6 @@ runTestFunctionSingle = function(testName, logger = LogAt1) {
 	# dynGet needed for use in R markdown
 	if (class(testFunction) == 'try-error') testFunction = try(dynGet(testName));
 	#testFunction = mget(testName, ifnotfound = dynGet(testName));
-	assign('name', testName, testmeEnv);	# global variable holding the test name
 	if (class(testFunction) == 'try-error')
 		return(list(result = FALSE, NsubTests = NA, warning = 'test not found'));
 	rTest = try(testFunction());
@@ -649,7 +649,7 @@ runTestsInternal = function(
 	return(allGood);
 }
 	
-runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = testme:::runTestsInternal(%{testsFolder}t, %{expectationsFolder}t, useGit = %{useGit}s);\n";
+runTestsRTemplate = "library('testme');\nlibrary('methods');\nlibrary('compare');\n%{src}s\nallGood = testme:::runTestsInternal(%{testsFolder}t, %{expectationsFolder}s, useGit = %{useGit}s);\n";
 runTestsRTemplateI = join(c(runTestsRTemplate, "quit(status = ifelse(allGood, 0, 100));\n"), "\n");
 
 #' Run tests in isolation
@@ -674,6 +674,8 @@ runTests = function(
 	isolateSession = TRUE,
 	useGit = TRUE) {
 
+	# handle NULL case icw quoting
+	expectationsFolder = if (is.null(expectationsFolder)) 'NULL' else qss(expectationsFolder);
 	if (isolateSession) {
 		src = join(Sprintf('source(%{sourceFiles}t, chdir = TRUE);'), "\n");
 		tmpsrc = tempfile();
