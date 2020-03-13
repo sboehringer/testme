@@ -1,7 +1,7 @@
 Package: testme
 Type: Package
 Title: Rapid Development of Software Tests
-Version: 1.2-4
+Version: 1.2-5
 Date: 2020-03-13
 Author: Stefan Boehringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Boehringer <r-packages@s-boehringer.org>
