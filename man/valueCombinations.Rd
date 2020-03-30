@@ -16,7 +16,7 @@ list with all value combinations present in \code{d}
 Return all value combinations appearing in a data frame
 }
 \examples{
-\dontrun{
+
 combs = valueCombinations(iris);
-}
+
 }

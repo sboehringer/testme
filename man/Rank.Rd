@@ -20,8 +20,6 @@ Computes order so that inverseOrder after order is the identity
 Caculate ranks for arguemnt \code{p}. Works on vactors and data frames.
 }
 \examples{
-\dontrun{
 v = runif(1e2);
 print(all(sort(v)[inverseOrder(v)] == v))
-}
 }
