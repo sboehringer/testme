@@ -2558,10 +2558,10 @@ Order = function(v, ...) {
 #'
 #' @param d data frame for which value combinations are to be caclulated
 #' @return list with all value combinations present in \code{d}
-##' @examples
-##'
-##' combs = valueCombinations(iris);
-##'
+# #' @examples
+# #'
+# #' combs = valueCombinations(iris);
+# #'
 valueCombinations = function(d) merge.multi.list(dimnames(table(d)));
 
 #' @title Computes order so that inverseOrder after order is the identity
@@ -2571,9 +2571,9 @@ valueCombinations = function(d) merge.multi.list(dimnames(table(d)));
 #' @param p object for which ranks are to be comptued
 #' @return vector of ranks of elements of \code{p}
 #'
-##' @examples
-##' v = runif(1e2);
-##' print(all(sort(v)[inverseOrder(v)] == v))
+# #' @examples
+# #' v = runif(1e2);
+# #' print(all(sort(v)[inverseOrder(v)] == v))
 Rank = inverseOrder = inversePermutation = function(p) {
 	## <p> naive version
 	# 	o = order(p);
@@ -2600,12 +2600,12 @@ inverseOrder_fromOrder = function(p)which.indeces(1:length(p), p)
 #' @param v vector that is to be ordered the same way as \code{reference}
 #' @return vector of indeces so that \code{v[return_value]} is the same as \code{reference}
 #'
-##' @examples
-##' sapply(1:10, function(i){v = sample(1:5); v[order_align(5:1, v)]})
-##' sapply(1:10, function(i){
-##'    v = runif(1e2); v1 = sample(v, length(v));
-##'    all(v1[order_align(v, v1)] == v)
-##' })
+# #' @examples
+# #' sapply(1:10, function(i){v = sample(1:5); v[order_align(5:1, v)]})
+# #' sapply(1:10, function(i){
+# #'    v = runif(1e2); v1 = sample(v, length(v));
+# #'    all(v1[order_align(v, v1)] == v)
+# #' })
 order_align = function(reference, v)Order(v)[inverseOrder(reference)];
 
 #' @title Calculates \code{order_align}, assuming that the both arguments are already orders.

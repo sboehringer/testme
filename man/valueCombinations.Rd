@@ -15,8 +15,3 @@ list with all value combinations present in \code{d}
 \description{
 Return all value combinations appearing in a data frame
 }
-\examples{
-
-combs = valueCombinations(iris);
-
-}
