@@ -902,6 +902,12 @@ index2listPosition = function(l) {
 	r
 }
 
+# idcs start positions in ragged list, converted to ranges
+idcsStart2range = function(idcs, N = max(idcs)) {
+	if (length(idcs) == 0) return(NULL);
+	vector.intercalate(idcs, c(shift(idcs - 1), N))
+}
+
 # splitting based on fractions
 # voting percentages to seats
 #	simple algorithm based on size of residuals
