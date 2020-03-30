@@ -2,12 +2,13 @@
 title: Introduction to `testme`
 date: "`r Sys.Date()`"
 vignette: >
-  %\VignetteIndexEntry{Introduction to `testme`}
+  %\VignetteIndexEntry{introduction.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 output: rmarkdown::html_vignette
 author: Stefan Boehringer <r-packages@s-boehringer.org>
 packageName: testme
+file: introduction.Rmd
 ---
 
 ```{r results='hide', echo=FALSE, message=FALSE}
