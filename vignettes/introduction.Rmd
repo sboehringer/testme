@@ -1,0 +1,220 @@
+---
+title: Introduction to `testme`
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Introduction to `testme`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: rmarkdown::html_vignette
+author: Stefan Boehringer <r-packages@s-boehringer.org>
+packageName: testme
+---
+
+```{r results='hide', echo=FALSE, message=FALSE}
+	library('testme');
+```
+
+# Purpose of the package
+
+This package is meant to rapidly develop unit (or integration) tests for your personal library. For example, you might maintain a set of R-scripts that are re-used across projects. It is important that the meaning of functions does not change over time so that old analyses can be repeated even with the latest version of the scripts.
+
+Other uses of software testing include coding to specification, where a unit test is written first and an actual function is written later to pass the pre-specified test. While `testme` can be used for this purpose, other packages might be more suitable (e.g. `testthat`).
+
+Next, the general workflow is introduced.
+
+## Walk through example
+
+Let us assume, we develop a function that deals with a special case in R where columns from a `data.frame` or `matrix` are selected and simplified to a vector in case a single column is selected (which can be avoided by the `.drop = FALSE` argument). If we want to deal with the result of such a selection (projection) and be able to to use it as a matrix-like structure always, we have to detect and deal with this special case. Let us first find out how to detect the special case.
+
+```{r}
+	# our master structure
+	m0 = matrix(1:9, ncol = 3);
+
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	print(dim(sel1));
+	print(dim(sel2));
+```
+
+Aha! `dim` returns `NULL` in case of a vector and something else otherwise. We can therefore use the `dim`-test to detect the special case.
+
+```{r}
+	m = sel1;
+	print(if (is.null(dim(m))) "is vector" else "is matrix");
+	m = sel2;
+	print(if (is.null(dim(m))) "is vector" else "is matrix");
+```
+
+We can create a column vector with the transpose function like so:
+
+```{r}
+	print(t(t(sel2)));
+```
+
+Now let us wrap these expresssion into a function (taking only bits and pieces from above):
+
+```{r}
+	to.col = function(m) { if (is.null(dim(m))) t(t(m)) else m }
+```
+
+Let us check our function again:
+
+```{r}
+	print(to.col(sel1));
+	print(to.col(sel2));
+```
+
+But now, by simply checking your new function, you have created unit tests! We wrap the last part into a testing function:
+
+```{r}
+to.col_test = function() {
+	# prepare test data
+	m0 = matrix(1:9, ncol = 3);
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	T1 = to.col(sel1);
+	T2 = to.col(sel2);
+
+	TestMe();
+}
+```
+Instead of printing our checks, we assign the results to a variable `Td` where `d` is an integer. Function `TestMe` detects the use of such variables and uses them for the definition of test cases. Let us run the tests.
+
+```
+	library('testme');
+	testmeEnvInit(tempdir());
+	runTestFunction('to.col_test');
+```
+
+The second line initializes the testing environment (this will not be required later). As we have not provided `testme` with what to expect, expectations are created during the first run. The `expectationsFolder` argument to `testmeEnvInit` specifies where to store the expectations. An output similar to the following is expected:
+
+```
+R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T2.R [vivified] [mode=deparse]
+R Thu Feb 27 10:44:43 2020: Path expectation: /tmp/Rtmp5KqH9t/to.col+T1.R [vivified] [mode=deparse]
+R Thu Feb 27 10:44:43 2020: Test: to.col_test [N = 2]
+$to.col_test
+$to.col_test$result
+[1] TRUE
+
+$to.col_test$NsubTests
+[1] 2
+
+$to.col_test$Nvivified
+[1] 2
+```
+
+The result is a `list`, where component `result` tells us that the test passed. `NsubTests` is the number of tests run within the function. Finally, `Nvivified` tells us that both tests did not have expectations yet which were created. The first two lines of output show the corresonding pathes and way of creating the expectation.
+
+Now let's run it a second time. The output is now similar to:
+```
+R Thu Feb 27 12:14:26 2020: Test: to.col_test [N = 2]
+$to.col_test
+$to.col_test$result
+[1] TRUE
+
+$to.col_test$NsubTests
+[1] 2
+
+$to.col_test$Nvivified
+[1] 0
+```
+
+We do not see any path listed anymore as expectations now already exist. This is reflected by `Nvivified` which is zero. Finally, `result` is still `TRUE`, indicating that results could be reproduced and therefore fortunately neither cosmic nor ocean rays have tampered with our computer.
+
+That's it.
+
+In the next paragraphs you learn about further options of how to run your tests.
+
+# Workflows
+
+## Testing locally
+
+One main purpose of package `testme` is to allow local testing in a continuous, informal development model. In this model, it is assumed that R-code is re-used across projects and sourced into the different workflows. In order to guarantee consistent code behavior, testing is required. Tests can be held in a single file or in a directory. After changes are made, they can be easily tested. Package functions `testmeFile` and `testmeDir` can be used to run these tests. If a standard location for tests exists, it can be configured with `options`.
+
+```{r}
+.First = function() {
+	options(
+		testme = list(
+			testsFolder = '~/src/Rtests',
+			sourceFiles = c('~/src/Rgeneric.R', '~/src/Rgenetics.R')
+		)
+	)
+}
+```
+
+The code above can be put into the `.Rprofile` file. The function `runTests` will query these options, if not explicitly provided by arguments. The component `sourceFiles` specifies initialization scripts that load the code that is to be tested by tests in `testsFolder`. Expectations are stored in the subfolder `RtestsExpectations` of `testsFolder` by default. If your `.Rprofile` is set up this way and you have loaded `testme`, simpliy type `runTests()` into the console.
+
+## Testing packages
+
+If a file contains tests that test functions in an R-package, these tests can be installed into a package source tree using `installPackageTests`. Test files can be used both for local testing and for package testing. The only initialization performed for package tests is to load the package. Other initialization has to be performed in the test files themselves. Except for special cases, it should not be required to perform additional initialization.
+Unfortunately `R CMD check` behaves differently from `R CMD check --as-cran` yet behaving differently from `tools::testInstalledPackage`. `testme` therefore only installs the R testing mechanism when `R CMD check` is used. In any case, the tests are always installed and can be run using the `testme` function `runPackageTests`. Note, that package tests are stripped during installation, unless installed with `R CMD INSTALL --install-tests`. Testing is therefore a main responsibility of the package maintainer, rather than the package user.
+
+# Advanced topics
+
+## Using Expectations
+
+One major optimization in the testing workflow of `testme` is that expectations are created automatically. Sometimes it is required or clearer to provide expectations explicitly. Explicit expectations in `testme` are deparsed R values. They are indicated by variables named `Ed` where `d` is an integer. The deparsing can be performed by function `Deparse` as provided by package `testme` or by the build-in `dput`.
+
+```{r}
+to.col_test = function() {
+	# prepare test data
+	m0 = matrix(1:9, ncol = 3);
+	sel1 = m0[, 1:2];
+	sel2 = m0[, 3];
+
+	T1 = to.col(sel1);
+	E1 = "structure(1:6, .Dim = 3:2)";
+	T2 = to.col(sel2);
+	E2 = "structure(7:9, .Dim = c(3L, 1L))";
+
+	TestMe();
+}
+```
+
+In the case above, no expectation files would be created and the provided values would be used for comparison instead.
+
+The expectations are obtained by printing the deparsed output and copying it back into the function.
+```{r}
+	print(Deparse(to.col(sel1)));
+	print(Deparse(to.col(sel2)));
+```
+
+## Comparison modes
+
+Package `compare` is used to compare test values with evaluated expectations for equality. What is treated as equal can be fine-tuned via argument `mode` of `TestMe`. `mode` is a list that forces a particular comparison mode for a particular test. Keys are names of test values and values are comparison modes. Supported modes are:
+
+  * compare: call function `compare` (the default)
+  * round8: round to 8 digits, then call compare
+  * error: the test value is (and should be) an error
+  * image: the test produces an image. Images should be compared on a pixel-by-pixel basis
+
+The following example illustrates the use of mode `round8`:
+
+```{r}
+	myTests = function() {
+		T1 = 1 + 1;
+		T2 = sqrt(exp(10));
+		TestMe(list(T2 = 'round8'));
+	}
+```
+
+
+
+# Philosopy of `testme`
+
+From a more philosophical point of view, the meaning of a function is defined by the intention of the programmer. This intention is most closely reflected by example calls used when developing a function. Running the tests will precisely preserve this definition by storing the output of various calls. Subsequent runs will check against these definitions. If your tests fail, you know that your definition has changed.
+Overall, a tight integration of changing code and tests is achieved. Several key benefits are:
+
+  * During function development, example calls become first class citizens
+  * Collecting examples during development in a test function reflects developer intention
+    * The scope of current use is documented
+    * Room for future extensions: explicitly testing only a certain range of input parameters/corner cases
+  * If old code (without tests) needs to be changed, current behavior can be preserved effortlessly by running a few examples
+
+From a broader perspective, the above points emphasize enjoyment and motivation in programming. The disappointment of running an example that is not showing the intended output during function development is offset by the reward of having defined a good test case that can be literally copied into a test function. Shielding modifications of older code using few example calls, put into a test function, gives the feeling of security that other workflows will not break. Finally, if documentation is sparse, test cases form the true definition of the meaning of a function. Re-running the examples, which can be literally copied back to the R console, can refresh the memory of the true meaning of longer-not-used functions. This paragraph therefore puts forward additional aspects of software testing which arguably can increase productivity, satisfaction and control, which can only be realized by allowing low hanging fruit to be plucked on the way such as grown by `testme`.
+
+This approach is arguably optimal in an informal setting when private code or code shared by a small group is maintained. In more formal settings, such as test-driven development (i.e. tests are written first, functions are implemented afterwards) `testme` is less optimal. For example, package `testthat` allows for closer coupling of computation, expectation and comparison mode as compared to `testme`. Also review of intended behavior is easier to perform when expectations are explicitly stated. Some of these limitations can or could be mitigated for `testme`. However, there is no intention to optimize `testme` for these use cases as other well-developed solutions already exist.
+
+
