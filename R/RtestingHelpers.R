@@ -308,6 +308,7 @@ runPackageTests = function(packageName, packageDir, isolateSession = TRUE, useGi
 #' @param expectationsFolder Path to folder to store test expectations in. Defaults to the \code{RtestsExpectations} sub-folder of argument \code{d}.
 #' @param d Base folder holding tests. Defauts to \code{tempdir()}
 #' @param logger Function used to print messages. Defaults to \code{LogAt1} which prints to stderr and includes the date
+#' @return Returns the internal environment used by testme
 #' @export testmeEnvInit
 testmeEnvInit = function(expectationsFolder = Sprintf('%{d}s/RtestsExpectations', d = tempdir()),
 	logger = LogAt1) {
@@ -586,6 +587,13 @@ TestCompare = function(result, expectation, modes = as.list(rep('compare', lengt
 #' @param result list of results of the current test function
 #' @param expectation list of Deparsed, expected results
 #' @param modes comparison modes
+#' @return Returns a list containing the test results (see details)
+#' @details The return value is a list with the following components  
+#'	
+#'	\itemize{
+#'		\item{result: }{Logical being true when all tests passed, false otherwise.}
+#'		\item{NsubTests: }{Integer value containing the number of subtests performed.}
+#'	}
 TestCompareDeparsed = function(result, expectation, modes = as.list(rep('compare', length(result)))) {
 	TestCompare(result, lapply(expectation, function(e)try(eval(parse(text = e)), silent = T)), modes = modes)
 }

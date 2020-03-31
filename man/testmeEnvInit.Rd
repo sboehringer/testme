@@ -16,6 +16,9 @@ testmeEnvInit(
 
 \item{d}{Base folder holding tests. Defauts to \code{tempdir()}}
 }
+\value{
+Returns the internal environment used by testme
+}
 \description{
 Create package internal environment to hold global state. Calling this function is not required under normal operation. This function is called internally, when whole files or directories are tested. It needs to be called when single testing functions are to be evaluated in an ad-hoc fashion (see vignette).
 }

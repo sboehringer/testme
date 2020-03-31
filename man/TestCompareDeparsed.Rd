@@ -17,6 +17,17 @@ TestCompareDeparsed(
 
 \item{modes}{comparison modes}
 }
+\value{
+Returns a list containing the test results (see details)
+}
 \description{
 This function takes reult/expectation arguments and performs a comparison.
+}
+\details{
+The return value is a list with the following components  
+
+\itemize{
+	\item{result: }{Logical being true when all tests passed, false otherwise.}
+	\item{NsubTests: }{Integer value containing the number of subtests performed.}
+}
 }
