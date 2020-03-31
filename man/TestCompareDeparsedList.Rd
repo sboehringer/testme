@@ -11,6 +11,12 @@ TestCompareDeparsedList(pair, modes = as.list(rep("compare", length(result))))
 
 \item{modes}{comparison modes}
 }
+\value{
+list with test results (see TestCompareDeparsed)
+}
 \description{
 This function takes a pair of reults/expectation and performs a comparison.
+}
+\seealso{
+{TestCompareDeparsed()} for a definition of the return value
 }
