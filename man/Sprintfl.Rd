@@ -16,6 +16,9 @@ Otherwise standard recyling rules apply.}
 
 \item{envir}{environment in which values are to be evaluated}
 }
+\value{
+Interpolated character string
+}
 \description{
 The function behaves similar to sprintf, except that character sequences to be substituted are
 indicated by name. To be implemented: *-specifications

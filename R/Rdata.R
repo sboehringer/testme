@@ -557,6 +557,7 @@ qsPath = function(s, ...)sapply(s, qsSinglePath, ...)
 #' @param length vector of lengthes of substrings to substitute
 #' @param replacement vector of strings to subsitute. If missing, \code{Substr} returns sub-strings indicated
 #'	by start/length
+#' @return character vector containing extracted sub-strings
 #'
 # #' @examples
 # #' \dontrun{
@@ -607,6 +608,7 @@ sprintfIgnoreEscapes = function(r) {
 #' @param sprintf_cartesian boolean to indicate whether cartesian product of values should be used.
 #'   Otherwise standard recyling rules apply.
 #' @param envir environment in which values are to be evaluated
+#' @return Interpolated character string
 #'
 # #' @examples
 # #' \dontrun{

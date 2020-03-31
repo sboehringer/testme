@@ -17,6 +17,9 @@ Substr(s, start, length, replacement)
 \item{replacement}{vector of strings to subsitute. If missing, \code{Substr} returns sub-strings indicated
 by start/length}
 }
+\value{
+character vector containing extracted sub-strings
+}
 \description{
 The function behaves similar to sprintf, except that character sequences to be substituted are
 indicated by name.
