@@ -11,13 +11,15 @@ Deparse(o)
 }
 \value{
 single character vector with the deparsed expression
+
+character string with the deparsed R-object
 }
 \description{
 Create single character string from R expression
 }
 \details{
-Calls deparse on argument and pastes together the return value of \code{deparse} resulting
-in a single character string. Operates very similar to \code{dput}, except, it cannot write to
+Calls deparse on argument and pastes together the return value of \code{deparse()} resulting
+in a single character string. Operates very similar to \code{dput()}, except, it cannot write to
 a file.
 }
 \examples{

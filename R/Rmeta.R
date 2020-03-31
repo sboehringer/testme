@@ -45,7 +45,8 @@ Print = function(..., envir = parent.frame())Capture.output(print(...), envir = 
 #' value will be printed.
 #' @param doPrint additional object that will be output using \code{print}.
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
-#' @seealso \code{\link{Log.setLevel}}, ~~~
+#' @seealso \code{\link{Log.setLevel}}
+#' @return inivisble formatted message or NULL if nothing was logged
 #' @keywords io logging
 # #' @examples
 # #' \dontrun{
@@ -277,8 +278,8 @@ encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate
 #'
 #' Create single character string from R expression
 #'
-#' Calls deparse on argument and pastes together the return value of \code{deparse} resulting
-#' in a single character string. Operates very similar to \code{dput}, except, it cannot write to
+#' Calls deparse on argument and pastes together the return value of \code{deparse()} resulting
+#' in a single character string. Operates very similar to \code{dput()}, except, it cannot write to
 #' a file.
 #'
 #' @param o Expression/Object to be deparsed
@@ -288,6 +289,7 @@ encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate
 #' @seealso [eval()] for the inverse operation
 #' @seealso [dput()] similar function
 #' @seealso [dget()] similar to eval of character string
+#' @return character string with the deparsed R-object
 #' @examples
 #' \dontrun{
 #'	Deparse(3)

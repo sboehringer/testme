@@ -627,6 +627,7 @@ SourceLocal = function(file, ...,
 #' @param home boolean to indicate whether starting prefix '~' should be interpolated to the home folder
 #' @param as.dirs assume that prefixes are pathes, i.e. a slash will be put between path and prefix
 #' @param force enforces that path and prefix are always joined, otherwise if path is absolute no prefixing is performed
+#' @return character vector with path to file or NULL if no file could be located
 file.locate = function(path, prefixes = NULL, normalize = TRUE, as.dirs = TRUE, force = FALSE, home = TRUE) {
 	if (!force && substr(path, 1, 1) == '/') return(path);
 	if (substr(path, 1, 1) == '~' && home) {
@@ -651,6 +652,7 @@ file.locate = function(path, prefixes = NULL, normalize = TRUE, as.dirs = TRUE, 
 #' @param normalize Standardize pathes.
 #' @param ssh Allow pathes to remote files in \code{scp} notation.
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
+#' @return character vector containing the file content
 #' @keywords io input
 # #' @examples
 # #' \dontrun{

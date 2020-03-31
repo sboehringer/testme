@@ -16,6 +16,9 @@ prefixes.}
 
 \item{ssh}{Allow pathes to remote files in \code{scp} notation.}
 }
+\value{
+character vector containing the file content
+}
 \description{
 Read content of file and return as character object.
 }

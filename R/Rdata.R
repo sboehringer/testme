@@ -891,7 +891,7 @@ splitListEls = function(l, N, returnElements = FALSE) {
 	li
 }
 
-# @arg l list of index positions from another object
+# @param l list of index positions from another object
 # @return return vector indicating to which list element an index was assigned
 # Example: glmnet accepts fold numbers per index (as opposed to a partitioning of elements)
 index2listPosition = function(l) {
@@ -3090,7 +3090,7 @@ Kronecker = function(l, ...) {
 #
 #' Iterate combinations of parameters
 #'
-#' This function takes a list of parameters for which several values are to be evaluated. These values can be vectors of numbers or lists that contain blocks of parameters. All combinations are formed and passed to a user supplied function \code{f}. This functions takes an index of the combination together with parameter values. Argument \code{callWithList} controls whether there is exactly one argument per parameter position or wether one more step of unlisting takes place. In case that a block of parameters is supplied, all values of the block are passed as individual arguments to \code{f} in case \code{callWithList == FALSE}.
+#' This function takes a list of parameters for which several values are to be evaluated. These values can be vectors of numbers or lists that contain blocks of parameters. All combinations are formed and passed to a user supplied function \code{f_iterate()}. This functions takes an index of the combination together with parameter values. Argument \code{callWithList} controls whether there is exactly one argument per parameter position or wether one more step of unlisting takes place. In case that a block of parameters is supplied, all values of the block are passed as individual arguments to \code{f_iterate()} in case \code{callWithList == FALSE}.
 #'
 #' #@param selectIdcs restrict models to the given indeces
 #' @param modelList list specifying the models (see details)
@@ -3099,12 +3099,13 @@ Kronecker = function(l, ...) {
 #' @param callWithList boolean to indicate whether model combination is to be supplied as a list.
 #'   Otherwise model specification is inlined as arguments (see details)
 #' @param callMode 'inline', 'list', 'inlist'
-#' @param restrictArgs boolean to indicate whether over-supplied arguments (with respect to \code{f_iterate})
+#' @param restrictArgs boolean to indicate whether over-supplied arguments (with respect to \code{f_iterate()})
 #"   should be ignored. Otherwise, an error will be raised.
 #' @param parallel boolean to inidcate whether iteration should be parallelized with
 #'    \code{parallelize.dynamic}
 #' @param lapply__ the iterator to be used (ignored at this moment)
-#' @param ... extra arguments to be passed to \code{f_iterate}
+#' @param ... extra arguments to be passed to \code{f_iterate()}
+#' @return list containing the result of \code{f_iterate()} for all paramter combinations
 #'
 # #' @examples
 # #' \dontrun{
@@ -3334,6 +3335,7 @@ reshape.wide = function(d, ids, vars, blockVars = FALSE, reverseNames = FALSE, s
 #' @param valueColumn name of the new column of values that were in wide format
 # factors: provide factor combinations explicitly for vars (otherwise split by '.', <i>)
 #' @param rowNamesAs name of the column that should contain row names
+#' @return data frame in long format
 # #' @examples
 # #' \dontrun{
 # #'	#reshape variables 2:9 (forming two groups: case/ctr), value of which is named 'group'

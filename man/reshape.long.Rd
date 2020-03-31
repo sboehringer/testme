@@ -27,6 +27,9 @@ that \code{length(vars)} is a multiple of \code{length(levels(factor))}}
 
 \item{rowNamesAs}{name of the column that should contain row names}
 }
+\value{
+data frame in long format
+}
 \description{
 Long format duplicates certain columns and adds rows for which one new column hold values coming
 from a set of columns in wide format. Does not allow for parallel reshaping.

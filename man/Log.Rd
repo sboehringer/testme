@@ -17,6 +17,9 @@ value will be printed.}
 
 \item{doPrint}{additional object that will be output using \code{print}.}
 }
+\value{
+inivisble formatted message or NULL if nothing was logged
+}
 \description{
 Log a message to stderr. Indicate a logging level to control verbosity.
 }
@@ -26,7 +29,7 @@ global log-level is set to greater or equal the value indicated by
 \code{level}. \code{Log.level} returns the current logging level.
 }
 \seealso{
-\code{\link{Log.setLevel}}, ~~~
+\code{\link{Log.setLevel}}
 }
 \author{
 Stefan Böhringer <r-packages@s-boehringer.org>

@@ -26,6 +26,9 @@ file.locate(
 
 \item{home}{boolean to indicate whether starting prefix '~' should be interpolated to the home folder}
 }
+\value{
+character vector with path to file or NULL if no file could be located
+}
 \description{
 Search for pathes.
 }
