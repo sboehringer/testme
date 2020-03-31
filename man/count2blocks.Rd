@@ -16,9 +16,4 @@ vector of pairs of indeces indicating the first and last element in a vector for
 \description{
 Produce index pairs for vector of counts
 }
-\examples{
-\dontrun{
-count2blocks(c(1, 5, 3))
-}
-}
 \keyword{internal}

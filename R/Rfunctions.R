@@ -26,7 +26,7 @@ callWithArgs = function(fctName, args) {
 	eval(parse(text = fhead))
 }
 
-.do.call = function(f, args, restrictArgs = T, usePositional = T, restrictPositional = F) {
+.do.call = function(f, args, restrictArgs = TRUE, usePositional = TRUE, restrictPositional = FALSE) {
 	# <p> function arguments
 	fargs = names(as.list(args(f)));
 	# remove spurious arguments
@@ -46,13 +46,13 @@ callWithArgs = function(fctName, args) {
 	do.call(f, args)
 }
 
-callDelegate = function(functionBase, delegation, args = list(), restrictArgs = T) {
+callDelegate = function(functionBase, delegation, args = list(), restrictArgs = TRUE) {
 	f = get(Sprintf('%{prefix}s%{delegation}u', prefix = join(functionBase, '')));
 	.do.call(f, args, restrictArgs = restrictArgs)
 }
 
-CallDelegate = function(functionBase, delegation, ..., restrictArgs = T) {
-	callDelegate(functionBase, delegation, args = list(...), restrictArgs = T)
+CallDelegate = function(functionBase, delegation, ..., restrictArgs = TRUE) {
+	callDelegate(functionBase, delegation, args = list(...), restrictArgs = TRUE)
 }
 
 # call function with seperate arguments extracted from vector
@@ -79,13 +79,13 @@ benchmark.timed = function(.f, ..., N__ = 1) {
 	}
 	t1 = Sys.time();
 	r = list(time = (t1 - t0)/N__, lastResult = r, t0 = t0, t1 = t1);
-	print(r$time);
-	print(r$t0);
-	print(r$t1);
+	message(r$time);
+	message(r$t0);
+	message(r$t1);
 	r
 }
 
-Benchmark = function(expr, N__ = 1, verbose = T, returnTiming = F, Nabbr = 20, logLevel = 2,
+Benchmark = function(expr, N__ = 1, verbose = TRUE, returnTiming = FALSE, Nabbr = 20, logLevel = 2,
 	gcFirst = FALSE, timeStat = sum, envir = parent.frame()) {
 	s = Deparse(substitute(expr));
 
@@ -154,8 +154,8 @@ gridBounding = function(Ngrid = 5) {
 }
 
 searchContourGridRaw = function(f, grid, v, ...,
-	contour = 0.05, gridGen, eps = 1e-3, lower = T, verbose = F) {
-	if (verbose) print(cbind(grid, v));
+	contour = 0.05, gridGen, eps = 1e-3, lower = TRUE, verbose = FALSE) {
+	if (verbose) message(Print(cbind(grid, v)));
 	# assume regular grid
 	Ndim = ncol(grid);
 	pts = apply(grid, 2, function(v)sort(unique(v)));
@@ -192,13 +192,13 @@ applyCached = function(grid, f, gridCache, ...) {
 	if (missing(gridCache) || !notE(gridCache)) return(apply(grid, 1, f, ...));
 	s = matrixSearch(grid, gridCache);
 	idcs = setdiff(1:nrow(grid), s[, 2]);
-	vI = apply(grid[idcs, , drop = F], 1, f, ...);
+	vI = apply(grid[idcs, , drop = FALSE], 1, f, ...);
 	v = vector.assign(NA, c(idcs, s[, 2]), c(vI, gridCache[s[, 1], ncol(gridCache)]), N = nrow(grid));
 	return(v);
 }
 
 # gridCache: matrix/df with cbind(grid, v) from previous computations to avoid double evaluations
-searchContourGrid = function(f, grid, ..., contour = 0.05, gridGen, eps = 1e-3, lower = T, gridCache) {
+searchContourGrid = function(f, grid, ..., contour = 0.05, gridGen, eps = 1e-3, lower = TRUE, gridCache) {
 	# compute values of function on grid vertices
 	#v = apply(grid, 1, f, ...);
 	v = applyCached(grid, f, gridCache, ...);
@@ -218,14 +218,14 @@ searchContourGrid = function(f, grid, ..., contour = 0.05, gridGen, eps = 1e-3, 
 	return(r);
 }
 
-searchContourGridList = function(f, gridList, ..., contour = 0.05, gridGen, eps = 1e-2, lower = T) {
+searchContourGridList = function(f, gridList, ..., contour = 0.05, gridGen, eps = 1e-2, lower = TRUE) {
 	gL = lapply(gridList, searchContourGrid, ..., f = f, contour = contour, gridGen = gridGen);
 	return(unlist.n(gL, 1));
 }
 
 
 searchContour = function(f, start, ..., contour = 0.05, delta = 3,
-	gridGen = gridBounding(Ngrid = 3), eps = 1e-2, lower = T) {
+	gridGen = gridBounding(Ngrid = 3), eps = 1e-2, lower = TRUE) {
 	grid = gridGen(start, start - delta, start + delta);
 	r = searchContourGrid(f, grid, ..., contour = contour, gridGen = gridGen, eps = eps);
 	return(do.call(rbind, r));
@@ -235,7 +235,7 @@ searchContour = function(f, start, ..., contour = 0.05, delta = 3,
 #	<p> optimization
 #
 
-searchOptimumGrid = function(f, grid, ..., delta, gridGen, eps = 1e-3, scale = 1, returnOpt = F) {
+searchOptimumGrid = function(f, grid, ..., delta, gridGen, eps = 1e-3, scale = 1, returnOpt = FALSE) {
 	# compute values of function on grid vertices
 	#print(grid);
 	v = apply(grid, 1, f, ...) * scale;
@@ -260,7 +260,7 @@ searchOptimumGrid = function(f, grid, ..., delta, gridGen, eps = 1e-3, scale = 1
 }
 
 searchOptimum = function(f, start, ..., delta = 3, gridGen = gridBounding(Ngrid = 7), eps = 1e-2, scale = 1,
-	returnOpt = F) {
+	returnOpt = FALSE) {
 	grid = gridGen(start, start - delta, start + delta);
 	r = searchOptimumGrid(f, grid, ..., delta = delta, gridGen = gridGen, eps = eps, scale = scale,
 		returnOpt = returnOpt);

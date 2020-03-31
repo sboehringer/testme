@@ -19,6 +19,17 @@
 Log_env__ <- new.env();
 assign('DefaultLogLevel', 4, envir = Log_env__);
 
+# <p> work-arounds for CRAN submissions
+# capture.output replaces \n with space
+Capture.output = function(expr, envir = parent.frame()) {
+	tf = tempfile();
+	sink(tf);
+	on.exit(sink());
+	r = eval(expr, envir = envir);
+	return(readFile(tf));
+}
+Print = function(..., envir = parent.frame())Capture.output(print(...), envir = envir)
+
 #' Log a message to stderr.
 #' 
 #' Log a message to stderr. Indicate a logging level to control verbosity.
@@ -36,17 +47,18 @@ assign('DefaultLogLevel', 4, envir = Log_env__);
 #' @author Stefan Böhringer <r-packages@@s-boehringer.org>
 #' @seealso \code{\link{Log.setLevel}}, ~~~
 #' @keywords io logging
-#' @examples
-#' \dontrun{
-#' 	Log.setLevel(4);
-#' 	Log('hello world', 4);
-#' 	Log.setLevel(3);
-#' 	Log('hello world', 4);
-#' }
+# #' @examples
+# #' \dontrun{
+# #' 	Log.setLevel(4);
+# #' 	Log('hello world', 4);
+# #' 	Log.setLevel(3);
+# #' 	Log('hello world', 4);
+# #' }
 Log = function(o, level = get('DefaultLogLevel', envir = Log_env__), doPrint = NULL) {
 	if (level <= get('GlobalLogLevel', envir = Log_env__)) {
-		cat(sprintf("R %s: %s\n", date(), as.character(o)));
-		if (!is.null(doPrint)) print(doPrint);
+		#cat(sprintf("R %s: %s\n", date(), as.character(o)));
+		message(sprintf("R %s: %s\n", date(), as.character(o)));
+		if (!is.null(doPrint)) message(Print(doPrint));
 	}
 }
 Logs = function(o, level = get('DefaultLogLevel', envir = Log_env__), ..., envir = parent.frame()) {
@@ -106,7 +118,7 @@ environment.copy = function(envir__, restrict__= NULL) {
 	as.environment(eapply(environment.restrict(envir__, restrict__), object.copy));
 }
 
-bound_vars = function(f, functions = F) {
+bound_vars = function(f, functions = FALSE) {
 	fms = formals(f);
 	# variables bound in default arguments
 	vars_defaults = unique(unlist(sapply(fms, function(e)all.vars(as.expression(e)))));
@@ -119,12 +131,12 @@ bound_vars = function(f, functions = F) {
 	vars
 }
 bound_fcts_std_exceptions = c('Lapply', 'Sapply', 'Apply');
-bound_fcts = function(f, functions = F, exceptions = bound_fcts_std_exceptions) {
+bound_fcts = function(f, functions = FALSE, exceptions = bound_fcts_std_exceptions) {
 	fms = formals(f);
 	# functions bound in default arguments
-	fcts_defaults = unique(unlist(sapply(fms, function(e)all.vars(as.expression(e), functions = T))));
+	fcts_defaults = unique(unlist(sapply(fms, function(e)all.vars(as.expression(e), functions = TRUE))));
 	# functions bound in body
-	fcts = union(fcts_defaults, all.vars(body(f), functions = T));
+	fcts = union(fcts_defaults, all.vars(body(f), functions = TRUE));
 	# remove variables
 	#fcts = setdiff(fcts, c(bound_vars(f, functions), names(fms), '.GlobalEnv', '...'));
 	fcts = setdiff(fcts, c(bound_vars(f, functions = functions), names(fms), '.GlobalEnv', '...'));
@@ -175,7 +187,7 @@ environment_eval = function(f, functions = FALSE, recursive = FALSE) {
 Parse = function(text, ...) {
 	parse(text = text, ...)
 }
-Eval = function(e, ..., envir = parent.frame(), autoParse = T) {
+Eval = function(e, ..., envir = parent.frame(), autoParse = TRUE) {
 	if (autoParse && is.character(e)) e = Parse(e, ...);
 	eval(e, envir = envir)
 	
@@ -233,7 +245,7 @@ callWithFunctionArgs = function(f__, args__, envir__ = environment(f__), name = 
 #
 
 encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate_args__ = FALSE,
-	unbound_functions = F) {
+	unbound_functions = FALSE) {
 	# function body of call
 	name = as.character(.call[[1]]);
 	fct = get(name);

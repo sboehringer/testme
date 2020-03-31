@@ -21,12 +21,3 @@ Calculates \code{order_align}, assuming that the both arguments are already orde
 
 Analogous to \code{order_align} under the assumption that provided arguments are orders.
 }
-\examples{
-\dontrun{
-  sapply(1:40, function(i){
-    v = runif(1e2);
-    v1 = sample(v, length(v));
-    all(v1[order_align_fromOrder(order(v), order(v1))] == v)
-  })
-}
-}

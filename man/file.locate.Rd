@@ -7,10 +7,10 @@
 file.locate(
   path,
   prefixes = NULL,
-  normalize = T,
-  as.dirs = T,
-  force = F,
-  home = T
+  normalize = TRUE,
+  as.dirs = TRUE,
+  force = FALSE,
+  home = TRUE
 )
 }
 \arguments{

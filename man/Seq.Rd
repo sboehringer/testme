@@ -4,7 +4,7 @@
 \alias{Seq}
 \title{Produce constrained sequences}
 \usage{
-Seq(from, to, ..., ascending = T, descending = !ascending, neg = F)
+Seq(from, to, ..., ascending = TRUE, descending = !ascending, neg = FALSE)
 }
 \arguments{
 \item{from}{starting value}
@@ -25,11 +25,4 @@ sequence from \code{from} to \code{to}
 \description{
 This is a wrapper around seq that adds constraints. Setting ascending, descending to NA reverts to
 standard \code{seq} behaviour.
-}
-\examples{
-\dontrun{
-Seq(1, 10, ascending = T)
-Seq(1, 10, descending = T)
-Seq(10, 1, ascending = NA)
-}
 }

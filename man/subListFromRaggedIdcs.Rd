@@ -22,9 +22,3 @@ Return list of lists, where each basic list contains key \code{segment}
 \description{
 Extract parts of a nested structure based on the range from..to
 }
-\examples{
-\dontrun{
-   # TestMe: T1
-   subListFromRaggedIdcs(c(2, 4, 10, 15), 1, 20)
-}
-}

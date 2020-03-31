@@ -26,10 +26,3 @@ indicated by name. To be implemented: *-specifications
 #@param template template for substitution pattern. Within this pattern \code{__DICT_KEY__} is
 # substituted for a key in \code{d}. This string \code{k} is substituted in \code{s} with \code{d[[k]]}.
 }
-\examples{
-\dontrun{
-Sprintf('These are N \%{N} characters.', list(N = 10));
-Sprintf('These are N \%{N}d characters.', list(N = 10));
-Sprintf('These are N \%{N}02d characters.', list(N = 10));
-}
-}

@@ -25,14 +25,6 @@ This function prints a message to stderr if the condition is met that a
 global log-level is set to greater or equal the value indicated by
 \code{level}. \code{Log.level} returns the current logging level.
 }
-\examples{
-\dontrun{
-	Log.setLevel(4);
-	Log('hello world', 4);
-	Log.setLevel(3);
-	Log('hello world', 4);
-}
-}
 \seealso{
 \code{\link{Log.setLevel}}, ~~~
 }

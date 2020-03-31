@@ -2,10 +2,10 @@ Package: testme
 Type: Package
 Title: Rapid Development of Software Tests
 Version: 1.2-6
-Date: 2020-03-30
+Date: 2020-03-31
 Author: Stefan Boehringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Boehringer <r-packages@s-boehringer.org>
-Description: Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using \emph{testme}. Use \code{?'testme-package'} or visit the project wiki <https://github.com/sboehringer/testme/wiki> for a tutorial.
+Description: Simplify unit and integrated testing by using implicit definitions. When writing new functions, users usually use example invocations for checking. Exactly this should be and is enough to develop tests using \emph{testme}. Use \emph{?'testme-package'} or visit the project wiki <https://github.com/sboehringer/testme/wiki> for a tutorial.
 License: LGPL-2
 Encoding: UTF-8
 Depends: 

@@ -4,7 +4,7 @@
 \alias{order_align}
 \title{Return vector that reorders v to equal reference.
 
-Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == T} for all vectors \code{reference, v}.}
+Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == TRUE} for all vectors \code{reference, v}.}
 \usage{
 order_align(reference, v)
 }
@@ -19,5 +19,5 @@ vector of indeces so that \code{v[return_value]} is the same as \code{reference}
 \description{
 Return vector that reorders v to equal reference.
 
-Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == T} for all vectors \code{reference, v}.
+Assuming that two arguments are permutaions of each other, return a vector of indeces such that \code{all(reference == v[order_align(reference, v)]) == TRUE} for all vectors \code{reference, v}.
 }
