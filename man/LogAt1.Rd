@@ -9,6 +9,9 @@ LogAt1(s)
 \arguments{
 \item{s}{Message to be printed}
 }
+\value{
+invisible message or NULL if nothing was logged
+}
 \description{
 Call function Log with a log level of 1.
 }
