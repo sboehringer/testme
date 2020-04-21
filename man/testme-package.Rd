@@ -17,21 +17,8 @@ grouped into a function which calls \code{TestMe} as a last step. This is enough
 tests. The first run of the tests will store the return values as expectations. Subsequent calls 
 will compare to these expecatations.
 }
-\examples{
-# \dontrun{
- # initialize the testing environment
- testmeEnvInit(expectationsFolder = tempdir())
- # define the test
- myTest = function(){ T1 = 1 + 1; TestMe(); }
- # defines test expectation (vivification)
- runTestFunction('myTest')
- # first real comparison
- runTestFunction('myTest')
- # error introduced
- myTest = function(){ T1 = 3; TestMe(); }
- runTestFunction('myTest')
-# }
-}
 \seealso{
 {runTestFunction()} for starting the main workflow
+
+{vignette('introduction', package = 'testme')} for a detailed introduction
 }

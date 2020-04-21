@@ -51,6 +51,10 @@ globalVariables(c("LogAt1", 'valueMapperStandard', 'plot_save', 'install_local')
 # tests. The first run of the tests will store the return values as expectations. Subsequent calls 
 # will compare to these expecatations.
 #
+# @seealso {runTestFunction()} for starting the main workflow
+# @seealso {vignette('introduction', package = 'testme')} for a detailed introduction
+#__PACKAGE_DOC_END__
+
 # @examples
 # # \dontrun{
 #  # initialize the testing environment
@@ -65,8 +69,6 @@ globalVariables(c("LogAt1", 'valueMapperStandard', 'plot_save', 'install_local')
 #  myTest = function(){ T1 = 3; TestMe(); }
 #  runTestFunction('myTest')
 # # }
-# @seealso {runTestFunction()} for starting the main workflow
-#__PACKAGE_DOC_END__
 
 #
 #	<p> initialization
