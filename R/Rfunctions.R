@@ -59,7 +59,14 @@ CallDelegate = function(functionBase, delegation, ..., restrictArgs = TRUE) {
 V2A = function(f)function(x, ...)do.call(f, c(as.list(x), list(...)));
 # call function with vector constructed from seperate arguments
 A2V = function(f)function(...)f(c(...));
+# arguments to matrix
+A2M = function(f)function(...)f(do.call(cbind, list(...)));
 
+A2VbyRow = function(f) function(...) {
+	m = do.call(cbind, list(...));
+	r = apply(m, 1, f);
+	return(r);
+}
 
 #
 #	<p> generic functions
@@ -173,6 +180,7 @@ searchContourGridRaw = function(f, grid, v, ...,
 		coords = sapply(1:ncol(NdsCube), function(i)pts[NdsCube[, i], i]);
 		idcs = DfSearch(Df_(coords), Df_(grid));
 		vs = v[idcs];
+		#if (is.na(any(vs <= contour) & any(vs >= contour))) browser();
 		if (any(vs <= contour) & any(vs >= contour)) { # tb persued
 			mn = apply(coords, 2, min);
 			mx = apply(coords, 2, max);
@@ -223,7 +231,6 @@ searchContourGridList = function(f, gridList, ..., contour = 0.05, gridGen, eps 
 	return(unlist.n(gL, 1));
 }
 
-
 searchContour = function(f, start, ..., contour = 0.05, delta = 3,
 	gridGen = gridBounding(Ngrid = 3), eps = 1e-2, lower = TRUE) {
 	grid = gridGen(start, start - delta, start + delta);
@@ -266,3 +273,103 @@ searchOptimum = function(f, start, ..., delta = 3, gridGen = gridBounding(Ngrid 
 		returnOpt = returnOpt);
 	return(r);
 }
+
+..OptimizeControl = list(fnscale = -1, tol = .Machine$double.eps^0.25);
+# assume unconstraint arguments
+Optimize = function(p, f, method = 'BFGS', control = ..OptimizeControl, ...,
+	hessian = T, ci = T, alpha = 5e-2) {
+	r = if (length(p) > 1) {
+		control = .list(control, .min = 'tol');
+		o = optim(p, f, method = method, control = control, hessian = hessian, ...);
+	} else if (length(p) == 1) {
+		f0 = function(p, ...) { f(logit(p), ...) };
+		o0 = try(optimize(f0, lower = 0, upper = 1,
+			tol = control$tol, maximum = control$fnscale < 0, ...));
+		o = if (class(o0) == 'try-error') list(par = NA, value = NA, hessian = NA) else 
+			list(par = logit(o0$maximum), value = o0$objective,
+				hessian = if(hessian) matrix(Dn2f(f, logit(o0$maximum), ...)/o0$objective) else NA);
+	} else {
+		o = list(par = c(), value = f(...));
+	}
+	if (ci && hessian && !is.na(r$hessian)) {
+		var = -1/diag(r$hessian);	# assume sharp cramer-rao bound
+		sd = sqrt(var);
+		r = c(r, list(ci = list(
+			ciL = qnorm(alpha/2, r$par, sd, lower.tail = T),
+			ciU = qnorm(alpha/2, r$par, sd, lower.tail = F), level = alpha, var = var)));
+	}
+	r
+}
+
+# p: matrix of row-wise start values
+OptimizeMultiStart = function(p, f, method = 'BFGS', control = ..OptimizeControl, ...) {
+	r = if (is.null(p)) {	# special case of degenerate matrix (does not work in R)
+		Optimize(c(), f, method = method, control = control, ...)
+	} else if (!is.matrix(p)) {
+		Optimize(p, f, method = method, control = control, ...)
+	} else {
+		os = apply(p, 1, function(s)Optimize(s, f, method = method, control = control, ...));
+		# find maximum
+		if (all(is.na(os))) return(NA);
+		vs = list.key(os, 'value');
+		arg.max = which.max(vs);
+		r = os[[arg.max[1]]];
+	}
+	r
+}
+
+OptimControlDefault = list(fnscale = -1, tol = .Machine$double.eps^0.25, startScale = 2, hessian = F);
+
+Optim = function(p, f, method = 'BFGS', control = list(), ...) {
+	control = merge.lists(OptimControlDefault, control);
+	o = if (length(p) > 1) {
+		myControl = List_(control, min_ = c('tol', 'startScale', 'hessian'));
+		optim(p, f, method = method, control = myControl, hessian = control$hessian, ...);
+	} else if (length(p) == 1) {
+		f0 = function(p, ...) { f(logit(p), ...) };
+		if (!is.null(p)) {
+			lower = if (p < 0) p * control$startScale else p / control$startScale;
+			upper = if (p >= 0) p * control$startScale else p / control$startScale;
+		} else {
+			lower = -Inf;
+			upper = Inf;
+		}
+		if (abs(lower - upper) < 1e-3) {
+			lower = lower - 1;
+			upper = upper + 1;
+		}
+		#print(c(start = p, lower = lower, upper = upper));
+		o0 = try(
+			optimize(f0,
+				lower = plogis(lower), upper = plogis(upper),
+				tol = control$tol, maximum = control$fnscale < 0, ...)
+		);
+		if (class(o0) == 'try-error') list(par = NA, value = NA, hessian = NA) else 
+			list(
+				par = logit(o0$maximum), value = o0$objective,
+				hessian = if (control$hessian) matrix(Dn2f(f, logit(o0$maximum), ...)/o0$objective) else NA
+			)
+	} else list(par = c(), value = f(...));
+	return(o);
+}
+
+optimFn = function(p, f, method = 'BFGS', control = list(), lower = -Inf, upper = Inf, ...) {
+	control = merge.lists(OptimControlDefault, control);
+	o = if (length(p) > 1) {
+		myControl = List_(control, min_ = c('tol', 'startScale', 'hessian'));
+		optim(p, f, method = method, control = myControl, hessian = control$hessian, ...);
+	} else if (length(p) == 1) {
+		o0 = try(
+			optimize(f,
+				lower = lower, upper = upper,
+				tol = control$tol, maximum = control$fnscale < 0, ...)
+		);
+		if (class(o0) == 'try-error') list(par = NA, value = NA, hessian = NA) else 
+			list(
+				par = firstDef(o0$maximum, o0$minimum), value = o0$objective,
+				hessian = if (control$hessian) matrix(Dn2f(f, o0$maximum, ...)/o0$objective) else NA
+			)
+	} else list(par = c(), value = f(...));
+	return(o);
+}
+

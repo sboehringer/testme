@@ -158,6 +158,7 @@ uniqueIndex = function(v, U) {
 #	<§> string manipulation
 #
 
+#join = function(v, sep = " ")if (length(v) == 0) '' else paste(v, collapse = sep);
 join = function(v, sep = " ")paste(v, collapse = sep);
 con = function(..., Sep_ = '')paste(..., sep = Sep_);
 Con = function(..., Sep_ = '')paste(unlist(list(...)), collapse = Sep_);
@@ -465,6 +466,8 @@ trimString = function(s) {
 		if (is.na(e)) NA else FetchRegexpr('^\\s*(.*?)\\s*$', e, captures = TRUE)
 	)
 }
+qwi = function(...)as.integer(qw(...))
+qwn = function(...)as.numeric(qw(...))
 
 valueMapperRaw = function(n, d)d[[n]]
 valueMapperStandard = function(n, d) {
@@ -860,7 +863,7 @@ count2blocks = function(counts) {
 #	expand a block list - for example as from count2blocks - to a list of integers
 #
 expandBlocks = function(blks) {
-	apply(matrix(blks, ncol = 2, byrow = TRUE), 1, function(r) { r[1]:r[2] } )
+	applyL(matrix(blks, ncol = 2, byrow = TRUE), 1, function(r) { r[1]:r[2] } )
 }
 
 # split 1:M into N partitions, return row-wise range
@@ -941,7 +944,8 @@ splitSeatsForFractions = function(Nseats, fractions = vn(rep(1, Nfractions)), Nf
 counts2idcs = function(counts) {
 	idcs = c(0, cumsum(counts));
 	idcs = cbind(idcs + 1, c(idcs[-1], 0))[-length(idcs), ];
-	idcs
+	if (is.null(counts)) return(idcs);	# matrix w/ 0 rows
+	t2r(idcs)	# fails on counts == NULL
 }
 
 # N is partitioned into fractions from p, where each element of p partitions the remaining part of N
@@ -1210,19 +1214,23 @@ list.kp.unquote = function(key) {
 
 # extract key path from list, general, recursive version
 #	key path recursive worker
-list.kprw = function(l, keys, unlist.pats, template, null2na, carryNames, test) {
+list.kprw = function(l, keys, unlist.pats, template, null2na, carryNames, test, keyAccess) {
+	if (!length(keys)) return(l);
 	key = keys[1];
 	# <p> extract key
 	r = if (key != "*") {
 		index = fetchRegexpr("\\A\\[\\[(\\d+)\\]\\]\\Z", key, captures = TRUE);
 		if (length(index) > 0) key = as.integer(index[[1]]);
-		if (is.list(l)) {
+		if (keyAccess[1] == '@') {
+			r = slot(l, key);
+			list.kprw(r, keys[-1], unlist.pats[-1], template, null2na, carryNames, test, keyAccess[-1]);
+		} else if (is.list(l)) {
 			# <N> logical(0) seen as NULL by second condition
 			r = if (is.null(l[[key]]) || length(l[[key]]) == 0) {
 					if (null2na) { NA } else firstDef(template, NULL)
 				} else l[[key]];
 			if (length(keys) > 1)
-				list.kprw(r, keys[-1], unlist.pats[-1], template, null2na, carryNames, test) else
+				list.kprw(r, keys[-1], unlist.pats[-1], template, null2na, carryNames, test, keyAccess[-1]) else
 				if (test) !(is.null(r) || all(is.na(r))) else r;
 		} else if (class(l) %in% c('character')) {
 			if (notE(names(l))) l[names(l) %in% key] else l[key]
@@ -1240,7 +1248,7 @@ list.kprw = function(l, keys, unlist.pats, template, null2na, carryNames, test) 
 	} else {
 		if (length(keys) > 1)
 			lapply(l, function(sl)
-				list.kprw(sl, keys[-1], unlist.pats[-1], template, null2na, carryNames, test)
+				list.kprw(sl, keys[-1], unlist.pats[-1], template, null2na, carryNames, test, keyAccess[-1])
 			) else l;
 	}
 	# <p> unlisting
@@ -1262,14 +1270,15 @@ list.kprwPar = function(l, keys, ...) {
 }
 
 # worker: keypath
-list.kprwkp = function(l, keyPath, ...) {
-	keysNew = fetchRegexpr("(?:[a-zA-Z0-9_.|\\[\\]*]+(?:\\\\[$])?)+", keyPath[1]);
+list.kprwkp = function(l, keyPath, ..., keyAccess) {
+	keysNew = fetchRegexpr("(?:[a-zA-Z0-9_.|\\[\\]*]+(?:\\\\[$@])?)+", keyPath[1]);
 	keys = c(keysNew, keyPath[-1]);
 	r = list.kprwPar(l, keys, ...);
 	r
 }
 
-list.kp.keys = function(keyPath) fetchRegexpr("[^$]+", keyPath);
+list.kp.keys = function(keyPath) fetchRegexpr("[^$@]+", keyPath);
+list.kp.method = function(keyPath) fetchRegexpr("[$@]", keyPath);
 
 # wrapper for list.kprw
 # keyPath obeys EL1 $ EL2 $ ..., where ELn is '*' or a literal
@@ -1278,11 +1287,15 @@ list.kp.keys = function(keyPath) fetchRegexpr("[^$]+", keyPath);
 list.kpr = function(l, keyPath, do.unlist = FALSE, template = NULL,
 	null2na = FALSE, unlist.pat = NULL, carryNames = TRUE, as.matrix = FALSE, test = FALSE) {
 	keys = list.kp.keys(keyPath);
+	# list or slot?
+	keyAccess = list.kp.method(keyPath);
+	# if first element is '*', assume list
+	if (length(keyAccess) < length(keys)) keyAccess = c('$', keyAccess);
 	unlist.pats = if (notE(unlist.pat)) as.logical(fetchRegexpr("[^$]+", unlist.pat)) else NULL;
 
 	# parallel keys
 	#r = list.kprwkp(l, keyPath, unlist.pats, template, null2na, carryNames, test = test);
-	r = list.kprw(l, keys, unlist.pats, template, null2na, carryNames, test = test);
+	r = list.kprw(l, keys, unlist.pats, template, null2na, carryNames, test = test, keyAccess = keyAccess);
 	if (do.unlist) { r = unlist(r); }
 	if (as.matrix) r = t(sapply(r, function(e)e));
 	r
@@ -1290,14 +1303,18 @@ list.kpr = function(l, keyPath, do.unlist = FALSE, template = NULL,
 # extract key path from list
 # <!> interface change: unlist -> do.unlist (Wed Sep 29 18:16:05 2010)
 # test: test existance instead of returning value
-list.kp = function(l, keyPath, do.unlist = FALSE, template = NULL, null2na = FALSE, test = FALSE, n) {
-	r = list.kpr(l, sprintf("*$%s", keyPath), do.unlist = do.unlist,
+list.kp = function(l, keyPath, do.unlist = FALSE, template = NULL, null2na = FALSE, test = FALSE, n,
+	pathAsIs = FALSE) {
+	fullPath = if (pathAsIs) keyPath else sprintf("*$%s", keyPath);
+	r = list.kpr(l, fullPath, do.unlist = do.unlist,
 		template = template, null2na = null2na, test = test);
 	if (!missing(n)) r = unlist.n(r, n);
 	r
 }
 
 list.kpu = function(..., do.unlist = TRUE)list.kp(..., do.unlist = do.unlist);
+# allow for slot access
+list.Kpu = function(..., do.unlist = TRUE)list.kp(..., do.unlist = do.unlist, pathAsIs = TRUE);
 
 list.keys = function(l, keys, default = NA) {
 	l = as.list(l);
@@ -1505,6 +1522,13 @@ Lundrop2row = function(l)lapply(l, undrop2row);
 undrop2col = function(e)(if (is.vector(e)) matrix(e, nrow = length(e)) else e);
 Lundrop2col = function(l)lapply(l, undrop2col);
 
+# return list from apply (undo simplify)
+applyL = function(X, MARGIN, FUN, ...) {
+	r = apply(X, MARGIN, FUN, ...);
+	if (is.matrix(r)) return(lapply(1:ncol(r), function(i)r[, i]));
+	if (!is.list(r) && is.vector(r)) return(lapply(1:length(r), function(i)r[i]));
+	return(r);
+}
 # USE.NAMES logic reversed for sapply
 sapplyn = function(l, f, ...)sapply(l, f, ..., USE.NAMES = FALSE);
 list.with.names = function(..., .key = 'name') {
@@ -1536,7 +1560,7 @@ SetNames = function(o, names, rnames, cnames, Dimnames, embed = FALSE) {
 	if (!missing(rnames)) row.names(o) = rnames;
 	if (!missing(cnames)) dimnames(o)[[2]] = cnames;
 	if (!missing(names)) {
-		if (class(o) == 'matrix') {
+		if (any(class(o) == 'matrix')) {
 			if (embed) dimnames(o)[[2]][seq_along(names)] = names else {
 				ns = if (is.list(names)) vector.replace(dimnames(o)[[2]], names) else names;
 				if (is.null(dimnames(o))) dimnames(o) = list(NULL, ns) else dimnames(o)[[2]] = ns;
@@ -1669,9 +1693,9 @@ listOfDataFrames2data.frame = function(l, idColumn = "id", do.unlist = TRUE, dir
 	if (!row.names) row.names(df) = NULL;
 	df
 }
-cbindDataFrames = function(l, do.unlist = FALSE) {
+cbindDataFrames = function(l, do.unlist = FALSE, colsFromUnion = FALSE) {
 	listOfDataFrames2data.frame(l, idColumn = NULL, do.unlist = do.unlist, direction = cbind,
-		resetColNames = FALSE)
+		resetColNames = FALSE, colsFromUnion = colsFromUnion)
 }
 # @param embed corresponds to colsFromUnion in listOfDataFrames2data.frame
 RbindDfs = function(dfl, namesFromFirst = TRUE, embed = FALSE) {
@@ -1929,6 +1953,10 @@ factorWithLevels = function(f, levels_) {
 	levels(f) = levels_;
 	f
 }
+Rep.each = function(v, n) {
+	r = rep.each(v, n);
+	return(if (is.factor(v)) factorWithLevels(r, levels(v)) else r)
+}
 copyFactorStructure = function(dS, dD) {
 	factors = which(lapply(dS, class) == 'factor');
 	for (f in factors) dD[[f]] = factorWithLevels(dD[[f]], levels(dS[[f]]));
@@ -1940,8 +1968,9 @@ rep.each.row = function(m, n) {
 # 		r = Df_(r, names = names(m));
 # 		r = copyFactorStructure(m, r);
 # 	}
-	Is = rep.each(Seq(1, nrow(m)), n);
-	r = m[Is, , drop = FALSE];
+	r = if (is.data.frame(m))
+		Df_(lapply(m, Rep.each, n = n)) else
+		m[rep.each(Seq(1, nrow(m)), n), , drop = FALSE]
 	r
 }
 
@@ -2212,25 +2241,34 @@ table.n.freq = function(...) {
 	r = t0 / sum(t0);
 	r
 }
-Table = function(v, min, max, ..., cats) {
+table2df = function(tab) {
+	df0 = Df_(tab);
+	nms = setdiff(names(df0), 'Freq');
+	f = do.call(formulaWith, as.list(nms));
+	dcast(df0, f, value.var= 'Freq')
+}
+Table = function(v, min, max, ..., cats, asDf = FALSE) {
 	if (missing(min) && missing(max) && missing(cats)) return(table(v, ...));
 	if (!missing(cats)) {
 		d = Df_(lapply(v, Avu));
-		catsV = Df_(merge.multi.list(cats));
-		return(table(rbind(d, catsV)) - 1);
+		catsV = SetNames(Df_(merge.multi.list(cats)), names(d));
+		t0 = table(rbind(d, catsV)) - 1;
+		return(if (asDf) table2df(t0) else t0);
 	} else {
 		if (missing(min)) min = min(v);
 		if (missing(max)) max = max(v);
-		return(table.n(v, n = max, min = min));
+		t0 = table.n(v, n = max, min = min);
+		return(if (asDf) table2df(t0) else t0);
 	}
 }
+TableDf = function(v, min, max, ..., cats, asDf = TRUE)Table(v, min, max, ..., cats = cats, asDf = asDf);
 v2freq = function(v)(v/sum(v))
 
 #
 #	<p> numeric function
 #
 
-to.numeric = function(x) { suppressWarnings(as.numeric(x)) }
+to.numeric = function(x) { SetNames(suppressWarnings(as.numeric(x)), names(x)) }
 minFloor = function(x)(x - floor(x))
 
 #
@@ -2289,6 +2327,9 @@ DfAsCharacter = function(dataFrame, as_character) {
 	dataFrame[, as_character] = as.data.frame(do.call(cbind, dfn), stringsAsFactors = FALSE);
 	dataFrame
 }
+DfFac2num = function(dataFrame) {
+	return(do.call(data.frame, lapply(dataFrame, function(e)if (is.factor(e)) as.numeric(e) else e)))
+}
 DfApplyValueMap = function(r, valueMap, Df_doTrimValues = FALSE,
 	Df_mapping_value = '__df_mapping_value__',
 	Df_mapping_empty = '__DF_EMPTY__', Do_Df_mapping_empty = TRUE) {
@@ -2309,6 +2350,14 @@ DfApplyValueMap = function(r, valueMap, Df_doTrimValues = FALSE,
 	}
 	return(r);
 }
+# copy over factor structure from other data frame (tentamen/bw for example)
+DfEmbed = function(d, dSource) {
+	cols = nlapply(d, function(n) {
+		if (class(dSource[[n]]) == 'factor')factor(d[[n]], levels(dSource[[n]]))else d[[n]]
+	})
+	return(Df_(cols));
+}
+
 
 # as of 22.7.2013 <!>: min_ applied before names/headerMap
 # as of 19.12.2013 <!>: as.numeric -> as_numeric
@@ -2427,6 +2476,7 @@ Dfselect = function(data, l, na.rm = nif) {
 DfSearch = function(dfSearch, dfSearched,
 	colNamesReset = 'col', colNameIdx = '.dfSearchIdx', returnIdcs = FALSE) {
 
+	if (is.null(dfSearched)) return(NULL);
 	nms = if (notE(colNamesReset)) {
 		nms = paste(colNamesReset, 1:ncol(dfSearched), sep = '');
 		names(dfSearch) = names(dfSearched) = nms;
@@ -2465,6 +2515,9 @@ DfRound = function(df0, cols_round = names(df0), digits = 2, as_numeric = FALSE)
 # standardize df names using formulas
 dfNmsStd = function(f, nmsStd, d) {
 	nmsUsed = all.vars(f);
+	#if (is.formula(nmsStd)) nmsStd = all.vars(nmsStd);
+	# import from plyr (is.formula) leads to test failures <!>
+	if (class(nmsStd) == 'formula') nmsStd = all.vars(nmsStd);
 	if (length(nmsUsed) != length(nmsStd))
 		stop(Sprintf('Formula names [%{f}s] do not match standard names [%{nm}s]',
 			f = formula.to.character(f), nm = join(nmsStd, ', ')));
@@ -2476,6 +2529,25 @@ dfNmsStd = function(f, nmsStd, d) {
 # 	d1
 # }
 DfNames2std = function(d, nmsFormula, nmsStandard)dfNmsStd(nmsFormula, nmsStandard, d)
+
+charRange = characterRange = function(ns, range, indeces = TRUE, invert = FALSE) {
+	N = length(ns);
+	r = if (class(range) == 'character') {
+		(if (is.na(range)[1])1 else which(range[1] == ns)) :
+			(if (is.na(range)[2])N else which(range[2] == ns))
+	} else if (class(range) == 'integer') {
+		(if (is.na(range)[1])1 else range[1]) :
+			(if (is.na(range)[2])N else range[2])
+	} else c();
+	if (invert) r = setdiff(1:length(ns), r);
+	if (!indeces) r = ns[r];
+	return(r);
+}
+
+DfCol = function(d, range) {
+	d = d[, characterRange(names(d), range), drop = F];
+	return(d);
+}
 
 List_ = .List = function(l, min_ = NULL, sel_ = NULL,
 	rm.null = FALSE, names_ = NULL, null2na = FALSE, simplify_ = FALSE, rm.na = FALSE) {
@@ -2524,6 +2596,11 @@ shift = function(v)(v[-1])
 vectorLag = function(v, start = 0)pop(c(v, start) - c(start, v))
 splitN = function(N, by = 4) vectorLag(round(cumsum(rep(N/by, by))));
 splitToMax = function(N, max = 4) vectorLag(round(cumsum(rep(N/ceiling(N/max), ceiling(N/max)))));
+# split into fixed block sizes + last incomplete block
+splitBy = function(N, NperBlock = 4) {
+	Nlast = N %% NperBlock;
+	return(c(rep(NperBlock, N %/% NperBlock), if (Nlast == 0) c() else Nlast));
+}
 
 # cumsum returning indeces for numbers given in Ns
 cumsumI = function(Ns, offset = 1, do.pop = FALSE) {
@@ -2536,6 +2613,15 @@ cumsumR = function(l, offset = 1) {
 	cs0 = if (is.list(l)) lapply(l, cumsumR, offset = 0) else rev(cumsum(l))[1];
 	cs = vectorNamed(c(0, pop(unlist(cs0))) + offset, names(cs0));
 	cs
+}
+
+countsExtract = function(v, Ns, simplify = FALSE) {
+	cnts = counts2idcs(Ns);
+	r = apply(cnts, 1, function(r) {
+		r = v[ r[1] : r[2] ];
+		if (simplify) r else list(r)
+	});
+	return(if (!simplify) unlist.n(r, 1) else r);
 }
 
 #
@@ -3505,7 +3591,21 @@ Reshape.long = function(d, vars, factorColumn = 'repeat', valuePostfix = '_long'
 		factorColumn = factorColumn, valuePostfix = valuePostfix, varsLong = varsLong);
 }
 
+# reshape rows in blocks to avoid memory exhaustion
+Reshape.long.byParts = function(d, ..., N = 1e4, path = tempfile(), filter = NULL) {
+	Nrow = nrow(d);
+	Nparts = ceiling(Nrow / N);
 
+	#Nparts = 2;
+	for (i in 1:Nparts) {
+		dP = d[ (N*(i - 1) + 1):min((N*i), Nrow), ];
+		dL = Reshape.long(dP, ...);
+		if (notE(filter)) dL = filter(dL);
+		write.table(dL, file = path, col.names = i == 1, append = i != 1, row.names = F);
+	}
+	gc();
+	return(readTable(Sprintf('[SEP=S,HEADER=T]:%{path}s')));
+}
 
 #
 # <p> string functions
@@ -3716,6 +3816,15 @@ formula.nullModel = function(f) {
 }
 formula.to.character = function(f)join(deparse(as.formula(f)), '');
 Formula.to.character = function(f)ifelse(is.character(f), f, formula.to.character(f));
+
+formula.expand = function(f, data) {
+	if (is.null(f)) return(NULL);
+	if (any(all.vars(formula.rhs(f)) == '.')) {
+		covs = setdiff(names(data), as.character(formula.response(f)));
+		f = formula.set.rhs(f, vars.as.rhs(covs));
+	}
+	return(f);
+}
 
 formula2filename = function(f) {
 	fs = join(f, sep = '');

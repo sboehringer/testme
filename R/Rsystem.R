@@ -83,6 +83,11 @@ path.absolute = absolutePath = function(path, home.dir = TRUE, ssh = TRUE) {
 		path = sprintf("%s/%s", Sys.getenv('HOME'), substr(path, 3, nchar(path)));
 	if (nchar(path) > 0 && substr(path, 1, 1) == "/") path else sprintf("%s/%s", getwd(), path)
 }
+pathSimplify = function(path) {
+	path = gsub('(^./|/.(?=/|$))', '', path, perl = TRUE);
+	return(path);
+}
+
 tempFileName = function(prefix, extension = NULL, digits = 6, retries = 5, inRtmp = FALSE,
 	createDir = FALSE, home.dir = TRUE, doNotTouch = FALSE) {
 	ext = if (is.null(extension)) '' else sprintf('.%s', extension);
@@ -108,13 +113,15 @@ tempFileName = function(prefix, extension = NULL, digits = 6, retries = 5, inRtm
 	Log(sprintf('Tempfilename:%s', path), 5);
 	path
 }
-dirList = function(dir, regex = TRUE, case = TRUE) {
+dirList = function(dir, regex = TRUE, case = TRUE, path = FALSE, absolute = FALSE) {
 	base = splitPath(dir)$dir;
 	files = list.files(base);
 	if (regex) {
 		re = splitPath(dir)$file;
 		files = files[grep(re, files, perl = TRUE, ignore.case = !case)];
 	}
+	prefix = if (absolute) splitPath(base)$absolute else base;
+	if (absolute || path) files = paste(prefix, files, sep = '/');
 	files
 }
 list_files_with_exts = function(path, exts, full.names = TRUE)
@@ -145,7 +152,8 @@ File.exists = function(path, host = '', agent = 'ssh', ssh = TRUE) {
 	r
 }
 
-File.copy_raw = function(from, to, ..., recursive = FALSE, agent = 'scp', logLevel = 6, ignore.shell = TRUE,
+File.copy_raw = function(from, to, ...,
+	overwrite = FALSE, recursive = FALSE, agent = 'scp', logLevel = 6, ignore.shell = TRUE,
 	symbolicLinkIfLocal = TRUE) {
 	spF = splitPath(from, ssh = TRUE);
 	spT = splitPath(to, ssh = TRUE);
@@ -158,7 +166,7 @@ File.copy_raw = function(from, to, ..., recursive = FALSE, agent = 'scp', logLev
 			file.symlink(spF$path, spT$path, ...);
 		} else {
 			LogS(4, 'Copy "%{from}s --> %{to}s', from = spF$path, to = spT$path);
-			file.copy(spF$path, spT$path, recursive = recursive, ...);
+			file.copy(spF$path, spT$path, recursive = recursive, ..., overwrite = overwrite);
 		}
 	} else {
 		# <A> assume 'to' to be atomic
@@ -578,9 +586,8 @@ silence = function(expr, verbose = FALSE) {
 	if (verbose || Sys.info()['sysname'] == 'Windows') eval(expr) else {
 		sink('/dev/null', type = 'output');
 		sink(stdout(), type = 'message');
+		on.exit({ sink(type = 'message'); sink(type = 'output'); });
 		r = eval(expr);
-		sink(type = 'message');
-		sink(type = 'output');
 		r
 	}
 }
@@ -772,6 +779,9 @@ stdOutFromCall = function(call_) {
 # }
 # same as above, less dpendencies
 md5sumString = function(s, ...)substr(SystemS('echo -n %{s}q | md5sum', return.output = TRUE)$output, 1, 32)
+sha256sumString = function(s, ...)substr(SystemS('echo -n %{s}q | sha256sum', return.output = TRUE)$output, 1, 32)
+sha256sumPath = function(path, ...)substr(SystemS('sha256sum %{path}q', return.output = TRUE)$output, 1, 64)
+
 
 #
 #	<p> package documentation
@@ -849,7 +859,9 @@ stopS = function(str, ...)stop(Sprintf(str, ...));
 # r__: return printed values as list
 dprint = function(..., r__ = TRUE) {
 	vs = as.character(as.list(substitute(list(...)))[-1]);
-	l = listKeyValue(vs, c(...));
+	ns = names(list(...));
+	Ns = if (is.null(ns)) vs else ifelse(ns == '', vs, ns);
+	l = listKeyValue(Ns, c(...));
 	print(list2df(l));
 	if (r__) return(l);
 }
@@ -866,6 +878,23 @@ normalizePath = function(p) {
 	return(p);
 }
 
+# recursive version of gsbu
+gsubR = function(pattern, replacement, x, ..., Nmax = 1e3) {
+	for (i in 1:Nmax) {
+		xNew = gsub(pattern, replacement, x, ...);
+		if (all(xNew == x)) return(x);
+		x = xNew;
+	}
+	return(NA);	# trigger special case (consider stop) <N>
+}
+
+# <i><!> unify with normalizePath after testing 8/2020
+NormalizePath = function(p) {
+	p = gsub('^~', Sys.getenv('HOME'), p);
+	p = gsub('//+', '/', p, perl = TRUE);
+	p = gsubR('(^|/)[^/]+/[.][.]/', '/', p, perl = TRUE);
+	return(p);
+}
 pathToHome = function(path)
 	gsub(Sprintf('^%{home}s((?=/)|$)', home = Sys.getenv('HOME')), '~', path, perl = TRUE)
 
@@ -880,18 +909,28 @@ relativePathSingle = function(from, to) {
 }
 relativePath = Vectorize(relativePathSingle, c('from', 'to'));
 SplitPath = function(path, ...)lapply(path, splitPath, ...);
+absolutePathSingle = function(path)splitPath(path)$absolute
+absolutePath = Vectorize(absolutePathSingle, c('path'));
+pathSimplify = function(p)gsub('[:]', '_', p)
+pathInsertPostfix = function(path, postfix, sep = '-')
+	Sprintf('%{fullbase}s%{sep}s%{postfix}s.%{ext}s', splitPath(path))
 
 # 	createZip(list(results = c('r/ref1.html', 'r/ref2.html')), 'r/myZip.zip', doCopy = TRUE);
 
-createZip = function(input, output, pword, doCopy = FALSE, readmeText, readme, logOnly = FALSE) {
+createZip = function(input, output, pword, doCopy = FALSE, readmeText, readme, logOnly = FALSE,
+	absoluteSymlink = FALSE, simplifyFileNames = FALSE) {
 	destDir = splitPath(output)$fullbase;
 	Dir.create(destDir);
 	nelapply(input, function(n, e) {
 		subdir = join(c(destDir, n, ''), '/');
 		Dir.create(subdir);
-		to = paste(subdir, list.kpu(SplitPath(e), 'file'), sep = '/');
+		toFiles = list.kpu(SplitPath(e), 'file');
+		if (simplifyFileNames) toFiles = sapply(toFiles, pathSimplify);
+		to = paste(subdir, toFiles, sep = '/');
 		if (doCopy) file.copy(e, to) else {
-			from = relativePath(subdir, e);
+			#from = relativePath(subdir, e);
+			from = absolutePath(e);
+			if (absoluteSymlink) from = NormalizePath(paste(splitPath(subdir)$absolute, from, sep = '/'));
 			print(list(from = from, to = to));
 			file.symlink(from, to);
 		}
