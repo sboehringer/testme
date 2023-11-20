@@ -245,21 +245,56 @@ callWithFunctionArgs = function(f__, args__, envir__ = environment(f__), name = 
 #	</p> calls
 #
 
-encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate_args__ = FALSE,
+isClosure = function(call_) {
+	if (is.symbol(call_)) return(FALSE);
+	# (\(.)expr(.)))
+	return(length(call_) == 1 || (call_[[1]] == 'function'));
+}
+
+functionFromExpr = function(expr, base = function(.).) {
+	body(base) = expr;
+	return(base);
+}
+# function or call
+functionName = function(fOrC) {
+	if (class(fOrC) == 'function') NULL else as.character(fOrC[[1]])
+}
+# function or name
+functionByName = function(name, call__, envir__) {
+	if (class(call__) == 'function') call__ else get(name, envir = envir__)
+}
+
+# call__
+#	function name: e.g. which, is.logical ...
+#	closure: function call with curried arguments: Slice(I = 1)
+#	expression: expression with var `.`, e.g. Levels[.]
+encapsulateCall = function(call__, ..., envir__ = environment(call__), do_evaluate_args__ = FALSE,
 	unbound_functions = FALSE) {
+	# closure
+	isClosure = isClosure(call__);
+	#print(list(call = call__, isClosure = isClosure))
 	# function body of call
-	name = as.character(.call[[1]]);
-	fct = get(name);
-	callm = if (!is.primitive(fct)) {
-		callm = match.call(definition = fct, call = .call);
+	name = functionName(call__);
+	# closure or named function
+	fct = functionByName(name, call__, envir__);
+	callm = if (isClosure) NULL else if (!is.primitive(fct)) {
+		callm = match.call(definition = fct, call = call__);
 		as.list(callm)[-1]
-	} else as.list(.call)[-1];
+	} else as.list(call__)[-1];
 	args = if (do_evaluate_args__) {
 		nlapply(callm, function(e)eval(callm[[e]], envir = envir__))
-	} else nlapply(callm, function(e)callm[[e]])
+	} else {
+		#nlapply(callm, function(e)callm[[e]])
+		# <A> changed 1.12.2022
+		callm
+	}
+	# <N> this recursion should be handles by the language parser
+	if (!isClosure && name == '%.%') {
+		composition = eval(call__, envir = envir__);
+		return(encapsulateCall(composition, envir__ = envir__));
+	}
 	# unbound variables in body fct
 	#unbound_vars = 
-
 	call_ = list(
 		fct = fct,
 		envir = envir__,
@@ -269,10 +304,59 @@ encapsulateCall = function(.call, ..., envir__ = environment(.call), do_evaluate
 
 		name = name
 	);
-	call_
+	return(call_);
 }
 
+encapsulateExpr = function(expr, ..., envir__ = environment(expr), do_evaluate_args__ = FALSE, unbound_functions = FALSE) {
+	# expression; <N> cannot be detected by is.expression
+	#	anonymous functions have to be encapsulated in '(' and ')'
+	#	due to binding rules
+	# precondition: class(expr) == '(')
+	call_ = if (any(as.character(expr[[2]][[1]]) != 'function')) {
+		functionFromExpr(expr[[2]]);
+	} else {	# closure, remove '(', body
+		functionFromExpr(expr[[2]][[3]]);
+	}
+	return(encapsulateCall(call_, envir__ = envir__));
+}
 
+# fct_: symbol of the function, envir_get: environmen to get the function from using get
+encapsulateFunction = function(fct_, envir__ = envir__, envir_get = envir__) {
+	list(
+		fct = if (isClosure(fct_)) fct_ else get(fct_, envir = envir_get),
+		envir = envir__,
+		args = list(),
+		name = as.character(fct_)
+	)
+}
+
+encapsulateCallOrFunction = function(call_, envir__, envir_get) {
+	if (is.symbol(call_)) {
+		encapsulateFunction(call_, envir__, envir_get)
+	} else if (class(call_) == '(') {
+		encapsulateExpr(call_, envir__ = envir__)
+	} else if (is.call(call_)) {
+		encapsulateCall(call_, envir__ = envir__)
+	} else	# raw values might be passed
+		call_
+}
+
+composeEncapsulated = function(F2, F1) {
+	#print(list(F2 = F2, F1 = F1));
+	function(...) {
+		r1 = do.call(F1$fct, args = c(F1$args, list(...)), envir = F1$envir);
+		r2 = do.call(F2$fct, args = c(list(r1), F2$args), envir = F2$envir);
+		return(r2);
+	}
+}
+
+`%.%` <- compose <- function(f2, f1, envir__ = parent.frame(), envir_get = parent.frame()) {
+	F2  = encapsulateCallOrFunction(sys.call()[[2]], envir__ = envir__, envir_get = parent.frame());
+	F1  = encapsulateCallOrFunction(sys.call()[[3]], envir__ = envir__, envir_get = parent.frame());
+	return(composeEncapsulated(F2, F1));
+}
+
+Id = identity;
 
 #' Deparsing of expression
 #'
